@@ -1,0 +1,829 @@
+Description,    Date,    Value
+368.79
+Oil Sales - Bbls, 	Apr 2021, 	953.9
+Oil Sales - Bbls, 	May 2021, 	2954.35
+Oil Sales - Bbls, 	Jun 2021, 	1409.57
+Oil Sales - Bbls, 	Jul 2021, 	3310.64
+Oil Sales - Bbls, 	Aug 2021, 	3984.23
+Gas Sales - MCF, 	Mar 2021, 	0
+Gas Sales - MCF, 	Apr 2021, 	54194.49
+Gas Sales - MCF, 	May 2021, 	54379.15
+Gas Sales - MCF, 	Jun 2021, 	48127.38
+Gas Sales - MCF, 	Jul 2021, 	75891.31
+Gas Sales - MCF, 	Aug 2021, 	66363.43
+Oil Sales, 	Mar 2021, 	77688.97
+Oil Sales, 	Apr 2021, 	53856.57
+Oil Sales, 	May 2021, 	176825.32
+Oil Sales, 	Jun 2021, 	107340.74
+Oil Sales, 	Jul 2021, 	228429.61
+Oil Sales, 	Aug 2021, 	256641.97
+Gas Sales, 	Mar 2021, 	0
+Gas Sales, 	Apr 2021, 	163600.25
+Gas Sales, 	May 2021, 	184992.6
+Gas Sales, 	Jun 2021, 	203689.58
+Gas Sales, 	Jul 2021, 	302691.4
+Gas Sales, 	Aug 2021, 	309236.16
+Total Revenue, 	Mar 2021, 	77688.97
+Total Revenue, 	Apr 2021, 	217456.82
+Total Revenue, 	May 2021, 	361817.92000000004
+Total Revenue, 	Jun 2021, 	311030.32
+Total Revenue, 	Jul 2021, 	531121.01
+Total Revenue, 	Aug 2021, 	565878.13
+Oil Production Tax, 	Mar 2021, 	0
+Oil Production Tax, 	Apr 2021, 	0
+Oil Production Tax, 	May 2021, 	0
+Oil Production Tax, 	Jun 2021, 	0
+Oil Production Tax, 	Jul 2021, 	-1520.57
+Oil Production Tax, 	Aug 2021, 	-1385.15
+Oil Severance Tax, 	Mar 2021, 	-116.52
+Oil Severance Tax, 	Apr 2021, 	-170.86
+Oil Severance Tax, 	May 2021, 	-1800.99
+Oil Severance Tax, 	Jun 2021, 	-6848.68
+Oil Severance Tax, 	Jul 2021, 	-5117.81
+Oil Severance Tax, 	Aug 2021, 	-9474.31
+Oil Ad Valorem Tax, 	Mar 2021, 	-2330.66
+Oil Ad Valorem Tax, 	Apr 2021, 	-1577.36
+Oil Ad Valorem Tax, 	May 2021, 	-4651.3
+Oil Ad Valorem Tax, 	Jun 2021, 	1068.57
+Oil Ad Valorem Tax, 	Jul 2021, 	-2841.48
+Oil Ad Valorem Tax, 	Aug 2021, 	0
+Oil Other Deduction, 	Mar 2021, 	0
+Oil Other Deduction, 	Apr 2021, 	0
+Oil Other Deduction, 	May 2021, 	0
+Oil Other Deduction, 	Jun 2021, 	0
+Oil Other Deduction, 	Jul 2021, 	-150
+Oil Other Deduction, 	Aug 2021, 	0
+Gas Severance Tax, 	Mar 2021, 	0
+Gas Severance Tax, 	Apr 2021, 	-7441.3
+Gas Severance Tax, 	May 2021, 	-7734.59
+Gas Severance Tax, 	Jun 2021, 	-7512.79
+Gas Severance Tax, 	Jul 2021, 	-11808.69
+Gas Severance Tax, 	Aug 2021, 	-12246.72
+Gas Marketing Charge, 	Mar 2021, 	0
+Gas Marketing Charge, 	Apr 2021, 	0
+Gas Marketing Charge, 	May 2021, 	0
+Gas Marketing Charge, 	Jun 2021, 	-965.87
+Gas Marketing Charge, 	Jul 2021, 	-321.28
+Gas Marketing Charge, 	Aug 2021, 	-367.46
+Gas Compression Charge, 	Mar 2021, 	0
+Gas Compression Charge, 	Apr 2021, 	-30723.93
+Gas Compression Charge, 	May 2021, 	-31509.49
+Gas Compression Charge, 	Jun 2021, 	-26735.62
+Gas Compression Charge, 	Jul 2021, 	-40671.68
+Gas Compression Charge, 	Aug 2021, 	-39277.42
+Total Revenue Cycle Deductions, 	Mar 2021, 	-2447.18
+Total Revenue Cycle Deductions, 	Apr 2021, 	-39913.45
+Total Revenue Cycle Deductions, 	May 2021, 	-45696.37
+Total Revenue Cycle Deductions, 	Jun 2021, 	-40994.39
+Total Revenue Cycle Deductions, 	Jul 2021, 	-62431.51
+Total Revenue Cycle Deductions, 	Aug 2021, 	-62751.06
+Total Net  Revenue:, 	Mar 2021, 	75241.79000000001
+Total Net  Revenue:, 	Apr 2021, 	177543.37
+Total Net  Revenue:, 	May 2021, 	316121.55000000005
+Total Net  Revenue:, 	Jun 2021, 	270035.93
+Total Net  Revenue:, 	Jul 2021, 	468689.5
+Total Net  Revenue:, 	Aug 2021, 	503127.07
+Total Royalty Burden, 	Mar 2021, 	-18630.75
+Total Royalty Burden, 	Apr 2021, 	-12738.1
+Total Royalty Burden, 	May 2021, 	-37320.36
+Total Royalty Burden, 	Jun 2021, 	-4645.33
+Total Royalty Burden, 	Jul 2021, 	-30770.35
+Total Royalty Burden, 	Aug 2021, 	-28147.94
+Net Revenue to the WI Owners, 	Mar 2021, 	56611.04000000001
+Net Revenue to the WI Owners, 	Apr 2021, 	164805.27
+Net Revenue to the WI Owners, 	May 2021, 	278801.19000000006
+Net Revenue to the WI Owners, 	Jun 2021, 	265390.6
+Net Revenue to the WI Owners, 	Jul 2021, 	437919.15
+Net Revenue to the WI Owners, 	Aug 2021, 	474979.13
+Acidizing & Fracturing, 	Mar 2021, 	0
+Acidizing & Fracturing, 	Apr 2021, 	0
+Acidizing & Fracturing, 	May 2021, 	-11704.02
+Acidizing & Fracturing, 	Jun 2021, 	0
+Acidizing & Fracturing, 	Jul 2021, 	0
+Acidizing & Fracturing, 	Aug 2021, 	0
+Electrical Hookup, 	Mar 2021, 	0
+Electrical Hookup, 	Apr 2021, 	0
+Electrical Hookup, 	May 2021, 	-140.46
+Electrical Hookup, 	Jun 2021, 	0
+Electrical Hookup, 	Jul 2021, 	0
+Electrical Hookup, 	Aug 2021, 	0
+Equipment Rental, 	Mar 2021, 	0
+Equipment Rental, 	Apr 2021, 	0
+Equipment Rental, 	May 2021, 	-1339.63
+Equipment Rental, 	Jun 2021, 	0
+Equipment Rental, 	Jul 2021, 	0
+Equipment Rental, 	Aug 2021, 	0
+Roustabout Service, 	Mar 2021, 	0
+Roustabout Service, 	Apr 2021, 	0
+Roustabout Service, 	May 2021, 	0
+Roustabout Service, 	Jun 2021, 	0
+Roustabout Service, 	Jul 2021, 	-852.47
+Roustabout Service, 	Aug 2021, 	0
+Wireline Services, 	Mar 2021, 	0
+Wireline Services, 	Apr 2021, 	0
+Wireline Services, 	May 2021, 	-27936.59
+Wireline Services, 	Jun 2021, 	0
+Wireline Services, 	Jul 2021, 	0
+Wireline Services, 	Aug 2021, 	0
+Total Workover Expenses, 	Mar 2021, 	0
+Total Workover Expenses, 	Apr 2021, 	0
+Total Workover Expenses, 	May 2021, 	-41120.7
+Total Workover Expenses, 	Jun 2021, 	0
+Total Workover Expenses, 	Jul 2021, 	-852.47
+Total Workover Expenses, 	Aug 2021, 	0
+Battery, 	Mar 2021, 	0
+Battery, 	Apr 2021, 	-514.73
+Battery, 	May 2021, 	0
+Battery, 	Jun 2021, 	-62.79
+Battery, 	Jul 2021, 	0
+Battery, 	Aug 2021, 	0
+Downhole Pump, 	Mar 2021, 	-1938.47
+Downhole Pump, 	Apr 2021, 	0
+Downhole Pump, 	May 2021, 	0
+Downhole Pump, 	Jun 2021, 	-4726.95
+Downhole Pump, 	Jul 2021, 	-2806.46
+Downhole Pump, 	Aug 2021, 	0
+Electric Components, 	Mar 2021, 	0
+Electric Components, 	Apr 2021, 	-62.79
+Electric Components, 	May 2021, 	-2405.32
+Electric Components, 	Jun 2021, 	-848.23
+Electric Components, 	Jul 2021, 	-2195.31
+Electric Components, 	Aug 2021, 	-2239.7
+Flow Lines, 	Mar 2021, 	0
+Flow Lines, 	Apr 2021, 	-84.73
+Flow Lines, 	May 2021, 	0
+Flow Lines, 	Jun 2021, 	0
+Flow Lines, 	Jul 2021, 	0
+Flow Lines, 	Aug 2021, 	0
+Gas Recorder / Meters, 	Mar 2021, 	0
+Gas Recorder / Meters, 	Apr 2021, 	0
+Gas Recorder / Meters, 	May 2021, 	0
+Gas Recorder / Meters, 	Jun 2021, 	0
+Gas Recorder / Meters, 	Jul 2021, 	0
+Gas Recorder / Meters, 	Aug 2021, 	-278.35
+Gauges, 	Mar 2021, 	0
+Gauges, 	Apr 2021, 	0
+Gauges, 	May 2021, 	0
+Gauges, 	Jun 2021, 	-250.32
+Gauges, 	Jul 2021, 	-356.52
+Gauges, 	Aug 2021, 	-173.91
+Heater Treater, 	Mar 2021, 	0
+Heater Treater, 	Apr 2021, 	-184.58
+Heater Treater, 	May 2021, 	0
+Heater Treater, 	Jun 2021, 	0
+Heater Treater, 	Jul 2021, 	0
+Heater Treater, 	Aug 2021, 	0
+Line Pipe & Supplies, 	Mar 2021, 	0
+Line Pipe & Supplies, 	Apr 2021, 	0
+Line Pipe & Supplies, 	May 2021, 	-884.43
+Line Pipe & Supplies, 	Jun 2021, 	0
+Line Pipe & Supplies, 	Jul 2021, 	-5830.76
+Line Pipe & Supplies, 	Aug 2021, 	0
+Location & Road Materials, 	Mar 2021, 	0
+Location & Road Materials, 	Apr 2021, 	0
+Location & Road Materials, 	May 2021, 	-51.06
+Location & Road Materials, 	Jun 2021, 	0
+Location & Road Materials, 	Jul 2021, 	0
+Location & Road Materials, 	Aug 2021, 	0
+Miscellaneous, 	Mar 2021, 	0
+Miscellaneous, 	Apr 2021, 	0
+Miscellaneous, 	May 2021, 	0
+Miscellaneous, 	Jun 2021, 	0
+Miscellaneous, 	Jul 2021, 	-66.81
+Miscellaneous, 	Aug 2021, 	-615.94
+Packers & Subsurface Equipment, 	Mar 2021, 	0
+Packers & Subsurface Equipment, 	Apr 2021, 	0
+Packers & Subsurface Equipment, 	May 2021, 	-4016.1
+Packers & Subsurface Equipment, 	Jun 2021, 	0
+Packers & Subsurface Equipment, 	Jul 2021, 	0
+Packers & Subsurface Equipment, 	Aug 2021, 	-487.12
+Polish Rod, 	Mar 2021, 	0
+Polish Rod, 	Apr 2021, 	-1263.44
+Polish Rod, 	May 2021, 	0
+Polish Rod, 	Jun 2021, 	0
+Polish Rod, 	Jul 2021, 	0
+Polish Rod, 	Aug 2021, 	0
+Regulator, 	Mar 2021, 	0
+Regulator, 	Apr 2021, 	0
+Regulator, 	May 2021, 	0
+Regulator, 	Jun 2021, 	0
+Regulator, 	Jul 2021, 	0
+Regulator, 	Aug 2021, 	-859.12
+Rods, 	Mar 2021, 	0
+Rods, 	Apr 2021, 	0
+Rods, 	May 2021, 	0
+Rods, 	Jun 2021, 	0
+Rods, 	Jul 2021, 	0
+Rods, 	Aug 2021, 	-40187.72
+Signs, 	Mar 2021, 	0
+Signs, 	Apr 2021, 	0
+Signs, 	May 2021, 	0
+Signs, 	Jun 2021, 	0
+Signs, 	Jul 2021, 	0
+Signs, 	Aug 2021, 	-24.08
+Surface Pump, 	Mar 2021, 	0
+Surface Pump, 	Apr 2021, 	-850
+Surface Pump, 	May 2021, 	-626.88
+Surface Pump, 	Jun 2021, 	0
+Surface Pump, 	Jul 2021, 	0
+Surface Pump, 	Aug 2021, 	-2944.18
+Stuffing Box Components, 	Mar 2021, 	0
+Stuffing Box Components, 	Apr 2021, 	0
+Stuffing Box Components, 	May 2021, 	0
+Stuffing Box Components, 	Jun 2021, 	0
+Stuffing Box Components, 	Jul 2021, 	-1428.54
+Stuffing Box Components, 	Aug 2021, 	0
+Tanks, 	Mar 2021, 	0
+Tanks, 	Apr 2021, 	-5000
+Tanks, 	May 2021, 	0
+Tanks, 	Jun 2021, 	0
+Tanks, 	Jul 2021, 	-139.84
+Tanks, 	Aug 2021, 	0
+Tubing, 	Mar 2021, 	0
+Tubing, 	Apr 2021, 	0
+Tubing, 	May 2021, 	0
+Tubing, 	Jun 2021, 	-1738.59
+Tubing, 	Jul 2021, 	0
+Tubing, 	Aug 2021, 	-32926.88
+Valves & Fittings, 	Mar 2021, 	0
+Valves & Fittings, 	Apr 2021, 	-2351.93
+Valves & Fittings, 	May 2021, 	-1677.16
+Valves & Fittings, 	Jun 2021, 	-252.35
+Valves & Fittings, 	Jul 2021, 	-2320.31
+Valves & Fittings, 	Aug 2021, 	-653.14
+Water Dump, 	Mar 2021, 	0
+Water Dump, 	Apr 2021, 	0
+Water Dump, 	May 2021, 	0
+Water Dump, 	Jun 2021, 	0
+Water Dump, 	Jul 2021, 	-280.15
+Water Dump, 	Aug 2021, 	-826.68
+Total LOE Tangible Costs, 	Mar 2021, 	-1938.47
+Total LOE Tangible Costs, 	Apr 2021, 	-10312.2
+Total LOE Tangible Costs, 	May 2021, 	-9660.95
+Total LOE Tangible Costs, 	Jun 2021, 	-7879.23
+Total LOE Tangible Costs, 	Jul 2021, 	-15424.7
+Total LOE Tangible Costs, 	Aug 2021, 	-82216.81999999999
+Administrative Costs, 	Mar 2021, 	0
+Administrative Costs, 	Apr 2021, 	-600
+Administrative Costs, 	May 2021, 	-400
+Administrative Costs, 	Jun 2021, 	-250
+Administrative Costs, 	Jul 2021, 	0
+Administrative Costs, 	Aug 2021, 	0
+Bank Charges, 	Mar 2021, 	0
+Bank Charges, 	Apr 2021, 	-25
+Bank Charges, 	May 2021, 	-37.92
+Bank Charges, 	Jun 2021, 	-13.33
+Bank Charges, 	Jul 2021, 	-20
+Bank Charges, 	Aug 2021, 	-0.04
+Chemical & Solvents, 	Mar 2021, 	0
+Chemical & Solvents, 	Apr 2021, 	-672.6
+Chemical & Solvents, 	May 2021, 	0
+Chemical & Solvents, 	Jun 2021, 	0
+Chemical & Solvents, 	Jul 2021, 	0
+Chemical & Solvents, 	Aug 2021, 	0
+Compression Charges, 	Mar 2021, 	0
+Compression Charges, 	Apr 2021, 	0
+Compression Charges, 	May 2021, 	0
+Compression Charges, 	Jun 2021, 	-3451.57
+Compression Charges, 	Jul 2021, 	-4138.96
+Compression Charges, 	Aug 2021, 	-5867.71
+Consulting - Enviromental Serv, 	Mar 2021, 	0
+Consulting - Enviromental Serv, 	Apr 2021, 	-550
+Consulting - Enviromental Serv, 	May 2021, 	0
+Consulting - Enviromental Serv, 	Jun 2021, 	0
+Consulting - Enviromental Serv, 	Jul 2021, 	0
+Consulting - Enviromental Serv, 	Aug 2021, 	0
+Consulting Services, 	Mar 2021, 	0
+Consulting Services, 	Apr 2021, 	0
+Consulting Services, 	May 2021, 	0
+Consulting Services, 	Jun 2021, 	0
+Consulting Services, 	Jul 2021, 	-16275
+Consulting Services, 	Aug 2021, 	-24490
+Consulting-Landman, 	Mar 2021, 	0
+Consulting-Landman, 	Apr 2021, 	0
+Consulting-Landman, 	May 2021, 	0
+Consulting-Landman, 	Jun 2021, 	-112.5
+Consulting-Landman, 	Jul 2021, 	-5500
+Consulting-Landman, 	Aug 2021, 	0
+Electric Connection & Repair, 	Mar 2021, 	0
+Electric Connection & Repair, 	Apr 2021, 	0
+Electric Connection & Repair, 	May 2021, 	-215
+Electric Connection & Repair, 	Jun 2021, 	-544.5
+Electric Connection & Repair, 	Jul 2021, 	-1060
+Electric Connection & Repair, 	Aug 2021, 	-3017.58
+Electricity, 	Mar 2021, 	-11003.52
+Electricity, 	Apr 2021, 	-14228.36
+Electricity, 	May 2021, 	-14501.91
+Electricity, 	Jun 2021, 	-21001.03
+Electricity, 	Jul 2021, 	-20821.97
+Electricity, 	Aug 2021, 	-26058.54
+Equipment Maintenance, 	Mar 2021, 	0
+Equipment Maintenance, 	Apr 2021, 	-581
+Equipment Maintenance, 	May 2021, 	-522.33
+Equipment Maintenance, 	Jun 2021, 	0
+Equipment Maintenance, 	Jul 2021, 	-1752.44
+Equipment Maintenance, 	Aug 2021, 	-1638.11
+Equipment Rental, 	Mar 2021, 	0
+Equipment Rental, 	Apr 2021, 	-391.74
+Equipment Rental, 	May 2021, 	-4309.66
+Equipment Rental, 	Jun 2021, 	-3256.61
+Equipment Rental, 	Jul 2021, 	-1366.66
+Equipment Rental, 	Aug 2021, 	-58.86
+Fuel and Power, 	Mar 2021, 	0
+Fuel and Power, 	Apr 2021, 	-80.22
+Fuel and Power, 	May 2021, 	0
+Fuel and Power, 	Jun 2021, 	0
+Fuel and Power, 	Jul 2021, 	-584.78
+Fuel and Power, 	Aug 2021, 	-910.49
+Hot Oil Treatment, 	Mar 2021, 	0
+Hot Oil Treatment, 	Apr 2021, 	0
+Hot Oil Treatment, 	May 2021, 	-6962.02
+Hot Oil Treatment, 	Jun 2021, 	-2709.91
+Hot Oil Treatment, 	Jul 2021, 	-4078
+Hot Oil Treatment, 	Aug 2021, 	0
+Insurance, 	Mar 2021, 	0
+Insurance, 	Apr 2021, 	0
+Insurance, 	May 2021, 	-3348.45
+Insurance, 	Jun 2021, 	0
+Insurance, 	Jul 2021, 	0
+Insurance, 	Aug 2021, 	0
+Lease Supervision, 	Mar 2021, 	0
+Lease Supervision, 	Apr 2021, 	-12785
+Lease Supervision, 	May 2021, 	-6455
+Lease Supervision, 	Jun 2021, 	-5610
+Lease Supervision, 	Jul 2021, 	-5610
+Lease Supervision, 	Aug 2021, 	-23760
+Locations & Roads, 	Mar 2021, 	0
+Locations & Roads, 	Apr 2021, 	-7125
+Locations & Roads, 	May 2021, 	-4882
+Locations & Roads, 	Jun 2021, 	0
+Locations & Roads, 	Jul 2021, 	0
+Locations & Roads, 	Aug 2021, 	-4300
+Lubricants - Oil, Etc., 	Mar 2021, 	-2188.29
+Lubricants - Oil, Etc., 	Apr 2021, 	-308.33
+Lubricants - Oil, Etc., 	May 2021, 	-4779.19
+Lubricants - Oil, Etc., 	Jun 2021, 	-1709.16
+Lubricants - Oil, Etc., 	Jul 2021, 	-2441.46
+Lubricants - Oil, Etc., 	Aug 2021, 	-1295.37
+Meters - Charts & Service, 	Mar 2021, 	0
+Meters - Charts & Service, 	Apr 2021, 	0
+Meters - Charts & Service, 	May 2021, 	-709.32
+Meters - Charts & Service, 	Jun 2021, 	-75
+Meters - Charts & Service, 	Jul 2021, 	-75
+Meters - Charts & Service, 	Aug 2021, 	-75
+Mowing / Weed Maintenance, 	Mar 2021, 	0
+Mowing / Weed Maintenance, 	Apr 2021, 	0
+Mowing / Weed Maintenance, 	May 2021, 	-7335
+Mowing / Weed Maintenance, 	Jun 2021, 	-3050
+Mowing / Weed Maintenance, 	Jul 2021, 	-1700
+Mowing / Weed Maintenance, 	Aug 2021, 	0
+Production Supervision, 	Mar 2021, 	0
+Production Supervision, 	Apr 2021, 	-15194.79
+Production Supervision, 	May 2021, 	-14500
+Production Supervision, 	Jun 2021, 	-14500
+Production Supervision, 	Jul 2021, 	-20342.54
+Production Supervision, 	Aug 2021, 	-37730
+Pumpers & Gaugers, 	Mar 2021, 	0
+Pumpers & Gaugers, 	Apr 2021, 	-29280
+Pumpers & Gaugers, 	May 2021, 	-27760
+Pumpers & Gaugers, 	Jun 2021, 	-36505
+Pumpers & Gaugers, 	Jul 2021, 	-39355
+Pumpers & Gaugers, 	Aug 2021, 	-40945
+Pumping Unit Maintenance, 	Mar 2021, 	0
+Pumping Unit Maintenance, 	Apr 2021, 	0
+Pumping Unit Maintenance, 	May 2021, 	-2897.09
+Pumping Unit Maintenance, 	Jun 2021, 	0
+Pumping Unit Maintenance, 	Jul 2021, 	-145.97
+Pumping Unit Maintenance, 	Aug 2021, 	-702.1
+Regulatory Compliance, 	Mar 2021, 	0
+Regulatory Compliance, 	Apr 2021, 	0
+Regulatory Compliance, 	May 2021, 	-0.95
+Regulatory Compliance, 	Jun 2021, 	0
+Regulatory Compliance, 	Jul 2021, 	-4600
+Regulatory Compliance, 	Aug 2021, 	0
+Safety & Environmental, 	Mar 2021, 	0
+Safety & Environmental, 	Apr 2021, 	0
+Safety & Environmental, 	May 2021, 	0
+Safety & Environmental, 	Jun 2021, 	0
+Safety & Environmental, 	Jul 2021, 	-210.67
+Safety & Environmental, 	Aug 2021, 	0
+Repair & Maintenance, 	Mar 2021, 	0
+Repair & Maintenance, 	Apr 2021, 	-7392
+Repair & Maintenance, 	May 2021, 	-1257.5
+Repair & Maintenance, 	Jun 2021, 	0
+Repair & Maintenance, 	Jul 2021, 	-934.88
+Repair & Maintenance, 	Aug 2021, 	0
+Roustabout, 	Mar 2021, 	0
+Roustabout, 	Apr 2021, 	-13837.5
+Roustabout, 	May 2021, 	-3526
+Roustabout, 	Jun 2021, 	-18081.25
+Roustabout, 	Jul 2021, 	-8033.59
+Roustabout, 	Aug 2021, 	-25423.64
+Saltwater Disposal, 	Mar 2021, 	0
+Saltwater Disposal, 	Apr 2021, 	-1617.5
+Saltwater Disposal, 	May 2021, 	-1643
+Saltwater Disposal, 	Jun 2021, 	-5110.43
+Saltwater Disposal, 	Jul 2021, 	-10650.14
+Saltwater Disposal, 	Aug 2021, 	-12166.9
+Saltwater Disposal - Transport, 	Mar 2021, 	0
+Saltwater Disposal - Transport, 	Apr 2021, 	-8760.5
+Saltwater Disposal - Transport, 	May 2021, 	-5796.45
+Saltwater Disposal - Transport, 	Jun 2021, 	-4480
+Saltwater Disposal - Transport, 	Jul 2021, 	-1248
+Saltwater Disposal - Transport, 	Aug 2021, 	-496.8
+Storage Fees, 	Mar 2021, 	0
+Storage Fees, 	Apr 2021, 	0
+Storage Fees, 	May 2021, 	0
+Storage Fees, 	Jun 2021, 	0
+Storage Fees, 	Jul 2021, 	0
+Storage Fees, 	Aug 2021, 	-190
+Supplies & Small Tools, 	Mar 2021, 	0
+Supplies & Small Tools, 	Apr 2021, 	0
+Supplies & Small Tools, 	May 2021, 	0
+Supplies & Small Tools, 	Jun 2021, 	0
+Supplies & Small Tools, 	Jul 2021, 	-98.08
+Supplies & Small Tools, 	Aug 2021, 	0
+Swabbing, 	Mar 2021, 	0
+Swabbing, 	Apr 2021, 	0
+Swabbing, 	May 2021, 	-3545.56
+Swabbing, 	Jun 2021, 	-1464.55
+Swabbing, 	Jul 2021, 	0
+Swabbing, 	Aug 2021, 	0
+Repair - Downhole Pump, 	Mar 2021, 	0
+Repair - Downhole Pump, 	Apr 2021, 	0
+Repair - Downhole Pump, 	May 2021, 	0
+Repair - Downhole Pump, 	Jun 2021, 	0
+Repair - Downhole Pump, 	Jul 2021, 	0
+Repair - Downhole Pump, 	Aug 2021, 	-3847.46
+Repair - Surface Pump, 	Mar 2021, 	0
+Repair - Surface Pump, 	Apr 2021, 	-1106
+Repair - Surface Pump, 	May 2021, 	0
+Repair - Surface Pump, 	Jun 2021, 	0
+Repair - Surface Pump, 	Jul 2021, 	0
+Repair - Surface Pump, 	Aug 2021, 	0
+Repair - Values & Fittings, 	Mar 2021, 	-1174.65
+Repair - Values & Fittings, 	Apr 2021, 	0
+Repair - Values & Fittings, 	May 2021, 	0
+Repair - Values & Fittings, 	Jun 2021, 	0
+Repair - Values & Fittings, 	Jul 2021, 	0
+Repair - Values & Fittings, 	Aug 2021, 	-3189.12
+Telephone, 	Mar 2021, 	0
+Telephone, 	Apr 2021, 	-209.51
+Telephone, 	May 2021, 	-232.62
+Telephone, 	Jun 2021, 	-152.97
+Telephone, 	Jul 2021, 	-159.86
+Telephone, 	Aug 2021, 	-146.36
+Travel, 	Mar 2021, 	0
+Travel, 	Apr 2021, 	0
+Travel, 	May 2021, 	0
+Travel, 	Jun 2021, 	0
+Travel, 	Jul 2021, 	0
+Travel, 	Aug 2021, 	-725.96
+Testing / Fluid Levels, 	Mar 2021, 	0
+Testing / Fluid Levels, 	Apr 2021, 	-4935.2
+Testing / Fluid Levels, 	May 2021, 	-4526.32
+Testing / Fluid Levels, 	Jun 2021, 	-1746
+Testing / Fluid Levels, 	Jul 2021, 	-1096
+Testing / Fluid Levels, 	Aug 2021, 	-5232
+Transportation, 	Mar 2021, 	0
+Transportation, 	Apr 2021, 	-1307
+Transportation, 	May 2021, 	0
+Transportation, 	Jun 2021, 	0
+Transportation, 	Jul 2021, 	0
+Transportation, 	Aug 2021, 	0
+Treating & Chemical, 	Mar 2021, 	-3715.94
+Treating & Chemical, 	Apr 2021, 	-15847.06
+Treating & Chemical, 	May 2021, 	-8208.98
+Treating & Chemical, 	Jun 2021, 	-16657.05
+Treating & Chemical, 	Jul 2021, 	-10924.51
+Treating & Chemical, 	Aug 2021, 	-11522.99
+Vacuum Truck, 	Mar 2021, 	0
+Vacuum Truck, 	Apr 2021, 	0
+Vacuum Truck, 	May 2021, 	0
+Vacuum Truck, 	Jun 2021, 	-522.5
+Vacuum Truck, 	Jul 2021, 	-1648.35
+Vacuum Truck, 	Aug 2021, 	-389.7
+Utilities, 	Mar 2021, 	-67.54
+Utilities, 	Apr 2021, 	-66
+Utilities, 	May 2021, 	-112.54
+Utilities, 	Jun 2021, 	-1354.14
+Utilities, 	Jul 2021, 	-1017.31
+Utilities, 	Aug 2021, 	-309.58
+Water & Water Hauling, 	Mar 2021, 	0
+Water & Water Hauling, 	Apr 2021, 	0
+Water & Water Hauling, 	May 2021, 	0
+Water & Water Hauling, 	Jun 2021, 	0
+Water & Water Hauling, 	Jul 2021, 	0
+Water & Water Hauling, 	Aug 2021, 	-539
+Well Servicing, 	Mar 2021, 	-8600
+Well Servicing, 	Apr 2021, 	-1100
+Well Servicing, 	May 2021, 	0
+Well Servicing, 	Jun 2021, 	0
+Well Servicing, 	Jul 2021, 	-9320
+Well Servicing, 	Aug 2021, 	0
+Wireline Services, 	Mar 2021, 	0
+Wireline Services, 	Apr 2021, 	0
+Wireline Services, 	May 2021, 	0
+Wireline Services, 	Jun 2021, 	0
+Wireline Services, 	Jul 2021, 	0
+Wireline Services, 	Aug 2021, 	-1891.62
+Workover Unit, 	Mar 2021, 	0
+Workover Unit, 	Apr 2021, 	0
+Workover Unit, 	May 2021, 	0
+Workover Unit, 	Jun 2021, 	-2000
+Workover Unit, 	Jul 2021, 	0
+Workover Unit, 	Aug 2021, 	-67963.77
+Total Operating Expenses, 	Mar 2021, 	-26749.940000000002
+Total Operating Expenses, 	Apr 2021, 	-138000.31
+Total Operating Expenses, 	May 2021, 	-128464.80999999997
+Total Operating Expenses, 	Jun 2021, 	-144357.50000000003
+Total Operating Expenses, 	Jul 2021, 	-175209.16999999998
+Total Operating Expenses, 	Aug 2021, 	-304883.69999999995
+Operating Income (EBITDA), 	Mar 2021, 	27922.630000000005
+Operating Income (EBITDA), 	Apr 2021, 	16492.75999999998
+Operating Income (EBITDA), 	May 2021, 	99554.73000000007
+Operating Income (EBITDA), 	Jun 2021, 	113153.86999999994
+Operating Income (EBITDA), 	Jul 2021, 	246432.81000000006
+Operating Income (EBITDA), 	Aug 2021, 	87878.61000000004
+Bonds Amarillo National Bank, 	Mar 2021, 	0
+Bonds Amarillo National Bank, 	Apr 2021, 	-55000
+Bonds Amarillo National Bank, 	May 2021, 	0
+Bonds Amarillo National Bank, 	Jun 2021, 	0
+Bonds Amarillo National Bank, 	Jul 2021, 	0
+Bonds Amarillo National Bank, 	Aug 2021, 	0
+Fees, 	Mar 2021, 	0
+Fees, 	Apr 2021, 	-1295
+Fees, 	May 2021, 	400
+Fees, 	Jun 2021, 	0
+Fees, 	Jul 2021, 	0
+Fees, 	Aug 2021, 	0
+Landman, 	Mar 2021, 	0
+Landman, 	Apr 2021, 	0
+Landman, 	May 2021, 	0
+Landman, 	Jun 2021, 	0
+Landman, 	Jul 2021, 	-9109.65
+Landman, 	Aug 2021, 	-36000.67
+Lease Acquisition Costs, 	Mar 2021, 	0
+Lease Acquisition Costs, 	Apr 2021, 	-1433566.85
+Lease Acquisition Costs, 	May 2021, 	0
+Lease Acquisition Costs, 	Jun 2021, 	-1888281.76
+Lease Acquisition Costs, 	Jul 2021, 	0
+Lease Acquisition Costs, 	Aug 2021, 	0
+Lease Bonus, 	Mar 2021, 	0
+Lease Bonus, 	Apr 2021, 	0
+Lease Bonus, 	May 2021, 	0
+Lease Bonus, 	Jun 2021, 	0
+Lease Bonus, 	Jul 2021, 	-2001
+Lease Bonus, 	Aug 2021, 	0
+Legal Fees, 	Mar 2021, 	-10776.5
+Legal Fees, 	Apr 2021, 	-42827.75
+Legal Fees, 	May 2021, 	-56140
+Legal Fees, 	Jun 2021, 	-24297.61
+Legal Fees, 	Jul 2021, 	-79753
+Legal Fees, 	Aug 2021, 	0
+Recording Fees, 	Mar 2021, 	0
+Recording Fees, 	Apr 2021, 	0
+Recording Fees, 	May 2021, 	-10564
+Recording Fees, 	Jun 2021, 	0
+Recording Fees, 	Jul 2021, 	0
+Recording Fees, 	Aug 2021, 	-100
+Total Leasehold Developed, 	Mar 2021, 	-10776.5
+Total Leasehold Developed, 	Apr 2021, 	-1532689.6
+Total Leasehold Developed, 	May 2021, 	-66304
+Total Leasehold Developed, 	Jun 2021, 	-1912579.37
+Total Leasehold Developed, 	Jul 2021, 	-90863.65
+Total Leasehold Developed, 	Aug 2021, 	-36100.67
+Landman Svcs - Exp, 	Mar 2021, 	0
+Landman Svcs - Exp, 	Apr 2021, 	-10720.83
+Landman Svcs - Exp, 	May 2021, 	-7398
+Landman Svcs - Exp, 	Jun 2021, 	-7062.9
+Landman Svcs - Exp, 	Jul 2021, 	-5234.04
+Landman Svcs - Exp, 	Aug 2021, 	-4625.94
+Geological & Geophysical, 	Mar 2021, 	0
+Geological & Geophysical, 	Apr 2021, 	-39500
+Geological & Geophysical, 	May 2021, 	-17500
+Geological & Geophysical, 	Jun 2021, 	-22476
+Geological & Geophysical, 	Jul 2021, 	-30333
+Geological & Geophysical, 	Aug 2021, 	-18300
+Total Leasehold Developed, 	Mar 2021, 	0
+Total Leasehold Developed, 	Apr 2021, 	-50220.83
+Total Leasehold Developed, 	May 2021, 	-24898
+Total Leasehold Developed, 	Jun 2021, 	-29538.9
+Total Leasehold Developed, 	Jul 2021, 	-35567.04
+Total Leasehold Developed, 	Aug 2021, 	-22925.94
+Consulting-Environment&Safety, 	Mar 2021, 	-9959.25
+Consulting-Environment&Safety, 	Apr 2021, 	-19974.2
+Consulting-Environment&Safety, 	May 2021, 	-4859.04
+Consulting-Environment&Safety, 	Jun 2021, 	-15297.83
+Consulting-Environment&Safety, 	Jul 2021, 	-3877.13
+Consulting-Environment&Safety, 	Aug 2021, 	-4888.5
+Equipment Rental, 	Mar 2021, 	0
+Equipment Rental, 	Apr 2021, 	0
+Equipment Rental, 	May 2021, 	0
+Equipment Rental, 	Jun 2021, 	0
+Equipment Rental, 	Jul 2021, 	0
+Equipment Rental, 	Aug 2021, 	-1915.82
+Geological & Engineering, 	Mar 2021, 	0
+Geological & Engineering, 	Apr 2021, 	0
+Geological & Engineering, 	May 2021, 	-5500
+Geological & Engineering, 	Jun 2021, 	0
+Geological & Engineering, 	Jul 2021, 	0
+Geological & Engineering, 	Aug 2021, 	0
+Geo & Engineering Consulting, 	Mar 2021, 	0
+Geo & Engineering Consulting, 	Apr 2021, 	-25331.72
+Geo & Engineering Consulting, 	May 2021, 	-3150
+Geo & Engineering Consulting, 	Jun 2021, 	-6323
+Geo & Engineering Consulting, 	Jul 2021, 	-1868
+Geo & Engineering Consulting, 	Aug 2021, 	-9508
+Travel and Expenses, 	Mar 2021, 	0
+Travel and Expenses, 	Apr 2021, 	0
+Travel and Expenses, 	May 2021, 	-3051.33
+Travel and Expenses, 	Jun 2021, 	0
+Travel and Expenses, 	Jul 2021, 	0
+Travel and Expenses, 	Aug 2021, 	-87.29
+Total Intangible Drilling Costs, 	Mar 2021, 	-9959.25
+Total Intangible Drilling Costs, 	Apr 2021, 	-45305.92
+Total Intangible Drilling Costs, 	May 2021, 	-16560.370000000003
+Total Intangible Drilling Costs, 	Jun 2021, 	-21620.83
+Total Intangible Drilling Costs, 	Jul 2021, 	-5745.13
+Total Intangible Drilling Costs, 	Aug 2021, 	-16399.61
+Acidizing & Fracturing, 	Mar 2021, 	0
+Acidizing & Fracturing, 	Apr 2021, 	0
+Acidizing & Fracturing, 	May 2021, 	-7916.76
+Acidizing & Fracturing, 	Jun 2021, 	0
+Acidizing & Fracturing, 	Jul 2021, 	0
+Acidizing & Fracturing, 	Aug 2021, 	-1700
+Chemical & Solvents, 	Mar 2021, 	0
+Chemical & Solvents, 	Apr 2021, 	0
+Chemical & Solvents, 	May 2021, 	-79310.55
+Chemical & Solvents, 	Jun 2021, 	0
+Chemical & Solvents, 	Jul 2021, 	-2581.7
+Chemical & Solvents, 	Aug 2021, 	0
+Consulting Services, 	Mar 2021, 	-7500
+Consulting Services, 	Apr 2021, 	-6252.07
+Consulting Services, 	May 2021, 	-14015
+Consulting Services, 	Jun 2021, 	-3750
+Consulting Services, 	Jul 2021, 	-21549.51
+Consulting Services, 	Aug 2021, 	-7500
+Fishing Services, 	Mar 2021, 	0
+Fishing Services, 	Apr 2021, 	0
+Fishing Services, 	May 2021, 	0
+Fishing Services, 	Jun 2021, 	-1125
+Fishing Services, 	Jul 2021, 	0
+Fishing Services, 	Aug 2021, 	0
+Equipment Rental, 	Mar 2021, 	0
+Equipment Rental, 	Apr 2021, 	0
+Equipment Rental, 	May 2021, 	0
+Equipment Rental, 	Jun 2021, 	-1419
+Equipment Rental, 	Jul 2021, 	0
+Equipment Rental, 	Aug 2021, 	0
+Geological & Engineering, 	Mar 2021, 	0
+Geological & Engineering, 	Apr 2021, 	-50
+Geological & Engineering, 	May 2021, 	-1305
+Geological & Engineering, 	Jun 2021, 	-9875
+Geological & Engineering, 	Jul 2021, 	-8500
+Geological & Engineering, 	Aug 2021, 	-3750
+Location & Roads, 	Mar 2021, 	0
+Location & Roads, 	Apr 2021, 	-14600
+Location & Roads, 	May 2021, 	0
+Location & Roads, 	Jun 2021, 	0
+Location & Roads, 	Jul 2021, 	-10192.5
+Location & Roads, 	Aug 2021, 	0
+Meals, 	Mar 2021, 	0
+Meals, 	Apr 2021, 	0
+Meals, 	May 2021, 	-42.54
+Meals, 	Jun 2021, 	0
+Meals, 	Jul 2021, 	0
+Meals, 	Aug 2021, 	0
+Overhead & Supervision, 	Mar 2021, 	0
+Overhead & Supervision, 	Apr 2021, 	-33100
+Overhead & Supervision, 	May 2021, 	-33500
+Overhead & Supervision, 	Jun 2021, 	-35069.6
+Overhead & Supervision, 	Jul 2021, 	-17500
+Overhead & Supervision, 	Aug 2021, 	-51.86
+Roustabout Service, 	Mar 2021, 	0
+Roustabout Service, 	Apr 2021, 	0
+Roustabout Service, 	May 2021, 	-21336.75
+Roustabout Service, 	Jun 2021, 	-8771
+Roustabout Service, 	Jul 2021, 	-9785.5
+Roustabout Service, 	Aug 2021, 	-2240
+Supervision, 	Mar 2021, 	0
+Supervision, 	Apr 2021, 	0
+Supervision, 	May 2021, 	-3100
+Supervision, 	Jun 2021, 	0
+Supervision, 	Jul 2021, 	-7600
+Supervision, 	Aug 2021, 	-9000
+Swabbing, 	Mar 2021, 	0
+Swabbing, 	Apr 2021, 	0
+Swabbing, 	May 2021, 	0
+Swabbing, 	Jun 2021, 	-15421.56
+Swabbing, 	Jul 2021, 	0
+Swabbing, 	Aug 2021, 	0
+Testing, 	Mar 2021, 	0
+Testing, 	Apr 2021, 	0
+Testing, 	May 2021, 	-821.51
+Testing, 	Jun 2021, 	-1355
+Testing, 	Jul 2021, 	0
+Testing, 	Aug 2021, 	-645
+Vacuum Truck, 	Mar 2021, 	0
+Vacuum Truck, 	Apr 2021, 	0
+Vacuum Truck, 	May 2021, 	0
+Vacuum Truck, 	Jun 2021, 	-4020
+Vacuum Truck, 	Jul 2021, 	0
+Vacuum Truck, 	Aug 2021, 	0
+Workover, 	Mar 2021, 	0
+Workover, 	Apr 2021, 	0
+Workover, 	May 2021, 	-6000
+Workover, 	Jun 2021, 	0
+Workover, 	Jul 2021, 	0
+Workover, 	Aug 2021, 	0
+Total Intangible Completion, 	Mar 2021, 	-7500
+Total Intangible Completion, 	Apr 2021, 	-54002.07
+Total Intangible Completion, 	May 2021, 	-167348.11
+Total Intangible Completion, 	Jun 2021, 	-80806.16
+Total Intangible Completion, 	Jul 2021, 	-77709.20999999999
+Total Intangible Completion, 	Aug 2021, 	-24886.86
+Compressor, 	Mar 2021, 	0
+Compressor, 	Apr 2021, 	0
+Compressor, 	May 2021, 	0
+Compressor, 	Jun 2021, 	-8719.87
+Compressor, 	Jul 2021, 	0
+Compressor, 	Aug 2021, 	0
+Flow Lines, 	Mar 2021, 	0
+Flow Lines, 	Apr 2021, 	0
+Flow Lines, 	May 2021, 	-2078.58
+Flow Lines, 	Jun 2021, 	0
+Flow Lines, 	Jul 2021, 	0
+Flow Lines, 	Aug 2021, 	0
+Location & Road Materials, 	Mar 2021, 	0
+Location & Road Materials, 	Apr 2021, 	0
+Location & Road Materials, 	May 2021, 	-2955.25
+Location & Road Materials, 	Jun 2021, 	0
+Location & Road Materials, 	Jul 2021, 	0
+Location & Road Materials, 	Aug 2021, 	0
+Pumping Unit, 	Mar 2021, 	0
+Pumping Unit, 	Apr 2021, 	0
+Pumping Unit, 	May 2021, 	0
+Pumping Unit, 	Jun 2021, 	0
+Pumping Unit, 	Jul 2021, 	-13450.5
+Pumping Unit, 	Aug 2021, 	0
+Tanks, 	Mar 2021, 	0
+Tanks, 	Apr 2021, 	0
+Tanks, 	May 2021, 	-32604.8
+Tanks, 	Jun 2021, 	0
+Tanks, 	Jul 2021, 	0
+Tanks, 	Aug 2021, 	0
+Tanks, 	Mar 2021, 	0
+Tanks, 	Apr 2021, 	0
+Tanks, 	May 2021, 	-4085.69
+Tanks, 	Jun 2021, 	-38840.67
+Tanks, 	Jul 2021, 	0
+Tanks, 	Aug 2021, 	-344.56
+Valves & Fittings, 	Mar 2021, 	0
+Valves & Fittings, 	Apr 2021, 	0
+Valves & Fittings, 	May 2021, 	-7788.85
+Valves & Fittings, 	Jun 2021, 	0
+Valves & Fittings, 	Jul 2021, 	0
+Valves & Fittings, 	Aug 2021, 	0
+Water Treatment Components, 	Mar 2021, 	0
+Water Treatment Components, 	Apr 2021, 	0
+Water Treatment Components, 	May 2021, 	0
+Water Treatment Components, 	Jun 2021, 	0
+Water Treatment Components, 	Jul 2021, 	-4443.15
+Water Treatment Components, 	Aug 2021, 	0
+Water Well, 	Mar 2021, 	0
+Water Well, 	Apr 2021, 	0
+Water Well, 	May 2021, 	-818.7
+Water Well, 	Jun 2021, 	0
+Water Well, 	Jul 2021, 	0
+Water Well, 	Aug 2021, 	0
+Total Equipment, 	Mar 2021, 	0
+Total Equipment, 	Apr 2021, 	0
+Total Equipment, 	May 2021, 	-50331.869999999995
+Total Equipment, 	Jun 2021, 	-47560.54
+Total Equipment, 	Jul 2021, 	-17893.65
+Total Equipment, 	Aug 2021, 	-344.56
+Total CAPEX Expenses, 	Mar 2021, 	-28235.75
+Total CAPEX Expenses, 	Apr 2021, 	-1682218.4200000002
+Total CAPEX Expenses, 	May 2021, 	-325442.35
+Total CAPEX Expenses, 	Jun 2021, 	-2092105.8
+Total CAPEX Expenses, 	Jul 2021, 	-227778.68
+Total CAPEX Expenses, 	Aug 2021, 	-100657.64
+Net Cash Flow After CAPEX, 	Mar 2021, 	-313.11999999999534
+Net Cash Flow After CAPEX, 	Apr 2021, 	-1665725.6600000001
+Net Cash Flow After CAPEX, 	May 2021, 	-225887.6199999999
+Net Cash Flow After CAPEX, 	Jun 2021, 	-1978951.9300000002
+Net Cash Flow After CAPEX, 	Jul 2021, 	18654.130000000063
+Net Cash Flow After CAPEX, 	Aug 2021, 	-12779.029999999955
+Average $ per BBL, 	Mar 2021, 	-56.76
+Average $ per BBL, 	Apr 2021, 	-56.46
+Average $ per BBL, 	May 2021, 	-59.85
+Average $ per BBL, 	Jun 2021, 	-76.15
+Average $ per BBL, 	Jul 2021, 	-69
+Average $ per BBL, 	Aug 2021, 	-64.41
+Average $ per MCF, 	Mar 2021, 	0
+Average $ per MCF, 	Apr 2021, 	-3.02
+Average $ per MCF, 	May 2021, 	-3.4
+Average $ per MCF, 	Jun 2021, 	-4.23
+Average $ per MCF, 	Jul 2021, 	-3.99
+Average $ per MCF, 	Aug 2021, 	-4.66

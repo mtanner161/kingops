@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "beta-combocurve",
+  "private_key_id": "850dc31a0dca74a502c53d78b2bdbd0125aa8d49",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDG5/uwvC0boYdU\nWD3sp5+ER0cNZGASL9UkTqsocRroZ44uc2+io7OUASe8/vxKahi7eY6c9enjFKfR\nNgSkjyHalYoSfj1cqTwno7dPQc37mRIEexl+xLB0KCexAOTqELzzvHGTbAJhBgTy\n4SO8KA7t8cDgF3XNS552J5fHX/grP731ViZJzDCtU0qMPQx26e7SbVsmH3zf8HCa\n1XVIqyYrqwYM3YK8MXzXpvmTNJ+Ufb8TIEl3Nr0Ck/nkS0SppLMBxFddIZW4ZRVI\ncuaezG37qnAK+wX1uG+xZBOFhl2qf4kHhHI5m2PR5ES+iq5AYGFOmDbX5as6GOFI\nLfnqsAX9AgMBAAECggEAHmrxFla8pjZWSfuBosyCjDnTP5TLTVSzyWzfZ1yeow5d\nE7TzDEHxDy/7Cf/LiLy/YgIloVLJDQFGZavXW2wJHxKRziCwlRhLWvuCJ7R2QeTn\neLhzjmuZWXYflcW/fB0JrFNz4fnZRkmjnZn4+0f7+n7nQk3MJdRL3CFTaHnAa6p7\nHnizyigBloIcjhMEgCNpRFqOVTsxgayMsQ8a4nk4Ek10HhuSWO4LRM+OB2GtFpeN\nrytd4LbCJSBdh+WYjZ+QvaYTq+JxW3OCMoUv1kBA2/AEMTHowC+wPY3c676FTJeu\nmiIJL8GCMoaWnlhfQNZRslGlmLoxTEAiA0YXvocNIQKBgQD7pFhfFLUmVuZB38Zl\nKxyVH0C6A/nblS7DZgCLDdeIDKcbg9MVdGl6pqIfrsEGXDFpvn8a9EIxVoQu5NQj\naoEhhcL0Ppu1HoYGvz0SleD5Zm8CbbZ+B4B2Q9IinDp2Dq1jf2ZxnIl+PTSYQtYh\nZ7VQxuax7k0ip7wapuG7EWI44QKBgQDKWdV1PjOL9L5mZ+3n/9Un/7gNUg1yhp81\notNlhk94DGtSxN7qTSeN2JfPu/Xc8NZpobe0Asay/67xKLojIzrhQbHtTwoOm2UB\n+xQJzgcVexkooS36TdQJ3yHiQnM1SffhtODJUwWMQWbdnF5sKJWlUMKuEnbCJcEv\njQ7+FmOknQKBgQC9rVArQxmUb5YZ+0m5AjkGMkuAqvSPzjA0etNX/TQDyb3AIKpg\nFqJXH/k+NmQqnh1k3oFCWPD37YWvLy60D1iMYx3jKroFWJ+fwFCRjMXKV6q/QuF2\nt8Ld4hsnmWj7ie6p++LFKj/9FrdpOZ/cCCcEXxiO79fWkmZYFIg7kEvgIQKBgCQ8\nYhVUxjZR5abBBcF99tXq3TLFdtMDeI9KUUDlBGYjEzUHPEQI/QRRvR3eMvEVz8+q\nvhLmTF7Rmqpk+LBCJtEfypUMimiDO1tXcwcudeZK3P6BnpIsTcRWyOKTs73fORya\nH4bt7xhmvd0Bm4cS3Xl1NOenNs0dpbK2N/EYYU+hAoGBAKw8hV7cegnGobHYutJz\naAf3oAL/e8fLlgtMXWG2rv7eJ1Jyk0cawm06mLu6168/l18yNFQHDd3TnfNNNOLJ\nxnr5VuRg+M/8i160XzpUXYyaQfd5n3LkH+YZ6MiPTe4feL47rMf/uOcpCyb+d0ku\nVe4/vZWaTL5b3yVPaRAfUyGk\n-----END PRIVATE KEY-----\n",
+  "client_email": "ext-api-kingoperating2dev@beta-combocurve.iam.gserviceaccount.com",
+  "client_id": "106598681973993438295",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/ext-api-kingoperating2dev%40beta-combocurve.iam.gserviceaccount.com"
+}
