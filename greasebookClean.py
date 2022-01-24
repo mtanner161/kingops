@@ -3,16 +3,20 @@
 
 # import required packages
 import os
+import glob
 import json
 import pandas as pd
 import numpy as np
 import re
 import smtplib
 
-# get raw CSV download from working direcotry
-rawProduction = pd.read_excel(
-    r"C:\Users\MichaelTanner\OneDrive - Sandstone Group\Clients\King Operating\Finance - Reservoir\Daily Production Data\1.20.2022greasebook.xlsx"
-)
+# finds source folder
+folder_path = r"C:\Users\MichaelTanner\OneDrive - Sandstone Group\Clients\King Operating\Finance - Reservoir\Daily Production Data"
+file_type = "\*xlsx"  # set to look for xlsx
+files = glob.glob(folder_path + file_type)  # creates file path
+maxFileLead = max(files, key=os.path.getctime)  # gets latest file path
+# get raw CSV download maxFileLead
+rawProduction = pd.read_excel(maxFileLead)
 
 # setting the headers
 rawProduction = rawProduction.iloc[1:, :]
@@ -79,8 +83,8 @@ cleanKellyAsset = pd.read_csv(
     r"C:\Users\MichaelTanner\Documents\code_doc\king\data\kellyAssets.csv"
 )
 
-todayDate = "1/20/2022"
-yesDate = "1/19/2022"
+todayDate = "1/23/2022"
+yesDate = "1/22/2022"
 oilSum = 0
 oilSumYes = 0
 gasSum = 0
@@ -106,7 +110,8 @@ print(round(oilSum, 2))
 print(round(gasSum, 2))
 print(round(oilSumYes, 2))
 print(round(gasSumYes, 2))
-print(oilSum - oilSumYes)
+print(round(oilSum - oilSumYes, 2))
+print(round(gasSum - gasSumYes, 2))
 
 dashboardLink = "https://app.powerbi.com/view?r=eyJrIjoiM2U5OTYxOWYtOTEyMS00M2YxLWE0NTktMDFjZjcwNzlmMjg3IiwidCI6IjA1MTM5NTUzLWVlOTAtNDdhZi1iNmY3LTU0ZDk2OTc4ZTQ5ZSJ9&pageName=ReportSectionb8f3ed9f3c4313759775"
 
@@ -117,7 +122,7 @@ mail = Mailer(email="operations.king@gmail.com", password="Bigshow1637%")
 
 mail.send(
     receiver="mtanner@kingoperating.com",
-    subject="Daily Production Report UPDATE: 1/20/2021 - ETX, STX and Gulf Coast",
+    subject="Daily Production Report UPDATE: 1/23/2021 - ETX, STX and Gulf Coast",
     message="Oil production: "
     + str(oilSum)
     + " bbl. \n\n"
