@@ -9,6 +9,16 @@ import pandas as pd
 import numpy as np
 import re
 import smtplib
+from datetime import date, datetime
+import datetime as dt
+
+
+# IMPORTANT - SET DATE TO CORRECT VALUES
+todayDate = "1/25/2022"
+yesDate = "1/24/2022"
+lastWeekDate = "1/19/2022"
+lastMonthDate = "12/25/2021"
+
 
 # finds source folder
 folder_path = r"C:\Users\MichaelTanner\OneDrive - Sandstone Group\Clients\King Operating\Finance - Reservoir\Daily Production Data"
@@ -83,12 +93,14 @@ cleanKellyAsset = pd.read_csv(
     r"C:\Users\MichaelTanner\Documents\code_doc\king\data\kellyAssets.csv"
 )
 
-todayDate = "1/23/2022"
-yesDate = "1/22/2022"
 oilSum = 0
 oilSumYes = 0
+oilSumWeek = 0
+oilSumMonth = 0
 gasSum = 0
 gasSumYes = 0
+gasSumWeek = 0
+gasSumMonth = 0
 
 # gets todays sum
 for i in range(0, len(cleanKellyAsset)):
@@ -99,9 +111,16 @@ for i in range(0, len(cleanKellyAsset)):
         continue
 
 for i in range(0, len(cleanKellyAsset)):
-    if cleanKellyAsset.iloc[i, 0] == yesDate:
-        gasSumYes = gasSumYes + float(cleanKellyAsset.iloc[i, 5])
-        oilSumYes = oilSumYes + float(cleanKellyAsset.iloc[i, 4])
+    if cleanKellyAsset.iloc[i, 0] == lastMonthDate:
+        gasSumMonth = gasSumMonth + float(cleanKellyAsset.iloc[i, 5])
+        oilSumMonth = oilSumMonth + float(cleanKellyAsset.iloc[i, 4])
+    else:
+        continue
+
+for i in range(0, len(cleanKellyAsset)):
+    if cleanKellyAsset.iloc[i, 0] == lastWeekDate:
+        gasSumWeek = gasSumWeek + float(cleanKellyAsset.iloc[i, 5])
+        oilSumWeek = oilSumWeek + float(cleanKellyAsset.iloc[i, 4])
     else:
         continue
 
@@ -121,8 +140,8 @@ from mailer import Mailer
 mail = Mailer(email="operations.king@gmail.com", password="Bigshow1637%")
 
 mail.send(
-    receiver="mtanner@kingoperating.com",
-    subject="Daily Production Report UPDATE: 1/23/2021 - ETX, STX and Gulf Coast",
+    receiver="mtanner@kingoperating.com, kduncan@kingoperating.com, pgerome@kingoperating.com",
+    subject="Daily Production Report UPDATE: 1/25/2021 - ETX, STX and Gulf Coast",
     message="Oil production: "
     + str(oilSum)
     + " bbl. \n\n"
