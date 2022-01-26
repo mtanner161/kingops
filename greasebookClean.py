@@ -177,10 +177,16 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email import encoders
 import os.path
+from dotenv import load_dotenv
+
+load_dotenv()
+
+nameTest = os.getenv("USERNAME_KING")
+print(nameTest)
 
 
 def send_email(email_recipient, email_subject, email_message):
-    email_sender = "mtanner@kingoperating.com"
+    email_sender = os.getenv("USERNAME_KING")
     msg = MIMEMultipart()
     msg["From"] = email_sender
     msg["To"] = email_recipient
@@ -191,7 +197,7 @@ def send_email(email_recipient, email_subject, email_message):
         server = smtplib.SMTP("smtp.office365.com", 587)
         server.ehlo()
         server.starttls()
-        server.login("mtanner@kingoperating.com", "Bigshow1637@")
+        server.login(os.getenv("USERNAME_KING"), os.getenv("PASSWORD_KING"))
         text = msg.as_string()
         server.sendmail(email_sender, email_recipient, text)
         print("email sent")
