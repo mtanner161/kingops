@@ -5,6 +5,7 @@
 import os
 import glob
 import json
+from time import strptime
 import pandas as pd
 import numpy as np
 import re
@@ -18,6 +19,9 @@ todayDate = "1/25/2022"
 yesDate = "1/24/2022"
 lastWeekDate = "1/19/2022"
 lastMonthDate = "12/25/2021"
+
+newDate = datetime.strptime(todayDate, "%m/%d/%Y")
+print(newDate)
 
 
 # finds source folder
@@ -111,6 +115,13 @@ for i in range(0, len(cleanKellyAsset)):
         continue
 
 for i in range(0, len(cleanKellyAsset)):
+    if cleanKellyAsset.iloc[i, 0] == yesDate:
+        gasSumYes = gasSumYes + float(cleanKellyAsset.iloc[i, 5])
+        oilSumYes = oilSumYes + float(cleanKellyAsset.iloc[i, 4])
+    else:
+        continue
+
+for i in range(0, len(cleanKellyAsset)):
     if cleanKellyAsset.iloc[i, 0] == lastMonthDate:
         gasSumMonth = gasSumMonth + float(cleanKellyAsset.iloc[i, 5])
         oilSumMonth = oilSumMonth + float(cleanKellyAsset.iloc[i, 4])
@@ -125,12 +136,37 @@ for i in range(0, len(cleanKellyAsset)):
         continue
 
 
+oilChangeDaily = round(oilSum - oilSumYes, 2)
+gasChangeDaily = round(gasSum - gasSumYes, 2)
+oilSevenDayPercent = (oilSum - oilSumWeek) / oilSumWeek
+gasSevenDayPercent = (gasSum - gasSumWeek) / gasSumWeek
+
 print(round(oilSum, 2))
 print(round(gasSum, 2))
 print(round(oilSumYes, 2))
 print(round(gasSumYes, 2))
 print(round(oilSum - oilSumYes, 2))
 print(round(gasSum - gasSumYes, 2))
+print(round(oilSumWeek, 2))
+print(oilSevenDayPercent)
+print(gasSevenDayPercent)
+
+fp = open(r"C:\Users\MichaelTanner\Documents\code_doc\king\data\oilgaschange.csv", "w")
+
+headerString = "Daily Oil Change,Daily Gas Change, 7-day Oil Percent Change, 7-day Gas Percent Change\n"
+fp.write(headerString)
+outputString = (
+    str(oilChangeDaily)
+    + ","
+    + str(gasChangeDaily)
+    + ","
+    + str(oilSevenDayPercent)
+    + ","
+    + str(gasSevenDayPercent)
+)
+fp.write(outputString)
+fp.close()
+
 
 dashboardLink = "https://app.powerbi.com/view?r=eyJrIjoiM2U5OTYxOWYtOTEyMS00M2YxLWE0NTktMDFjZjcwNzlmMjg3IiwidCI6IjA1MTM5NTUzLWVlOTAtNDdhZi1iNmY3LTU0ZDk2OTc4ZTQ5ZSJ9&pageName=ReportSectionb8f3ed9f3c4313759775"
 

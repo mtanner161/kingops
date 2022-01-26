@@ -10,6 +10,7 @@ numEntries = len(capexRaw)
 dateList = []
 
 for i in range(0, numEntries):
+
     capexRaw["Effective Date"] = capexRaw["Effective Date"].replace(
         "Oct-20", "10/1/2020"
     )
@@ -55,7 +56,15 @@ for i in range(0, numEntries):
     capexRaw["Effective Date"] = capexRaw["Effective Date"].replace(
         "Jan-22", "1/1/2022"
     )
-    print("yay")
+
+capexPos = []
+
+for j in range(0, len(capexRaw)):
+    row = capexRaw.iloc[j]
+    value = row["Total"]
+    valueNew = float(value) * -1
+    capexPos.append(value)
+
 
 capexRaw.to_csv(
     r"C:\Users\MichaelTanner\Documents\code_doc\king\data\loe.csv", index=False
