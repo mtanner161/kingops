@@ -171,14 +171,39 @@ fp.close()
 dashboardLink = "https://app.powerbi.com/view?r=eyJrIjoiM2U5OTYxOWYtOTEyMS00M2YxLWE0NTktMDFjZjcwNzlmMjg3IiwidCI6IjA1MTM5NTUzLWVlOTAtNDdhZi1iNmY3LTU0ZDk2OTc4ZTQ5ZSJ9&pageName=ReportSectionb8f3ed9f3c4313759775"
 
 
-from mailer import Mailer
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email import encoders
+import os.path
 
-mail = Mailer(email="operations.king@gmail.com", password="Bigshow1637%")
 
-mail.send(
-    receiver="mtanner@kingoperating.com, kduncan@kingoperating.com, pgerome@kingoperating.com",
-    subject="Daily Production Report UPDATE: 1/25/2021 - ETX, STX and Gulf Coast",
-    message="Oil production: "
+def send_email(email_recipient, email_subject, email_message):
+    email_sender = "mtanner@kingoperating.com"
+    msg = MIMEMultipart()
+    msg["From"] = email_sender
+    msg["To"] = email_recipient
+    msg["Subject"] = email_subject
+    msg.attach(MIMEText(email_message))
+
+    try:
+        server = smtplib.SMTP("smtp.office365.com", 587)
+        server.ehlo()
+        server.starttls()
+        server.login("mtanner@kingoperating.com", "Bigshow1637@")
+        text = msg.as_string()
+        server.sendmail(email_sender, email_recipient, text)
+        print("email sent")
+        server.quit()
+    except:
+        print("SMPT server connection error")
+
+    return True
+
+
+message = (
+    "Oil production: "
     + str(oilSum)
     + " bbl. \n\n"
     + "Gas production: "
@@ -191,8 +216,10 @@ mail.send(
     + str(gasSum - gasSumYes)
     + " mcf"
     + "\n\nView the Dashboard here (if numbers are not updated, try again in 30 min or email Michael): "
-    + dashboardLink,
+    + dashboardLink
 )
+
+send_email("mtanner@kingoperating.com", "Daily Operations Report Test", message)
 
 
 print("done")
