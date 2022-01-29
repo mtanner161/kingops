@@ -56,15 +56,16 @@ for i in range(0, numEntries):
     capexRaw["Effective Date"] = capexRaw["Effective Date"].replace(
         "Jan-22", "1/1/2022"
     )
+    capexRaw["Total"] = capexRaw["Total"].str.replace(",", "")
 
 capexPos = []
+
 
 for j in range(0, len(capexRaw)):
     row = capexRaw.iloc[j]
     value = row["Total"]
     valueNew = float(value) * -1
-    capexPos.append(value)
-
+    capexRaw.at[j, "Total"] = valueNew
 
 capexRaw.to_csv(
     r"C:\Users\MichaelTanner\Documents\code_doc\king\data\loe.csv", index=False
