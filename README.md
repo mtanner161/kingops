@@ -1,8 +1,5 @@
-#King Operating Operations Dashboard
+<h1>King Operating Operations Dashboard</h1>
 
-All my code for King Operation Operations Powerbi Dashboard which includes data from WolfePak, ComboCurve, Greasebooks, SCADALite and Hubspot (for marketing). Once each section is completed I will add the code to this respoitory.
+This repo hold all code for King Operating Datawarehouse.  Publicly viewable for folks to see process and implemenation - but not made for forking.
 
-1.0- ComboCurve API - Completed
-1.1 - Greasebooks clean CSV - COMPLETED
-1.2 - WolfePak clean CSV - COMPLETED
-1.3 - SCADALite Connection - In progress
+Email mtanner@kingoperating.com with any questios
