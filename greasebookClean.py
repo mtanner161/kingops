@@ -15,10 +15,10 @@ import datetime as dt
 
 
 # IMPORTANT - SET DATE TO CORRECT VALUES
-todayDate = "1/25/2022"
-yesDate = "1/24/2022"
-lastWeekDate = "1/19/2022"
-lastMonthDate = "12/25/2021"
+todayDate = "1/26/2022"
+yesDate = "1/25/2022"
+lastWeekDate = "1/20/2022"
+lastMonthDate = "12/26/2021"
 
 newDate = datetime.strptime(todayDate, "%m/%d/%Y")
 print(newDate)
@@ -141,13 +141,12 @@ gasChangeDaily = round(gasSum - gasSumYes, 2)
 oilSevenDayPercent = (oilSum - oilSumWeek) / oilSumWeek
 gasSevenDayPercent = (gasSum - gasSumWeek) / gasSumWeek
 
-print(round(oilSum, 2))
-print(round(gasSum, 2))
-print(round(oilSumYes, 2))
-print(round(gasSumYes, 2))
-print(round(oilSum - oilSumYes, 2))
-print(round(gasSum - gasSumYes, 2))
-print(round(oilSumWeek, 2))
+print("Daily Oil Prod: " + str(round(oilSum, 2)))
+print("Daily Gas Prod: " + str(round(gasSum, 2)))
+print("Yes Oil Prod: " + str(round(oilSumYes, 2)))
+print("Yes Gas Prod: " + str(round(gasSumYes, 2)))
+print("Change Daily Oil Prod: " + str(round(oilSum - oilSumYes, 2)))
+print("Change Daily Gas Prod: " + str(round(gasSum - gasSumYes, 2)))
 print(oilSevenDayPercent)
 print(gasSevenDayPercent)
 
@@ -225,7 +224,25 @@ message = (
     + dashboardLink
 )
 
-send_email("mtanner@kingoperating.com", "Daily Operations Report Test", message)
+subject = "Daily Production Report East/South and Gulf Coast Texas Assets - 1/26/2021"
+
+send_email(
+    "mtanner@kingoperating.com",
+    subject,
+    message,
+)
+
+send_email(
+    "pgerome@kingoperating.com",
+    subject,
+    message,
+)
+
+send_email(
+    "kduncan@kingoperating.com",
+    subject,
+    message,
+)
 
 
 print("done")

@@ -62,14 +62,11 @@ message = (
     + "Change in gas production (previous day): "
     + str(gasChangeDaily)
     + " mcf"
-    + "\n\nView the Dashboard here (if numbers are not updated, try again in 30 min or email Michael): "
+    + "\n\nView the Dashboard in Teams (KOC Field Operations) or here (if numbers are not updated, try again in 30 min or email Michael): "
     + dashboardLink
 )
 
-subject = (
-    "Daily Production Report East/South and Gulf Coast Texas Assets - "
-    + todayDateString
-)
+subject = "Daily Production Report ETX/STX and Gulf Assets - " + todayDateString
 michaelTanner = os.getenv("MICHAEL_TANNER")
 jayYoung = os.getenv("JAY_YOUNG")
 rexGifford = os.getenv("REX_GIFFORD")
@@ -97,3 +94,18 @@ send_email(
     subject,
     message,
 )
+
+send_email(
+    jayEvans,
+    subject,
+    message,
+)
+
+send_email(
+    rexGifford,
+    subject,
+    message,
+)
+
+
+print("All Email's Sent")

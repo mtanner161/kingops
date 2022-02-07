@@ -136,16 +136,16 @@ gasChangeDaily = round(totalGasVolume - yesTotalGasVolume, 2)
 oilSevenDayPercent = (totalOilVolume - lastWeekTotalOilVolume) / lastWeekTotalOilVolume
 gasSevenDayPercent = (totalGasVolume - lastWeekTotalGasVolume) / lastWeekTotalGasVolume
 
-print(totalOilVolume)
-print(totalGasVolume)
-print(yesTotalOilVolume)
-print(yesTotalGasVolume)
-print(lastWeekTotalOilVolume)
-print(lastWeekTotalGasVolume)
-print(oilChangeDaily)
-print(gasChangeDaily)
-print(oilSevenDayPercent)
-print(gasSevenDayPercent)
+print("Today Oil Volume: " + str(totalOilVolume))
+print("Today Gas Volume: " + str(totalGasVolume))
+print("Yesterday Oil Volume: " + str(yesTotalOilVolume))
+print("Yesterday Gas Volume: " + str(yesTotalGasVolume))
+print("Last Week Oil Volume: " + str(lastWeekTotalOilVolume))
+print("Last Week Gas Volume: " + str(lastWeekTotalGasVolume))
+print("Daily Change Oil Volume: " + str(oilChangeDaily))
+print("Daily Change Gas Volume: " + str(gasChangeDaily))
+print("Percent Oil Volume: " + str(oilSevenDayPercent))
+print("Percent Gas Volume: " + str(gasSevenDayPercent))
 
 fp = open(r"C:\Users\MichaelTanner\Documents\code_doc\king\data\oilgaschange.csv", "w")
 
@@ -162,5 +162,6 @@ outputString = (
 )
 fp.write(outputString)
 fp.close()
+
 
 print("Done")
