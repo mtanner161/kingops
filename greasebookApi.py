@@ -37,7 +37,8 @@ results = response.json()
 numEntries = len(results)
 
 fp = open(
-    r"C:\Users\MichaelTanner\Documents\code_doc\king\data\kellyAssetsBetter.csv", "w"
+    r"C:\Users\MichaelTanner\Documents\code_doc\king\data\totalAssetsProduction.csv",
+    "w",
 )
 
 headerString = (
