@@ -23,13 +23,13 @@ loeBetter = pd.DataFrame()
 for i in range(0, numEntires):
     row = glPostRaw.iloc[i]
     accountNumber = float(row["Account"])
-    if accountNumber in range(9000, 9999):
+    if accountNumber == 2100:
         loeBetter = loeBetter.append(row)
 
 print(len(loeBetter))
 
 loeBetter.to_csv(
-    r"C:\Users\MichaelTanner\Documents\code_doc\king\data\glpostexportdaily.csv",
+    r"C:\Users\MichaelTanner\Documents\code_doc\king\data\2100series.csv",
     index=False,
 )
 

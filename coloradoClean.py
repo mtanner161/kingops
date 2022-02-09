@@ -14,14 +14,15 @@ dailyColoradoClean = pd.read_csv(
 
 
 dateToday = dt.datetime.today()
+print(str(dateToday))
 dateYesterday = dateToday - timedelta(days=1)
 dateYesString = dateYesterday.strftime("%m/%d/%Y")
 
 northList = []
 southList = []
 
-northList.append("2/6/2022")  ## set each time
-southList.append("2/6/2022")  ## set each time
+northList.append(dateToday)  ## set each time
+southList.append(dateToday)  ## set each time
 
 northBatteryGas = dailyColorado.iloc[5, 2]
 northBatteryWater = dailyColorado.iloc[4, 2]
