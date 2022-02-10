@@ -72,6 +72,7 @@ headerString = (
 fp.write(headerString)  # write the header string
 # a bunch of variables the below loop needs
 dateYesterday = dateToday - timedelta(days=1)
+dateTwoDaysAgo = dateToday - timedelta(days=2)
 dateLastWeek = dateToday - timedelta(days=7)
 totalOilVolume = 0
 totalGasVolume = 0
@@ -79,21 +80,27 @@ totalWaterVolume = 0
 yesTotalOilVolume = 0
 yesTotalGasVolume = 0
 yesTotalWaterVolume = 0
+twoDayOilVolume = 0
+twoDayGasVolume = 0
 lastWeekTotalOilVolume = 0
 lastWeekTotalGasVolume = 0
 
 ## Convert all dates to str for comparison rollup
-todayYear = dateToday.strftime("%Y")
-todayMonth = dateToday.strftime("%m")
-todayDay = dateToday.strftime("%d")
+todayYear = int(dateToday.strftime("%Y"))
+todayMonth = int(dateToday.strftime("%m"))
+todayDay = int(dateToday.strftime("%d"))
 
-yesYear = dateYesterday.strftime("%Y")
-yesMonth = dateYesterday.strftime("%m")
-yesDay = dateYesterday.strftime("%d")
+yesYear = int(dateYesterday.strftime("%Y"))
+yesMonth = int(dateYesterday.strftime("%m"))
+yesDay = int(dateYesterday.strftime("%d"))
 
-lastWeekYear = dateLastWeek.strftime("%Y")
-lastWeekMonth = dateLastWeek.strftime("%m")
-lastWeekDay = dateLastWeek.strftime("%d")
+twoDayYear = int(dateTwoDaysAgo.strftime("%Y"))
+twoDayMonth = int(dateTwoDaysAgo.strftime("%m"))
+twoDayDay = int(dateTwoDaysAgo.strftime("%d"))
+
+lastWeekYear = int(dateLastWeek.strftime("%Y"))
+lastWeekMonth = int(dateLastWeek.strftime("%m"))
+lastWeekDay = int(dateLastWeek.strftime("%d"))
 
 ## BEGIN CODE FOR ETX STX and GCT
 
@@ -132,8 +139,8 @@ for i in range(0, numEntries):
     splitDate = re.split("T", date)
     splitDate2 = re.split("-", splitDate[0])
     year = splitDate2[0]
-    month = splitDate2[1]
-    day = splitDate2[2]
+    month = int(splitDate2[1])
+    day = int(splitDate2[2])
 
     ## Summing today, yesterday and last week oil gas and water
     if year == todayYear and month == todayMonth and day == todayDay:
@@ -144,6 +151,10 @@ for i in range(0, numEntries):
     if year == yesYear and month == yesMonth and day == yesDay:
         yesTotalOilVolume = yesTotalOilVolume + oilVolume
         yesTotalGasVolume = yesTotalGasVolume + gasVolume
+
+    if year == twoDayYear and month == twoDayMonth and day == twoDayDay:
+        twoDayOilVolume = twoDayOilVolume + oilVolume
+        twoDayGasVolume = twoDayGasVolume + gasVolume
 
     if year == lastWeekYear and month == lastWeekMonth and day == lastWeekDay:
         lastWeekTotalOilVolume = lastWeekTotalOilVolume + oilVolume
@@ -161,7 +172,7 @@ for i in range(0, numEntries):
     # cleaning up the strings for outputing
     batteryNameBetter = batteryNameBetter.replace(" ", "")
     clientName = clientName.replace(" ", "")
-    dateString = month + "/" + day + "/" + year
+    dateString = str(month) + "/" + str(day) + "/" + str(year)
     # create outstring for first row of total assets
     outputString = (
         dateString
@@ -189,19 +200,55 @@ for i in range(0, numEntries):
 
 clientName = "WELOP"  ## Changes client name to WELOP
 
+# create a nice yesterday date string
+yesDateString = str(yesMonth) + "/" + str(yesDay) + "/" + str(yesYear)
+
+# get lastest Colorado Data from specific folder and set to correct values
+northBatteryGas = dailyColorado.iloc[5, 2]
+northBatteryWater = dailyColorado.iloc[4, 2]
+northBatteryOil = dailyColorado.iloc[3, 2]
+northBatteryWellCount = dailyColorado.iloc[2, 2]
+southBatteryGas = dailyColorado.iloc[5, 5]
+southBatteryWater = dailyColorado.iloc[4, 5]
+southBatteryOil = dailyColorado.iloc[3, 5]
+southBatteryWellCount = dailyColorado.iloc[2, 5]
+
+# creating lists for each north and south battery
+northList = []
+southList = []
+northList.append(yesDateString)  ## set each time
+southList.append(yesDateString)
+northList.append(clientName)
+southList.append(clientName)
+
+# adding the new variables to correct list
+northList.append("North")
+northList.append(northBatteryOil)
+northList.append(northBatteryGas)
+northList.append(northBatteryWater)
+southList.append("South")
+southList.append(southBatteryOil)
+southList.append(southBatteryGas)
+southList.append(southBatteryWater)
+
+# adding the new data to the clean Colorado table for next day run
+dailyColoradoClean.loc[len(dailyColoradoClean.index)] = northList
+dailyColoradoClean.loc[len(dailyColoradoClean.index)] = southList
+
+
 ## Master Loop for Colorado Assets
 for i in range(0, len(dailyColoradoClean)):
     # sets correct variables for calculations (resttting some)
     row = dailyColoradoClean.iloc[i]
     date = row["Date"]
-    batteryName = row["Battery"]
+    batteryName = row["Battery Name"]
     oilVolume = row["Oil Volume"]
     gasVolume = row["Gas Volume"]
     waterVolume = row["Water Volume"]
     splitDate = re.split("/", date)
-    day = splitDate[1]
-    month = splitDate[0]
-    year = splitDate[2]
+    day = int(splitDate[1])
+    month = int(splitDate[0])
+    year = int(splitDate[2])
     # test for date and sums
     if year == todayYear and month == todayMonth and day == todayDay:
         totalOilVolume = totalOilVolume + oilVolume
@@ -213,9 +260,14 @@ for i in range(0, len(dailyColoradoClean)):
         yesTotalGasVolume = yesTotalGasVolume + gasVolume
         yesTotalWaterVolume = yesTotalWaterVolume + waterVolume
 
+    if year == twoDayYear and month == twoDayMonth and day == twoDayDay:
+        twoDayOilVolume = twoDayOilVolume + oilVolume
+        twoDayGasVolume = twoDayGasVolume + gasVolume
+
     if year == lastWeekYear and month == lastWeekMonth and day == lastWeekDay:
         lastWeekTotalOilVolume = lastWeekTotalOilVolume + oilVolume
         lastWeekTotalGasVolume = lastWeekTotalGasVolume + gasVolume
+
     # write the output string
     outputString = (
         date
@@ -233,44 +285,6 @@ for i in range(0, len(dailyColoradoClean)):
     )
 
     fp.write(outputString)
-
-# create a nice yesterday date string
-yesDateString = yesMonth + "/" + yesDay + "/" + yesYear
-
-# get lastest Colorado Data from specific folder and set to correct values
-northBatteryGas = dailyColorado.iloc[5, 2]
-northBatteryWater = dailyColorado.iloc[4, 2]
-northBatteryOil = dailyColorado.iloc[3, 2]
-northBatteryWellCount = dailyColorado.iloc[2, 2]
-southBatteryGas = dailyColorado.iloc[5, 5]
-southBatteryWater = dailyColorado.iloc[4, 5]
-southBatteryOil = dailyColorado.iloc[3, 5]
-southBatteryWellCount = dailyColorado.iloc[2, 5]
-
-# add Colorado total oil/gas/water to totals for all assets
-totalOilVolume = totalOilVolume + northBatteryOil + southBatteryOil
-totalGasVolume = totalGasVolume + northBatteryGas + southBatteryGas
-totalWaterVolume = totalWaterVolume + northBatteryWater + southBatteryWater
-
-# creating lists for each north and south battery
-northList = []
-southList = []
-northList.append(yesDateString)  ## set each time
-southList.append(yesDateString)
-
-# adding the new variables to correct list
-northList.append("North")
-northList.append(northBatteryOil)
-northList.append(northBatteryGas)
-northList.append(northBatteryWater)
-southList.append("South")
-southList.append(southBatteryOil)
-southList.append(southBatteryGas)
-southList.append(southBatteryWater)
-
-# adding the new data to the clean Colorado table for next day run
-dailyColoradoClean.loc[len(dailyColoradoClean.index)] = northList
-dailyColoradoClean.loc[len(dailyColoradoClean.index)] = southList
 
 ## Writes the South Battery
 outputString = (
@@ -309,38 +323,24 @@ outputString = (
 fp.write(outputString)  # writes the string
 fp.close()  # close the final asset table
 
-#### These are extra steps
-
-# Calculates variables needed to daily analysis numbers
-lenColorado = len(dailyColoradoClean)
-yesColoradoOil1 = dailyColoradoClean.iloc[lenColorado - 1, 2]
-yesColoradoGas1 = dailyColoradoClean.iloc[lenColorado - 1, 3]
-yesColoradoWater1 = dailyColoradoClean.iloc[lenColorado - 1, 4]
-yesColoradoOil2 = dailyColoradoClean.iloc[lenColorado - 2, 2]
-yesColoradoGas2 = dailyColoradoClean.iloc[lenColorado - 2, 3]
-yesColoradoWater2 = dailyColoradoClean.iloc[lenColorado - 2, 4]
-
-yesTotalOilVolume = yesTotalOilVolume + yesColoradoOil1 + yesColoradoOil2
-yesTotalGasVolume = yesTotalGasVolume + yesColoradoGas1 + yesColoradoGas2
-yesTotalWaterVolume = yesTotalWaterVolume + yesColoradoWater1 + yesColoradoWater2
-
-## export the Colorado Asset table
 dailyColoradoClean.to_csv(
     r"C:\Users\MichaelTanner\Documents\code_doc\king\data\coloradoAssets.csv",
     index=False,
 )
 
-
-oilChangeDaily = round(totalOilVolume - yesTotalOilVolume, 2)
-gasChangeDaily = round(totalGasVolume - yesTotalGasVolume, 2)
-waterChangeDaily = round(totalWaterVolume - yesTotalWaterVolume, 2)
+## Oil and gas daily change numbers
+oilChangeDaily = round(yesTotalOilVolume - twoDayOilVolume, 2)
+gasChangeDaily = round(yesTotalGasVolume - twoDayGasVolume, 2)
 oilSevenDayPercent = (totalOilVolume - lastWeekTotalOilVolume) / lastWeekTotalOilVolume
 gasSevenDayPercent = (totalGasVolume - lastWeekTotalGasVolume) / lastWeekTotalGasVolume
 
+# print out the volumes for data check while model is running
 print("Today Oil Volume: " + str(totalOilVolume))
 print("Today Gas Volume: " + str(totalGasVolume))
 print("Yesterday Oil Volume: " + str(yesTotalOilVolume))
 print("Yesterday Gas Volume: " + str(yesTotalGasVolume))
+print("Two Day Ago Oil Volume: " + str(twoDayOilVolume))
+print("Two Day Ago Gas Volume: " + str(twoDayGasVolume))
 print("Last Week Oil Volume: " + str(lastWeekTotalOilVolume))
 print("Last Week Gas Volume: " + str(lastWeekTotalGasVolume))
 print("Daily Change Oil Volume: " + str(oilChangeDaily))
@@ -348,17 +348,15 @@ print("Daily Change Gas Volume: " + str(gasChangeDaily))
 print("Percent Oil Volume: " + str(oilSevenDayPercent))
 print("Percent Gas Volume: " + str(gasSevenDayPercent))
 
-## Opens Oil Change File for daily specific calculations
+## Opens Oil Change File for daily specific percent change calculations
 fp = open(r"C:\Users\MichaelTanner\Documents\code_doc\king\data\oilgaschange.csv", "w")
 
-headerString = "Daily Oil Change,Daily Gas Change,Daily Water Change, 7-day Oil Percent Change, 7-day Gas Percent Change\n"
+headerString = "Daily Oil Change,Daily Gas Change, 7-day Oil Percent Change, 7-day Gas Percent Change\n"
 fp.write(headerString)
 outputString = (
     str(oilChangeDaily)
     + ","
     + str(gasChangeDaily)
-    + ","
-    + str(waterChangeDaily)
     + ","
     + str(oilSevenDayPercent)
     + ","
