@@ -2,22 +2,34 @@
 from ast import keyword
 from http import client
 from time import strftime
+from black import out
 import requests
 import os
 from datetime import date, datetime, timedelta
 import datetime as dt
+import glob
 import re
 from dotenv import load_dotenv
 import pandas as pd
 
+import chandlerAssetRollUp  # Runs chandler asset
+
 load_dotenv()  # load ENV
 
-# read in prodouctions files
-dailyColorado = pd.read_excel(
-    r"C:\Users\MichaelTanner\OneDrive - Sandstone Group\Clients\King Operating\Finance - Reservoir\Daily Production Data\WMSSU Daily Operations Report Febr. 8, 2022.xlsx"
-)
+folder_path = r"C:\Users\MichaelTanner\OneDrive - Sandstone Group\Clients\King Operating\Finance - Reservoir\Daily Production Data\Colorado"
+file_type = "\*xlsx"  # set to look for xlsx
+files = glob.glob(folder_path + file_type)  # creates file path
+maxFileLead = max(files, key=os.path.getctime)
+
+dailyColorado = pd.read_excel(maxFileLead)
+
+
 dailyColoradoClean = pd.read_csv(
     r"C:\Users\MichaelTanner\Documents\code_doc\king\data\coloradoAssets.csv"
+)
+
+dailyChandlerAsset = pd.read_csv(
+    r"C:\Users\MichaelTanner\Documents\code_doc\king\data\chandlerAssetsDaily.csv"
 )
 
 # check date on Colorado
@@ -286,47 +298,66 @@ for i in range(0, len(dailyColoradoClean)):
 
     fp.write(outputString)
 
-## Writes the South Battery
-outputString = (
-    yesDateString
-    + ","
-    + clientName
-    + ","
-    + "South"
-    + ","
-    + str(southBatteryOil)
-    + ","
-    + str(southBatteryGas)
-    + ","
-    + str(southBatteryWater)
-    + "\n"
-)
 
-fp.write(outputString)  # write the string
-
-# Writes the North Battery
-outputString = (
-    yesDateString
-    + ","
-    + clientName
-    + ","
-    + "North"
-    + ","
-    + str(northBatteryOil)
-    + ","
-    + str(northBatteryGas)
-    + ","
-    + str(northBatteryWater)
-    + "\n"
-)
-
-fp.write(outputString)  # writes the string
-fp.close()  # close the final asset table
-
+# writes to clean CSV
 dailyColoradoClean.to_csv(
     r"C:\Users\MichaelTanner\Documents\code_doc\king\data\coloradoAssets.csv",
     index=False,
 )
+
+#### BEGIN MidCon and Permian Data Pull
+
+# loops over Midcon and Wellman table
+for i in range(0, len(dailyChandlerAsset)):
+    row = dailyChandlerAsset.iloc[i]  # gets the first row
+    date = row["Date"]  # gets correct date
+    clientName = row["Client"]  # set client name correctly
+    batteryName = row["Battery Name"]  # set correct battery name
+    oilVolume = row["Oil Volume"]  # gets oil volume
+    gasVolume = row["Gas Volume"]  # gets gas volume
+    waterVolume = row["Water Volume"]  # gets water volume
+    splitDate = re.split("-", date)
+    day = int(splitDate[2])
+    month = int(splitDate[1])
+    year = int(splitDate[0])
+
+    if year == todayYear and month == todayMonth and day == todayDay:
+        totalOilVolume = totalOilVolume + oilVolume
+        totalGasVolume = totalGasVolume + gasVolume
+        totalWaterVolume = totalWaterVolume + waterVolume
+
+    if year == yesYear and month == yesMonth and day == yesDay:
+        yesTotalOilVolume = yesTotalOilVolume + oilVolume
+        yesTotalGasVolume = yesTotalGasVolume + gasVolume
+        yesTotalWaterVolume = yesTotalWaterVolume + waterVolume
+
+    if year == twoDayYear and month == twoDayMonth and day == twoDayDay:
+        twoDayOilVolume = twoDayOilVolume + oilVolume
+        twoDayGasVolume = twoDayGasVolume + gasVolume
+
+    if year == lastWeekYear and month == lastWeekMonth and day == lastWeekDay:
+        lastWeekTotalOilVolume = lastWeekTotalOilVolume + oilVolume
+        lastWeekTotalGasVolume = lastWeekTotalGasVolume + gasVolume
+
+    # writes the output string
+    outputString = (
+        str(date)
+        + ","
+        + clientName
+        + ","
+        + str(batteryName)
+        + ","
+        + str(oilVolume)
+        + ","
+        + str(gasVolume)
+        + ","
+        + str(waterVolume)
+        + "\n"
+    )
+
+    fp.write(outputString)  # physically write the string
+
+fp.close()  # close the final asset table
 
 ## Oil and gas daily change numbers
 oilChangeDaily = round(yesTotalOilVolume - twoDayOilVolume, 2)
