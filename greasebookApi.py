@@ -155,20 +155,20 @@ for i in range(0, numEntries):
     day = int(splitDate2[2])
 
     ## Summing today, yesterday and last week oil gas and water
-    if year == todayYear and month == todayMonth and day == todayDay:
+    if year == str(todayYear) and month == todayMonth and day == todayDay:
         totalOilVolume = totalOilVolume + oilVolume
         totalGasVolume = totalGasVolume + gasVolume
         totalWaterVolume = totalWaterVolume + waterVolume
 
-    if year == yesYear and month == yesMonth and day == yesDay:
+    if year == str(yesYear) and month == yesMonth and day == yesDay:
         yesTotalOilVolume = yesTotalOilVolume + oilVolume
         yesTotalGasVolume = yesTotalGasVolume + gasVolume
 
-    if year == twoDayYear and month == twoDayMonth and day == twoDayDay:
+    if year == str(twoDayYear) and month == twoDayMonth and day == twoDayDay:
         twoDayOilVolume = twoDayOilVolume + oilVolume
         twoDayGasVolume = twoDayGasVolume + gasVolume
 
-    if year == lastWeekYear and month == lastWeekMonth and day == lastWeekDay:
+    if year == str(lastWeekYear) and month == lastWeekMonth and day == lastWeekDay:
         lastWeekTotalOilVolume = lastWeekTotalOilVolume + oilVolume
         lastWeekTotalGasVolume = lastWeekTotalGasVolume + gasVolume
 
@@ -316,10 +316,10 @@ for i in range(0, len(dailyChandlerAsset)):
     oilVolume = row["Oil Volume"]  # gets oil volume
     gasVolume = row["Gas Volume"]  # gets gas volume
     waterVolume = row["Water Volume"]  # gets water volume
-    splitDate = re.split("-", date)
-    day = int(splitDate[2])
-    month = int(splitDate[1])
-    year = int(splitDate[0])
+    splitDate = re.split("-", date)  # splits date correct
+    day = int(splitDate[2])  # gets the correct day
+    month = int(splitDate[1])  # gets the correct month
+    year = int(splitDate[0])  # gets the correct
 
     if year == todayYear and month == todayMonth and day == todayDay:
         totalOilVolume = totalOilVolume + oilVolume
@@ -360,10 +360,14 @@ for i in range(0, len(dailyChandlerAsset)):
 fp.close()  # close the final asset table
 
 ## Oil and gas daily change numbers
-oilChangeDaily = round(yesTotalOilVolume - twoDayOilVolume, 2)
-gasChangeDaily = round(yesTotalGasVolume - twoDayGasVolume, 2)
-oilSevenDayPercent = (totalOilVolume - lastWeekTotalOilVolume) / lastWeekTotalOilVolume
-gasSevenDayPercent = (totalGasVolume - lastWeekTotalGasVolume) / lastWeekTotalGasVolume
+oilChangeDaily = round((yesTotalOilVolume - twoDayOilVolume) * -1, 2)
+gasChangeDaily = round((yesTotalGasVolume - twoDayGasVolume) * -1, 2)
+oilSevenDayPercent = round(
+    (yesTotalOilVolume - lastWeekTotalOilVolume) / lastWeekTotalOilVolume, 1
+)
+gasSevenDayPercent = round(
+    (yesTotalGasVolume - lastWeekTotalGasVolume) / lastWeekTotalGasVolume, 1
+)
 
 # print out the volumes for data check while model is running
 print("Today Oil Volume: " + str(totalOilVolume))
@@ -380,9 +384,11 @@ print("Percent Oil Volume: " + str(oilSevenDayPercent))
 print("Percent Gas Volume: " + str(gasSevenDayPercent))
 
 ## Opens Oil Change File for daily specific percent change calculations
-fp = open(r"C:\Users\MichaelTanner\Documents\code_doc\king\data\oilgaschange.csv", "w")
+fp = open(
+    r"C:\Users\MichaelTanner\Documents\code_doc\king\data\oilgascustomnumbers.csv", "w"
+)
 
-headerString = "Daily Oil Change,Daily Gas Change, 7-day Oil Percent Change, 7-day Gas Percent Change\n"
+headerString = "Daily Oil Change,Daily Gas Change, 7-day Oil Percent Change, 7-day Gas Percent Change, Two Day Ago Oil Volume, Two Day Ago Gas Volume\n"
 fp.write(headerString)
 outputString = (
     str(oilChangeDaily)
@@ -392,6 +398,10 @@ outputString = (
     + str(oilSevenDayPercent)
     + ","
     + str(gasSevenDayPercent)
+    + ","
+    + str(twoDayOilVolume)
+    + ","
+    + str(twoDayGasVolume)
 )
 fp.write(outputString)
 fp.close()

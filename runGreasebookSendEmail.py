@@ -78,10 +78,10 @@ dashboardLink = os.getenv("DASHBOARD_URL")
 
 message = (
     "Oil production: "
-    + str(yesTotalOilVolume)
+    + str(round(yesTotalOilVolume, 1))
     + " bbl. \n\n"
     + "Gas production: "
-    + str(yesTotalGasVolume)
+    + str(round(yesTotalGasVolume, 1))
     + " mcf \n\n"
     + "Change in oil production (previous day): "
     + str(oilChangeDaily)
@@ -93,7 +93,7 @@ message = (
     + dashboardLink
 )
 
-subject = "Daily Production Report All Assets TEST - " + todayDateString
+subject = "Daily Production Report KOP Assets - " + todayDateString
 michaelTanner = os.getenv("MICHAEL_TANNER")
 jayYoung = os.getenv("JAY_YOUNG")
 rexGifford = os.getenv("REX_GIFFORD")
@@ -101,11 +101,26 @@ kellyDuncan = os.getenv("KELLY_DUNCAN")
 chandlerKnox = os.getenv("CHANDLER_KNOX")
 paulGerome = os.getenv("PAUL_GEROME")
 jayEvans = os.getenv("JAY_EVANS")
+stuTurley = os.getenv("STU_TURLEY")
+allenSantos = os.getenv("ALLEN_SANTOS")
+
 
 print(subject)
 
 send_email(
     michaelTanner,
+    subject,
+    message,
+)
+
+send_email(
+    allenSantos,
+    subject,
+    message,
+)
+
+send_email(
+    stuTurley,
     subject,
     message,
 )
