@@ -12,6 +12,7 @@ import re
 from dotenv import load_dotenv
 import pandas as pd
 
+
 import chandlerAssetRollUp  # Runs chandler asset
 
 load_dotenv()  # load ENV
@@ -41,23 +42,26 @@ dateToday = dt.datetime.today()
 todayYear = dateToday.strftime("%Y")
 todayMonth = dateToday.strftime("%m")
 todayDay = dateToday.strftime("%d")
+dateYes = dateToday - timedelta(days=1)
+yesDayString = dateYes.strftime("%d")
 
 # set ETX/STX and GCT API url
 url = (
     "https://integration.greasebook.com/api/v1/batteries/daily-production?apiKey="
     + os.getenv("GREASEBOOK_API_KEY")
-    + "&start=2021-01-01&end="
+    + "&start=2021-05-01&end="
     + todayYear
     + "-"
     + todayMonth
     + "-"
-    + todayDay
+    + yesDayString
 )
 # make the API call
 response = requests.request(
     "GET",
     url,
 )
+
 
 # print response code, should = 200
 print(response.status_code)
@@ -83,9 +87,6 @@ headerString = (
 
 fp.write(headerString)  # write the header string
 # a bunch of variables the below loop needs
-dateYesterday = dateToday - timedelta(days=1)
-dateTwoDaysAgo = dateToday - timedelta(days=2)
-dateLastWeek = dateToday - timedelta(days=7)
 totalOilVolume = 0
 totalGasVolume = 0
 totalWaterVolume = 0
@@ -102,6 +103,10 @@ todayYear = int(dateToday.strftime("%Y"))
 todayMonth = int(dateToday.strftime("%m"))
 todayDay = int(dateToday.strftime("%d"))
 
+dateYesterday = dateToday - timedelta(days=1)
+dateTwoDaysAgo = dateToday - timedelta(days=2)
+dateLastWeek = dateToday - timedelta(days=7)
+
 yesYear = int(dateYesterday.strftime("%Y"))
 yesMonth = int(dateYesterday.strftime("%m"))
 yesDay = int(dateYesterday.strftime("%d"))
@@ -114,11 +119,11 @@ lastWeekYear = int(dateLastWeek.strftime("%Y"))
 lastWeekMonth = int(dateLastWeek.strftime("%m"))
 lastWeekDay = int(dateLastWeek.strftime("%d"))
 
+
 ## BEGIN CODE FOR ETX STX and GCT
 
 # master loop for greasebook API
 for i in range(0, numEntries):
-
     row = results[i]  # get row i in results
     keys = list(row.items())  # pull out the headers
     # set each volume to empty string
@@ -360,14 +365,24 @@ for i in range(0, len(dailyChandlerAsset)):
 fp.close()  # close the final asset table
 
 ## Oil and gas daily change numbers
-oilChangeDaily = round((yesTotalOilVolume - twoDayOilVolume) * -1, 2)
-gasChangeDaily = round((yesTotalGasVolume - twoDayGasVolume) * -1, 2)
+oilChangeDaily = round((yesTotalOilVolume - twoDayOilVolume), 2)
+gasChangeDaily = round((yesTotalGasVolume - twoDayGasVolume), 2)
 oilSevenDayPercent = round(
     (yesTotalOilVolume - lastWeekTotalOilVolume) / lastWeekTotalOilVolume, 1
 )
 gasSevenDayPercent = round(
     (yesTotalGasVolume - lastWeekTotalGasVolume) / lastWeekTotalGasVolume, 1
 )
+
+if oilChangeDaily > 0:
+    increaseDecreaseOil = "Increase"
+else:
+    increaseDecreaseOil = "Decline"
+
+if gasChangeDaily > 0:
+    increaseDecreaseGas = "Increase"
+else:
+    increaseDecreaseGas = "Decline"
 
 # print out the volumes for data check while model is running
 print("Today Oil Volume: " + str(totalOilVolume))
@@ -388,8 +403,10 @@ fp = open(
     r"C:\Users\MichaelTanner\Documents\code_doc\king\data\oilgascustomnumbers.csv", "w"
 )
 
-headerString = "Daily Oil Change,Daily Gas Change, 7-day Oil Percent Change, 7-day Gas Percent Change, Two Day Ago Oil Volume, Two Day Ago Gas Volume\n"
+headerString = "Daily Oil Change,Daily Gas Change, 7-day Oil Percent Change, 7-day Gas Percent Change, Two Day Ago Oil Volume, Two Day Ago Gas Volume, Increase/Decrease Oil, Increase/Decrease Gas\n"
+
 fp.write(headerString)
+
 outputString = (
     str(oilChangeDaily)
     + ","
@@ -402,9 +419,13 @@ outputString = (
     + str(twoDayOilVolume)
     + ","
     + str(twoDayGasVolume)
+    + ","
+    + increaseDecreaseOil
+    + ","
+    + increaseDecreaseGas
 )
 fp.write(outputString)
 fp.close()
 
 
-print("Done - Yay")
+print("Done Rolling Up Production")

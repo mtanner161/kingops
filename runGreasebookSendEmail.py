@@ -75,6 +75,7 @@ def send_email(email_recipient, email_subject, email_message):
 
 
 dashboardLink = os.getenv("DASHBOARD_URL")
+wellList = os.getenv("MASTER_BATTERY_LIST")
 
 message = (
     "Oil production: "
@@ -89,8 +90,10 @@ message = (
     + "Change in gas production (previous day): "
     + str(gasChangeDaily)
     + " mcf"
-    + "\n\nView the Dashboard in Teams (KOC Field Operations) or here (if numbers are not updated, try again in 30 min or email Michael): "
+    + "\n\nView the Dashboard in Teams (KOC Field Operations) PowerBi Mobile Application or here (if numbers are not updated, try again in 30 min or reply to this email): "
     + dashboardLink
+    + "\n\nView which batteries are being reported here: "
+    + wellList
 )
 
 subject = "Daily Production Report KOP Assets - " + todayDateString
@@ -103,6 +106,7 @@ paulGerome = os.getenv("PAUL_GEROME")
 jayEvans = os.getenv("JAY_EVANS")
 stuTurley = os.getenv("STU_TURLEY")
 allenSantos = os.getenv("ALLEN_SANTOS")
+craigHaesly = os.getenv("CRAIG_HAESLY")
 
 
 print(subject)
@@ -133,6 +137,12 @@ send_email(
 
 send_email(
     jayEvans,
+    subject,
+    message,
+)
+
+send_email(
+    craigHaesly,
     subject,
     message,
 )

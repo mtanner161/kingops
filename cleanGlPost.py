@@ -33,20 +33,5 @@ loeBetter.to_csv(
     index=False,
 )
 
-glExportMaster = pd.read_csv(
-    r"C:\Users\MichaelTanner\Documents\code_doc\king\data\glexportjan.csv"
-)
 
-dateTable = []
-sourceCompanyTable = []
-effectiveDateTable = []
-amountTable = []
-
-numEntires = len(glExportMaster)
-
-for i in range(0, numEntires):
-    row = glExportMaster.iloc[i]
-    accountNumberNew = row["Account"]
-    amountTotal = float(row["Amount"])
-
-print("yay")
+print("Done")
