@@ -24,4 +24,4 @@ df.to_csv(
     index=False,
 )
 
-print("yay")
+print("Completed Midcon and Wellman Rollup")

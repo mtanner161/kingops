@@ -54,7 +54,7 @@ url = (
     + "-"
     + todayMonth
     + "-"
-    + yesDayString
+    + todayDay
 )
 # make the API call
 response = requests.request(

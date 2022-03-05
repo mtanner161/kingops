@@ -97,6 +97,8 @@ message = (
 )
 
 subject = "Daily Production Report KOP Assets - " + todayDateString
+
+
 michaelTanner = os.getenv("MICHAEL_TANNER")
 jayYoung = os.getenv("JAY_YOUNG")
 rexGifford = os.getenv("REX_GIFFORD")
@@ -107,9 +109,11 @@ jayEvans = os.getenv("JAY_EVANS")
 stuTurley = os.getenv("STU_TURLEY")
 allenSantos = os.getenv("ALLEN_SANTOS")
 craigHaesly = os.getenv("CRAIG_HAESLY")
+peterSnell = os.getenv("PETER_SNELL")
 
 
 print(subject)
+
 
 send_email(
     michaelTanner,
@@ -161,6 +165,12 @@ send_email(
 
 send_email(
     kellyDuncan,
+    subject,
+    message,
+)
+
+send_email(
+    peterSnell,
     subject,
     message,
 )
