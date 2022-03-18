@@ -26,7 +26,7 @@ combocurve_auth = ComboCurveAuth(service_account, api_key)
 print("Authentication Worked")
 
 projectId = "612fc3d36880c20013a885df"
-scenarioId = "61d4cad4139de90013740ab2"
+scenarioId = "62223bfe08cb6400134b32da"
 
 
 # This code chunk gets the Monthly Cash Flow for given Scenerio
@@ -193,14 +193,13 @@ for i in range(0, numEntries):
 
 # Begins printing the clean CSV
 fp = open(
-    r"C:\Users\MichaelTanner\Documents\code_doc\king\data\monthlyCashFlowRollupHobartKey.csv",
+    r"C:\Users\MichaelTanner\Documents\code_doc\king\data\monthlyCashFlowRollupFinal2022Forecast.csv",
     "w",
 )
 
 # writes the header
 headerString = (
-    "Name,"
-    + "Date,"
+    "Date,"
     + "Total Gross Oil Volume (bbl),"
     + "Total Net Reveune ($),"
     + "Total Gross Gas Volume (MCF),"
@@ -218,8 +217,7 @@ fp.write(headerString)
 # writes specific variables to correct CSV cell
 for i in range(0, len(dateTable)):
     var = (
-        "Hobart Key #1H,"
-        + str(dateTable[i])
+        str(dateTable[i])
         + ","
         + str(grossOilWellHeadVolumeTable[i])
         + ","

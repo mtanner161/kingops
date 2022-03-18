@@ -110,6 +110,7 @@ stuTurley = os.getenv("STU_TURLEY")
 allenSantos = os.getenv("ALLEN_SANTOS")
 craigHaesly = os.getenv("CRAIG_HAESLY")
 peterSnell = os.getenv("PETER_SNELL")
+paulGraham = os.getenv("PAUL_GRAHAM")
 
 
 print(subject)
@@ -171,6 +172,12 @@ send_email(
 
 send_email(
     peterSnell,
+    subject,
+    message,
+)
+
+send_email(
+    paulGraham,
     subject,
     message,
 )
