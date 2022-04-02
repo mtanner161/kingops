@@ -90,6 +90,7 @@ message = (
     + "Change in gas production (previous day): "
     + str(gasChangeDaily)
     + " mcf"
+    + "\n\n *Irvin Sisters Well Begins Flowback! - 238 bbl/day*"
     + "\n\nView the Dashboard in Teams (KOC Field Operations) PowerBi Mobile Application or here (if numbers are not updated, try again in 30 min or reply to this email): "
     + dashboardLink
     + "\n\nView which batteries are being reported here: "
@@ -139,6 +140,13 @@ send_email(
     subject,
     message,
 )
+
+send_email(
+    jayYoung,
+    subject,
+    message,
+)
+
 
 send_email(
     jayEvans,
