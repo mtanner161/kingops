@@ -1,6 +1,7 @@
 ## Import packages needed
 from ast import keyword
 from http import client
+from posixpath import split
 from time import strftime
 from black import out
 import requests
@@ -12,6 +13,7 @@ import re
 from dotenv import load_dotenv
 import pandas as pd
 
+debugMode = True  ## Set to False to Add Colorado, set to True to Debug and not add
 
 import chandlerAssetRollUp  # Runs chandler asset
 
@@ -71,7 +73,7 @@ results = response.json()
 numEntries = len(results)
 
 ## Opening Master CSV for total asset production
-fp = open(
+totalAssetProductionFp = open(
     r"C:\Users\MichaelTanner\Documents\code_doc\king\data\totalAssetsProduction.csv",
     "w",
 )
@@ -85,7 +87,7 @@ headerString = (
     + "Water Volume\n"
 )
 
-fp.write(headerString)  # write the header string
+totalAssetProductionFp.write(headerString)  # write the header string
 # a bunch of variables the below loop needs
 totalOilVolume = 0
 totalGasVolume = 0
@@ -181,8 +183,10 @@ for i in range(0, numEntries):
     splitString = re.split("-|–", batteryName)
     clientName = splitString[0]  # sets client name to client name from ETX/STX and GCT
     # if field name exisits - add the batteryName
-    if len(splitString) == 3:
-        batteryNameBetter = splitString[1] + "-" + splitString[2]
+    if len(splitString) >= 3:
+        batteryNameBetter = splitString[1]
+        for i in range(2, len(splitString)):
+            batteryNameBetter = batteryNameBetter + "-" + splitString[i]
     else:
         batteryNameBetter = splitString[1]
 
@@ -209,8 +213,9 @@ for i in range(0, numEntries):
     outputString = outputString.replace("Peak", "KOEAS")
     outputString = outputString.replace("CWS", "KOSOU")
     outputString = outputString.replace("Otex", "KOGCT")
+    outputString = outputString.replace("Midcon", "KOAND")
 
-    fp.write(outputString)
+    totalAssetProductionFp.write(outputString)
 
 ###### COLORADO CODE BEGINS
 ## I reuse variables for oilVolume etc for ease
@@ -248,9 +253,10 @@ southList.append(southBatteryOil)
 southList.append(southBatteryGas)
 southList.append(southBatteryWater)
 
-# adding the new data to the clean Colorado table for next day run
-dailyColoradoClean.loc[len(dailyColoradoClean.index)] = northList
-dailyColoradoClean.loc[len(dailyColoradoClean.index)] = southList
+if debugMode == False:
+    # adding the new data to the clean Colorado table for next day run
+    dailyColoradoClean.loc[len(dailyColoradoClean.index)] = northList
+    dailyColoradoClean.loc[len(dailyColoradoClean.index)] = southList
 
 
 ## Master Loop for Colorado Assets
@@ -301,7 +307,7 @@ for i in range(0, len(dailyColoradoClean)):
         + "\n"
     )
 
-    fp.write(outputString)
+    totalAssetProductionFp.write(outputString)
 
 
 # writes to clean CSV
@@ -321,7 +327,7 @@ for i in range(0, len(dailyChandlerAsset)):
     oilVolume = row["Oil Volume"]  # gets oil volume
     gasVolume = row["Gas Volume"]  # gets gas volume
     waterVolume = row["Water Volume"]  # gets water volume
-    splitDate = re.split("-", date)  # splits date correct
+    splitDate = re.split("-", str(date))  # splits date correct
     day = int(splitDate[2])  # gets the correct day
     month = int(splitDate[1])  # gets the correct month
     year = int(splitDate[0])  # gets the correct
@@ -360,9 +366,9 @@ for i in range(0, len(dailyChandlerAsset)):
         + "\n"
     )
 
-    fp.write(outputString)  # physically write the string
+    totalAssetProductionFp.write(outputString)  # physically write the string
 
-fp.close()  # close the final asset table
+totalAssetProductionFp.close()  # close the final asset table
 
 ## Oil and gas daily change numbers
 oilChangeDaily = round((yesTotalOilVolume - twoDayOilVolume), 2)
@@ -399,13 +405,13 @@ print("Percent Oil Volume: " + str(oilSevenDayPercent))
 print("Percent Gas Volume: " + str(gasSevenDayPercent))
 
 ## Opens Oil Change File for daily specific percent change calculations
-fp = open(
+totalAssetProductionFp = open(
     r"C:\Users\MichaelTanner\Documents\code_doc\king\data\oilgascustomnumbers.csv", "w"
 )
 
 headerString = "Daily Oil Change,Daily Gas Change, 7-day Oil Percent Change, 7-day Gas Percent Change, Two Day Ago Oil Volume, Two Day Ago Gas Volume, Increase/Decrease Oil, Increase/Decrease Gas\n"
 
-fp.write(headerString)
+totalAssetProductionFp.write(headerString)
 
 outputString = (
     str(oilChangeDaily)
@@ -424,8 +430,8 @@ outputString = (
     + ","
     + increaseDecreaseGas
 )
-fp.write(outputString)
-fp.close()
+totalAssetProductionFp.write(outputString)
+totalAssetProductionFp.close()
 
 
 print("Done Rolling Up Production")
