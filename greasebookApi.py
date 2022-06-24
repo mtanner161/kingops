@@ -35,6 +35,11 @@ dailyChandlerAsset = pd.read_csv(
     r"C:\Users\MichaelTanner\Documents\code_doc\king\data\chandlerAssetsDaily.csv"
 )
 
+##adding the Master Battery List for Analysis
+masterBatteryList = pd.read_csv(
+    r"C:\Users\MichaelTanner\Documents\code_doc\king\data\masterBatteryList.csv"
+)
+
 # check date on Colorado
 dailyColoradoDate = dailyColorado.iloc[0, 7]
 print(dailyColoradoDate)
@@ -89,6 +94,8 @@ headerString = (
 
 totalAssetProductionFp.write(headerString)  # write the header string
 # a bunch of variables the below loop needs
+noOilList = []
+noGasList = []
 totalOilVolume = 0
 totalGasVolume = 0
 totalWaterVolume = 0
@@ -161,6 +168,13 @@ for i in range(0, numEntries):
     month = int(splitDate2[1])
     day = int(splitDate2[2])
 
+    #### in progress
+    if year == str(yesYear) and month == yesMonth and day == yesDay and oilVolume == 0:
+        noOilList.append(batteryName)
+
+    if year == str(yesYear) and month == yesMonth and day == yesDay and gasVolume == 0:
+        noGasList.append(batteryName)
+
     ## Summing today, yesterday and last week oil gas and water
     if year == str(todayYear) and month == todayMonth and day == todayDay:
         totalOilVolume = totalOilVolume + oilVolume
@@ -214,6 +228,7 @@ for i in range(0, numEntries):
     outputString = outputString.replace("CWS", "KOSOU")
     outputString = outputString.replace("Otex", "KOGCT")
     outputString = outputString.replace("Midcon", "KOAND")
+    outputString = outputString.replace("Wellman", "KOPRM")
 
     totalAssetProductionFp.write(outputString)
 
