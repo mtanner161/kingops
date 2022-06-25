@@ -80,7 +80,7 @@ wellList = os.getenv("MASTER_BATTERY_LIST")
 message = (
     "Oil production: "
     + str(round(yesTotalOilVolume, 1))
-    + " bbl. \n\n"
+    + " bbl \n\n"
     + "Gas production: "
     + str(round(yesTotalGasVolume, 1))
     + " mcf \n\n"
@@ -90,14 +90,12 @@ message = (
     + "Change in gas production (previous day): "
     + str(gasChangeDaily)
     + " mcf"
-    + "\n\n *Irvin Sisters Well Begins Flowback! - 238 bbl/day*"
+    + "\n\n Irivin Sisters with 115 bbl yesterday"
     + "\n\nView the Dashboard in Teams (KOC Field Operations) PowerBi Mobile Application or here (if numbers are not updated, try again in 30 min or reply to this email): "
     + dashboardLink
-    + "\n\nView which batteries are being reported here: "
-    + wellList
 )
 
-subject = "Daily Production Report KOP Assets - " + todayDateString
+subject = "Daily Production Report KOP Assets - " + yesDateString
 
 
 michaelTanner = os.getenv("MICHAEL_TANNER")
@@ -123,11 +121,6 @@ send_email(
     message,
 )
 
-send_email(
-    allenSantos,
-    subject,
-    message,
-)
 
 send_email(
     stuTurley,
@@ -141,24 +134,6 @@ send_email(
     message,
 )
 
-send_email(
-    jayYoung,
-    subject,
-    message,
-)
-
-
-send_email(
-    jayEvans,
-    subject,
-    message,
-)
-
-send_email(
-    craigHaesly,
-    subject,
-    message,
-)
 
 send_email(
     rexGifford,
@@ -174,18 +149,6 @@ send_email(
 
 send_email(
     kellyDuncan,
-    subject,
-    message,
-)
-
-send_email(
-    peterSnell,
-    subject,
-    message,
-)
-
-send_email(
-    paulGraham,
     subject,
     message,
 )
