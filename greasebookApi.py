@@ -96,6 +96,9 @@ totalAssetProductionFp.write(headerString)  # write the header string
 # a bunch of variables the below loop needs
 noOilList = []
 noGasList = []
+chunnOil = 0
+chunnGas = 0
+chunnDataCount = 0
 totalOilVolume = 0
 totalGasVolume = 0
 totalWaterVolume = 0
@@ -129,7 +132,7 @@ lastWeekMonth = int(dateLastWeek.strftime("%m"))
 lastWeekDay = int(dateLastWeek.strftime("%d"))
 
 
-## BEGIN CODE FOR ETX STX and GCT
+## BEGIN CODE FOR ETX STX and GCT  23071
 
 # master loop for greasebook API
 for i in range(0, numEntries):
@@ -154,6 +157,7 @@ for i in range(0, numEntries):
             gasVolume = row["mcf"]
         elif key[0] == "water":
             waterVolume = row["water"]
+
     # if empty, replace with 0 for printing
     if oilVolume == "":
         oilVolume = 0
@@ -161,6 +165,7 @@ for i in range(0, numEntries):
         gasVolume = 0
     if waterVolume == "":
         waterVolume = 0
+
     # spliting date correctly
     splitDate = re.split("T", date)
     splitDate2 = re.split("-", splitDate[0])
@@ -169,11 +174,17 @@ for i in range(0, numEntries):
     day = int(splitDate2[2])
 
     #### in progress
+
     if year == str(yesYear) and month == yesMonth and day == yesDay and oilVolume == 0:
         noOilList.append(batteryName)
 
     if year == str(yesYear) and month == yesMonth and day == yesDay and gasVolume == 0:
         noGasList.append(batteryName)
+
+    if batteryId == 23071:
+        chunnOil = chunnOil + oilVolume
+        chunnGas = chunnGas + gasVolume
+        chunnDataCount = chunnDataCount + 1
 
     ## Summing today, yesterday and last week oil gas and water
     if year == str(todayYear) and month == todayMonth and day == todayDay:
@@ -184,6 +195,15 @@ for i in range(0, numEntries):
     if year == str(yesYear) and month == yesMonth and day == yesDay:
         yesTotalOilVolume = yesTotalOilVolume + oilVolume
         yesTotalGasVolume = yesTotalGasVolume + gasVolume
+        if batteryId == 23071:
+            if key[0] == "oil":
+                chunnOilVolume = row["oil"]
+            else:
+                chunnOilVolume = ""
+            if key[0] == "mcf":
+                chunnGasVolume = row["mcf"]
+            else:
+                chunnGasVolume = ""
 
     if year == str(twoDayYear) and month == twoDayMonth and day == twoDayDay:
         twoDayOilVolume = twoDayOilVolume + oilVolume
@@ -231,6 +251,18 @@ for i in range(0, numEntries):
     outputString = outputString.replace("Wellman", "KOPRM")
 
     totalAssetProductionFp.write(outputString)
+
+
+chunnAverageOil = chunnOil / chunnDataCount
+chunnAverageGas = chunnGas / chunnDataCount
+
+if chunnGasVolume == "":
+    print("Chunn 1T " + "Not Reported " + "Well Averages: " + str(chunnAverageGas))
+elif chunnGasVolume == 0:
+    print("Chunn 1T" + "Reported Zero" + "Well Averages: " + str(chunnAverageGas))
+elif chunnGasVolume <= (chunnAverageGas * 0.8):
+    print("Missing: " + str(chunnAverageGas - chunnGasVolume))
+
 
 ###### COLORADO CODE BEGINS
 ## I reuse variables for oilVolume etc for ease
