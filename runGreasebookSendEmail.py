@@ -38,18 +38,31 @@ def send_email(email_recipient, email_subject, email_message):
     msg["Subject"] = email_subject
     msg.attach(MIMEText(email_message, "plain"))
 
-    filename = (
+    totalProdFile = (
         r"C:\Users\MichaelTanner\Documents\code_doc\king\data\totalAssetsProduction.csv"
     )
 
-    with open(filename, "rb") as attachment:
+    wellReportFile = (
+        r"C:\Users\MichaelTanner\Documents\code_doc\king\data\yesterdayWellReport.csv"
+    )
+
+    ### OPENS EACH ATTACHMENTS
+
+    with open(totalProdFile, "rb") as attachment:
         # Add file as application/octet-stream
         # Email client can usually download this automatically as attachment
         part = MIMEBase("application", "octet-stream")
         part.set_payload(attachment.read())
 
+    with open(wellReportFile, "rb") as attachment:
+        # Add file as application/octet-stream
+        # Email client can usually download this automatically as attachment
+        partTwo = MIMEBase("application", "octet-stream")
+        partTwo.set_payload(attachment.read())
+
     # Encode file in ASCII characters to send by email
     encoders.encode_base64(part)
+    encoders.encode_base64(partTwo)
 
     # Add header as key/value pair to attachment part
     part.add_header(
@@ -57,7 +70,15 @@ def send_email(email_recipient, email_subject, email_message):
         f"attachment; filename= totalAssetProduction.csv",
     )
 
+    partTwo.add_header(
+        "Content-Disposition",
+        f"attachment; filename= wellAssetOverview.csv",
+    )
+
+    ## ATTACHES EACH FILE TO EMAIL
     msg.attach(part)
+    msg.attach(partTwo)
+
     text = msg.as_string()
 
     try:
@@ -74,9 +95,11 @@ def send_email(email_recipient, email_subject, email_message):
     return True
 
 
+## import links
 dashboardLink = os.getenv("DASHBOARD_URL")
 wellList = os.getenv("MASTER_BATTERY_LIST")
 
+# Body of the email mesasge
 message = (
     "Oil production: "
     + str(round(yesTotalOilVolume, 1))
@@ -90,14 +113,17 @@ message = (
     + "Change in gas production (previous day): "
     + str(gasChangeDaily)
     + " mcf"
-    + "\n\n Irivin Sisters with 115 bbl yesterday"
+    + "\n\n Brown Central Battery logging 450 MCF - great news"
+    + "\n\n Working on v2.0 which includes a estimated daily oil production based on wells report vs. not report.  The other attachment is the first step to build out the core logic behind whether we want to flag a well as 0, not reported or reported."
     + "\n\nView the Dashboard in Teams (KOC Field Operations) PowerBi Mobile Application or here (if numbers are not updated, try again in 30 min or reply to this email): "
     + dashboardLink
 )
 
+## email subject
 subject = "Daily Production Report KOP Assets - " + yesDateString
+print(subject)
 
-
+## Potenital users to send to
 michaelTanner = os.getenv("MICHAEL_TANNER")
 jayYoung = os.getenv("JAY_YOUNG")
 rexGifford = os.getenv("REX_GIFFORD")
@@ -111,10 +137,7 @@ craigHaesly = os.getenv("CRAIG_HAESLY")
 peterSnell = os.getenv("PETER_SNELL")
 paulGraham = os.getenv("PAUL_GRAHAM")
 
-
-print(subject)
-
-
+### LIST TO SEND TO
 send_email(
     michaelTanner,
     subject,

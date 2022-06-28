@@ -69,7 +69,6 @@ response = requests.request(
     url,
 )
 
-
 # print response code, should = 200
 print(response.status_code)
 # parse as json string
@@ -94,11 +93,15 @@ headerString = (
 
 totalAssetProductionFp.write(headerString)  # write the header string
 # a bunch of variables the below loop needs
-noOilList = []
-noGasList = []
-chunnOil = 0
-chunnGas = 0
-chunnDataCount = 0
+wellIdList = []
+wellNameList = []
+runningTotalOil = []
+runningTotalGas = []
+numberOfDaysBattery = []
+wellOilVolumeYes = []
+wellGasVolumeYes = []
+avgOilList = []
+avgGasList = []
 totalOilVolume = 0
 totalGasVolume = 0
 totalWaterVolume = 0
@@ -138,12 +141,16 @@ lastWeekDay = int(dateLastWeek.strftime("%d"))
 for i in range(0, numEntries):
     row = results[i]  # get row i in results
     keys = list(row.items())  # pull out the headers
-    # set each volume to empty string
-    oilVolume = ""
-    gasVolume = ""
-    waterVolume = ""
 
-    # Loops through each exposed API variable. If it exisits - get to correct variable
+    ## set some intial variables for core logic
+    oilDataExist = False
+    gasDataExist = False
+    waterDataExist = False
+    oilVolumeClean = 0
+    gasVolumeClean = 0
+    waterVolumeClean = 0
+
+    # Loops through each exposed API variable. 5If it exisits - get to correct variable
     for idx, key in enumerate(keys):
         if key[0] == "batteryId":
             batteryId = row["batteryId"]
@@ -151,20 +158,28 @@ for i in range(0, numEntries):
             batteryName = row["batteryName"]
         elif key[0] == "date":
             date = row["date"]
+        # if reported, set to True, otherwise leave false
         elif key[0] == "oil":
-            oilVolume = row["oil"]
-        elif key[0] == "mcf":
-            gasVolume = row["mcf"]
-        elif key[0] == "water":
-            waterVolume = row["water"]
-
-    # if empty, replace with 0 for printing
-    if oilVolume == "":
-        oilVolume = 0
-    if gasVolume == "":
-        gasVolume = 0
-    if waterVolume == "":
-        waterVolume = 0
+            oilDataExist = True
+            oilVolumeRaw = row["oil"]
+            if oilVolumeRaw == "":  # if "" means it not reported
+                oilVolumeClean = 0
+            else:
+                oilVolumeClean = oilVolumeRaw
+        elif key[0] == "mcf":  # same as oil
+            gasDataExist = True
+            gasVolumeRaw = row["mcf"]
+            if gasVolumeRaw == "":
+                gasVolumeClean = 0
+            else:
+                gasVolumeClean = gasVolumeRaw
+        elif key[0] == "water":  # same as oil
+            waterDataExist = True
+            waterVolumeRaw = row["water"]
+            if waterVolumeRaw == "":
+                waterVolumeClean = 0
+            else:
+                waterVolumeClean = waterVolumeRaw
 
     # spliting date correctly
     splitDate = re.split("T", date)
@@ -173,45 +188,52 @@ for i in range(0, numEntries):
     month = int(splitDate2[1])
     day = int(splitDate2[2])
 
-    #### in progress
+    #### CORE LOGIC
 
-    if year == str(yesYear) and month == yesMonth and day == yesDay and oilVolume == 0:
-        noOilList.append(batteryName)
-
-    if year == str(yesYear) and month == yesMonth and day == yesDay and gasVolume == 0:
-        noGasList.append(batteryName)
-
-    if batteryId == 23071:
-        chunnOil = chunnOil + oilVolume
-        chunnGas = chunnGas + gasVolume
-        chunnDataCount = chunnDataCount + 1
+    if batteryId in wellIdList:  # builds a list of all battery ID's with data
+        index = wellIdList.index(batteryId)
+        # running total of oil/gas and number of reporeted days for each reponse
+        runningTotalOil[index] = runningTotalOil[index] + oilVolumeClean
+        runningTotalGas[index] = runningTotalGas[index] + gasVolumeClean
+        numberOfDaysBattery[index] = numberOfDaysBattery[index] + 1
+    else:
+        wellIdList.append(batteryId)
+        index = wellIdList.index(batteryId)
+        runningTotalOil.insert(index, oilVolumeClean)
+        runningTotalGas.insert(index, gasVolumeClean)
+        numberOfDaysBattery.insert(index, 1)
+        wellNameList.insert(index, batteryName)
 
     ## Summing today, yesterday and last week oil gas and water
     if year == str(todayYear) and month == todayMonth and day == todayDay:
-        totalOilVolume = totalOilVolume + oilVolume
-        totalGasVolume = totalGasVolume + gasVolume
-        totalWaterVolume = totalWaterVolume + waterVolume
+        totalOilVolume = totalOilVolume + oilVolumeClean
+        totalGasVolume = totalGasVolume + gasVolumeClean
+        totalWaterVolume = totalWaterVolume + waterVolumeClean
 
+    ### Master IF statement
     if year == str(yesYear) and month == yesMonth and day == yesDay:
-        yesTotalOilVolume = yesTotalOilVolume + oilVolume
-        yesTotalGasVolume = yesTotalGasVolume + gasVolume
-        if batteryId == 23071:
-            if key[0] == "oil":
-                chunnOilVolume = row["oil"]
+        yesTotalOilVolume = yesTotalOilVolume + oilVolumeClean
+        yesTotalGasVolume = yesTotalGasVolume + gasVolumeClean
+
+        ## for yesterday - checks if batteryId is in wellIdList
+        if batteryId in wellIdList:  # if yes, does data exisit and logs correct boolean
+            index = wellIdList.index(batteryId)
+            if oilDataExist == True:
+                wellOilVolumeYes.insert(index, oilVolumeRaw)
             else:
-                chunnOilVolume = ""
-            if key[0] == "mcf":
-                chunnGasVolume = row["mcf"]
+                wellOilVolumeYes.insert(index, "No Data Reported")
+            if gasDataExist == True:
+                wellGasVolumeYes.insert(index, gasVolumeRaw)
             else:
-                chunnGasVolume = ""
+                wellGasVolumeYes.insert(index, "No Data Reported")
 
     if year == str(twoDayYear) and month == twoDayMonth and day == twoDayDay:
-        twoDayOilVolume = twoDayOilVolume + oilVolume
-        twoDayGasVolume = twoDayGasVolume + gasVolume
+        twoDayOilVolume = twoDayOilVolume + oilVolumeClean
+        twoDayGasVolume = twoDayGasVolume + gasVolumeClean
 
     if year == str(lastWeekYear) and month == lastWeekMonth and day == lastWeekDay:
-        lastWeekTotalOilVolume = lastWeekTotalOilVolume + oilVolume
-        lastWeekTotalGasVolume = lastWeekTotalGasVolume + gasVolume
+        lastWeekTotalOilVolume = lastWeekTotalOilVolume + oilVolumeClean
+        lastWeekTotalGasVolume = lastWeekTotalGasVolume + gasVolumeClean
 
     ## Splits battery name up
     splitString = re.split("-|–", batteryName)
@@ -236,11 +258,11 @@ for i in range(0, numEntries):
         + ","
         + batteryNameBetter
         + ","
-        + str(oilVolume)
+        + str(oilVolumeClean)
         + ","
-        + str(gasVolume)
+        + str(gasVolumeClean)
         + ","
-        + str(waterVolume)
+        + str(waterVolumeClean)
         + "\n"
     )
     # replace with client offical names
@@ -252,17 +274,52 @@ for i in range(0, numEntries):
 
     totalAssetProductionFp.write(outputString)
 
+## Prints out CSV for well reported status
+for i in range(0, len(wellIdList)):
+    avgOilList.insert(i, runningTotalOil[i] / numberOfDaysBattery[i])
+    avgGasList.insert(i, runningTotalGas[i] / numberOfDaysBattery[i])
 
-chunnAverageOil = chunnOil / chunnDataCount
-chunnAverageGas = chunnGas / chunnDataCount
+fpReported = open(
+    r"C:\Users\MichaelTanner\Documents\code_doc\king\data\yesterdayWellReport.csv", "w"
+)
+headerString = "Battery ID, Battery Name, Oil Production, Oil Average, Gas Production, Gas Average\n"
+fpReported.write(headerString)
 
-if chunnGasVolume == "":
-    print("Chunn 1T " + "Not Reported " + "Well Averages: " + str(chunnAverageGas))
-elif chunnGasVolume == 0:
-    print("Chunn 1T" + "Reported Zero" + "Well Averages: " + str(chunnAverageGas))
-elif chunnGasVolume <= (chunnAverageGas * 0.8):
-    print("Missing: " + str(chunnAverageGas - chunnGasVolume))
+for i in range(0, len(wellIdList)):
+    if i < len(wellOilVolumeYes) and i < len(wellGasVolumeYes):
+        outputString = (
+            str(wellIdList[i])
+            + ","
+            + wellNameList[i]
+            + ","
+            + str(wellOilVolumeYes[i])
+            + ","
+            + str(avgOilList[i])
+            + ","
+            + str(wellGasVolumeYes[i])
+            + ","
+            + str(avgGasList[i])
+            + "\n"
+        )
+    else:
+        outputString = (
+            str(wellIdList[i])
+            + ","
+            + wellNameList[i]
+            + ","
+            + "-"
+            + ","
+            + str(avgOilList[i])
+            + ","
+            + "-"
+            + ","
+            + str(avgGasList[i])
+            + "\n"
+        )
 
+    fpReported.write(outputString)
+
+fpReported.close()
 
 ###### COLORADO CODE BEGINS
 ## I reuse variables for oilVolume etc for ease
@@ -312,31 +369,31 @@ for i in range(0, len(dailyColoradoClean)):
     row = dailyColoradoClean.iloc[i]
     date = row["Date"]
     batteryName = row["Battery Name"]
-    oilVolume = row["Oil Volume"]
-    gasVolume = row["Gas Volume"]
-    waterVolume = row["Water Volume"]
+    oilVolumeClean = row["Oil Volume"]
+    gasVolumeClean = row["Gas Volume"]
+    waterVolumeClean = row["Water Volume"]
     splitDate = re.split("/", date)
     day = int(splitDate[1])
     month = int(splitDate[0])
     year = int(splitDate[2])
     # test for date and sums
     if year == todayYear and month == todayMonth and day == todayDay:
-        totalOilVolume = totalOilVolume + oilVolume
-        totalGasVolume = totalGasVolume + gasVolume
-        totalWaterVolume = totalWaterVolume + waterVolume
+        totalOilVolume = totalOilVolume + oilVolumeClean
+        totalGasVolume = totalGasVolume + gasVolumeClean
+        totalWaterVolume = totalWaterVolume + waterVolumeClean
 
     if year == yesYear and month == yesMonth and day == yesDay:
-        yesTotalOilVolume = yesTotalOilVolume + oilVolume
-        yesTotalGasVolume = yesTotalGasVolume + gasVolume
-        yesTotalWaterVolume = yesTotalWaterVolume + waterVolume
+        yesTotalOilVolume = yesTotalOilVolume + oilVolumeClean
+        yesTotalGasVolume = yesTotalGasVolume + gasVolumeClean
+        yesTotalWaterVolume = yesTotalWaterVolume + waterVolumeClean
 
     if year == twoDayYear and month == twoDayMonth and day == twoDayDay:
-        twoDayOilVolume = twoDayOilVolume + oilVolume
-        twoDayGasVolume = twoDayGasVolume + gasVolume
+        twoDayOilVolume = twoDayOilVolume + oilVolumeClean
+        twoDayGasVolume = twoDayGasVolume + gasVolumeClean
 
     if year == lastWeekYear and month == lastWeekMonth and day == lastWeekDay:
-        lastWeekTotalOilVolume = lastWeekTotalOilVolume + oilVolume
-        lastWeekTotalGasVolume = lastWeekTotalGasVolume + gasVolume
+        lastWeekTotalOilVolume = lastWeekTotalOilVolume + oilVolumeClean
+        lastWeekTotalGasVolume = lastWeekTotalGasVolume + gasVolumeClean
 
     # write the output string
     outputString = (
@@ -346,11 +403,11 @@ for i in range(0, len(dailyColoradoClean)):
         + ","
         + batteryName
         + ","
-        + str(oilVolume)
+        + str(oilVolumeClean)
         + ","
-        + str(gasVolume)
+        + str(gasVolumeClean)
         + ","
-        + str(waterVolume)
+        + str(waterVolumeClean)
         + "\n"
     )
 
@@ -371,31 +428,31 @@ for i in range(0, len(dailyChandlerAsset)):
     date = row["Date"]  # gets correct date
     clientName = row["Client"]  # set client name correctly
     batteryName = row["Battery Name"]  # set correct battery name
-    oilVolume = row["Oil Volume"]  # gets oil volume
-    gasVolume = row["Gas Volume"]  # gets gas volume
-    waterVolume = row["Water Volume"]  # gets water volume
+    oilVolumeClean = row["Oil Volume"]  # gets oil volume
+    gasVolumeClean = row["Gas Volume"]  # gets gas volume
+    waterVolumeClean = row["Water Volume"]  # gets water volume
     splitDate = re.split("-", str(date))  # splits date correct
     day = int(splitDate[2])  # gets the correct day
     month = int(splitDate[1])  # gets the correct month
     year = int(splitDate[0])  # gets the correct
 
     if year == todayYear and month == todayMonth and day == todayDay:
-        totalOilVolume = totalOilVolume + oilVolume
-        totalGasVolume = totalGasVolume + gasVolume
-        totalWaterVolume = totalWaterVolume + waterVolume
+        totalOilVolume = totalOilVolume + oilVolumeClean
+        totalGasVolume = totalGasVolume + gasVolumeClean
+        totalWaterVolume = totalWaterVolume + waterVolumeClean
 
     if year == yesYear and month == yesMonth and day == yesDay:
-        yesTotalOilVolume = yesTotalOilVolume + oilVolume
-        yesTotalGasVolume = yesTotalGasVolume + gasVolume
-        yesTotalWaterVolume = yesTotalWaterVolume + waterVolume
+        yesTotalOilVolume = yesTotalOilVolume + oilVolumeClean
+        yesTotalGasVolume = yesTotalGasVolume + gasVolumeClean
+        yesTotalWaterVolume = yesTotalWaterVolume + waterVolumeClean
 
     if year == twoDayYear and month == twoDayMonth and day == twoDayDay:
-        twoDayOilVolume = twoDayOilVolume + oilVolume
-        twoDayGasVolume = twoDayGasVolume + gasVolume
+        twoDayOilVolume = twoDayOilVolume + oilVolumeClean
+        twoDayGasVolume = twoDayGasVolume + gasVolumeClean
 
     if year == lastWeekYear and month == lastWeekMonth and day == lastWeekDay:
-        lastWeekTotalOilVolume = lastWeekTotalOilVolume + oilVolume
-        lastWeekTotalGasVolume = lastWeekTotalGasVolume + gasVolume
+        lastWeekTotalOilVolume = lastWeekTotalOilVolume + oilVolumeClean
+        lastWeekTotalGasVolume = lastWeekTotalGasVolume + gasVolumeClean
 
     # writes the output string
     outputString = (
@@ -405,11 +462,11 @@ for i in range(0, len(dailyChandlerAsset)):
         + ","
         + str(batteryName)
         + ","
-        + str(oilVolume)
+        + str(oilVolumeClean)
         + ","
-        + str(gasVolume)
+        + str(gasVolumeClean)
         + ","
-        + str(waterVolume)
+        + str(waterVolumeClean)
         + "\n"
     )
 
