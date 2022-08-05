@@ -190,6 +190,10 @@ for i in range(0, numEntries):
 
     #### CORE LOGIC
 
+    ## Colorado set MCF to zero
+    if batteryId == 25381 or batteryId == 25382:
+        gasVolumeClean = 0
+
     if batteryId in wellIdList:  # builds a list of all battery ID's with data
         index = wellIdList.index(batteryId)
         # running total of oil/gas and number of reporeted days for each reponse
@@ -271,10 +275,13 @@ for i in range(0, numEntries):
     outputString = outputString.replace("Otex", "KOGCT")
     outputString = outputString.replace("Midcon", "KOAND")
     outputString = outputString.replace("Wellman", "KOPRM")
+    outputString = outputString.replace("Wellington", "WELOP")
 
     totalAssetProductionFp.write(outputString)
 
-## Prints out CSV for well reported status
+## Prints out CSV for well reported statu
+
+# Historical Average
 for i in range(0, len(wellIdList)):
     avgOilList.insert(i, runningTotalOil[i] / numberOfDaysBattery[i])
     avgGasList.insert(i, runningTotalGas[i] / numberOfDaysBattery[i])
