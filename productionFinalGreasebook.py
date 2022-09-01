@@ -15,7 +15,7 @@ import pandas as pd
 import numpy as np
 
 ## 30 Day Or Full? If False - only looking at last 30 days and appending.
-fullProductionPull = True
+fullProductionPull = False
 numberOfDaysToPull = 30
 
 load_dotenv()  # load ENV
@@ -40,6 +40,7 @@ else:
     dateThirtyDays = dateToday - timedelta(days=numberOfDaysToPull)
     productionInterval = "&start=" + str(dateThirtyDays) + "&end="
 
+## Master API call to Greasebooks
 url = (
     "https://integration.greasebook.com/api/v1/batteries/daily-production?apiKey="
     + str(os.getenv("GREASEBOOK_API_KEY"))
@@ -57,8 +58,13 @@ response = requests.request(
     url,
 )
 
-# print response code, should = 200
-print("The Status Code: " + str(response.status_code))
+responseCode = response.status_code  ## sets response code to the current state
+
+if responseCode == 200:
+    print("Status Code is 200")
+else:
+    print("The Status Code: " + str(response.status_code))
+
 # parse as json string
 results = response.json()
 # setting to length of results
@@ -89,6 +95,7 @@ headerString = (
 )
 
 totalAssetProductionFp.write(headerString)  # write the header string
+
 # a bunch of variables the below loop needs
 wellIdList = []
 wellNameList = []
@@ -154,15 +161,16 @@ if fullProductionPull == False:
         oilVolumeClean = row["Oil Volume"]  # gets oil volume
         gasVolumeClean = row["Gas Volume"]  # gets gas volume
         waterVolumeClean = row["Water Volume"]  # gets water volume
-        sevenDayOilAvg = row["Last 7 Day Oil Average"]
-        fourteenDayOilAvg = row["Last 14 Day Oil Average"]
-        sevenDayGasAvg = row["Last 7 Day Gas Average"]
-        fourteenDayGasAvg = row["Last 14 Day Gas Average"]
+        sevenDayOilAvg = row["Last 7 Day Oil Average"]  ## gets 7 days oil average
+        fourteenDayOilAvg = row["Last 14 Day Oil Average"]  # gets 14 days oil average
+        sevenDayGasAvg = row["Last 7 Day Gas Average"]  # gets 7 days gas average
+        fourteenDayGasAvg = row["Last 14 Day Gas Average"]  # gets 14 days gas average
         splitDate = re.split("-", str(date))  # splits date correct
         day = int(splitDate[2])  # gets the correct day
         month = int(splitDate[1])  # gets the correct month
         year = int(splitDate[0])  # gets the correct
 
+        # checks current date and if outside of 30 days, breaks and skips
         if (
             year == thirtyDayYear
             and month == thirtyDayMonth
