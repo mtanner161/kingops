@@ -18,6 +18,10 @@ import numpy as np
 fullProductionPull = False
 numberOfDaysToPull = 30
 
+fileName = (
+    r"C:\Users\MichaelTanner\Documents\code_doc\king\data\totalAssetsProduction.csv"
+)
+
 load_dotenv()  # load ENV
 
 ##adding the Master Battery List for Analysis
@@ -38,7 +42,18 @@ if fullProductionPull == True:
     productionInterval = "&start=2021-05-01&end="
 else:
     dateThirtyDays = dateToday - timedelta(days=numberOfDaysToPull)
-    productionInterval = "&start=" + str(dateThirtyDays) + "&end="
+    dateThirtyDaysYear = dateThirtyDays.strftime("%Y")
+    dateThirtyDaysMonth = dateThirtyDays.strftime("%m")
+    dateThirtyDaysDay = dateThirtyDays.strftime("%d")
+    productionInterval = (
+        "&start="
+        + dateThirtyDaysYear
+        + "-"
+        + dateThirtyDaysMonth
+        + "-"
+        + dateThirtyDaysDay
+        + "&end="
+    )
 
 ## Master API call to Greasebooks
 url = (
@@ -60,41 +75,37 @@ response = requests.request(
 
 responseCode = response.status_code  ## sets response code to the current state
 
-if responseCode == 200:
-    print("Status Code is 200")
-else:
-    print("The Status Code: " + str(response.status_code))
-
 # parse as json string
 results = response.json()
 # setting to length of results
 numEntries = len(results)
 
-## Opening Master CSV for total asset production
-totalAssetProduction = pd.read_csv(
-    r"C:\Users\MichaelTanner\Documents\code_doc\king\data\totalAssetsProduction.csv"
-)
+if responseCode == 200:
+    print("Status Code is 200")
+    print(str(numEntries) + " entries read")
+else:
+    print("The Status Code: " + str(response.status_code))
 
-totalAssetProductionFp = open(
-    r"C:\Users\MichaelTanner\Documents\code_doc\king\data\totalAssetsProductionTest.csv",
-    "w",
-)
 
-# write the header string for master file
-headerString = (
-    "Date,"
-    + "Client,"
-    + "Battery Name ,"
-    + "Oil Volume,"
-    + "Gas Volume,"
-    + "Water Volume,"
-    + "Last 7 Day Oil Average,"
-    + "Last 14 Day Oil Average,"
-    + "Last 7 Day Gas Average,"
-    + "Last 14 Day Gas Average\n"
-)
-
-totalAssetProductionFp.write(headerString)  # write the header string
+if fullProductionPull == False:
+    ## Opening Master CSV for total asset production
+    totalAssetProduction = pd.read_csv(fileName)
+else:
+    headerList = [
+        "Date",
+        "Client",
+        "Battery Name",
+        "Oil Volume",
+        "Gas Volume",
+        "Water Volume",
+        "Last 7 Day Oil Average",
+        "Last 14 Day Oil Average",
+        "Last 7 Day Gas Average",
+        "Last 14 Day Gas Average",
+    ]
+    totalAssetProduction = pd.DataFrame(
+        0, index=np.arange(numEntries - 1), columns=headerList
+    )
 
 # a bunch of variables the below loop needs
 wellIdList = []
@@ -144,71 +155,32 @@ lastWeekYear = int(dateLastWeek.strftime("%Y"))
 lastWeekMonth = int(dateLastWeek.strftime("%m"))
 lastWeekDay = int(dateLastWeek.strftime("%d"))
 
+
 if fullProductionPull == False:
 
-    notDone = True
-    i = 0
+    listOfDates = totalAssetProduction["Date"].to_list()
+    lastRow = totalAssetProduction.iloc[len(totalAssetProduction) - 1]
+    dateOfLastRow = lastRow["Date"]
+    startingIndex = listOfDates.index(dateOfLastRow)
+    splitDate = re.split("/", str(dateOfLastRow))  # splits date correct
+    day = int(splitDate[1])  # gets the correct day
+    month = int(splitDate[0])  # gets the correct month
+    year = int(splitDate[2])  # gets the correct
+    referenceTime = dt.date(year, month, day)
+else:
+    startingIndex = 0
+    referenceTime = dt.date(2021, 5, 1)
 
-    thirtyDayYear = int(dateThirtyDays.strftime("%Y"))
-    thirtyDayMonth = int(dateThirtyDays.strftime("%m"))
-    thirtyDayDay = int(dateThirtyDays.strftime("%d"))
-
-    while notDone == True:
-        row = totalAssetProduction.iloc[i]  # gets first row
-        date = row["Date"]  # gets correct date
-        clientName = row["Client"]  # set client name correctly
-        batteryName = row["Battery Name"]  # set correct battery name
-        oilVolumeClean = row["Oil Volume"]  # gets oil volume
-        gasVolumeClean = row["Gas Volume"]  # gets gas volume
-        waterVolumeClean = row["Water Volume"]  # gets water volume
-        sevenDayOilAvg = row["Last 7 Day Oil Average"]  ## gets 7 days oil average
-        fourteenDayOilAvg = row["Last 14 Day Oil Average"]  # gets 14 days oil average
-        sevenDayGasAvg = row["Last 7 Day Gas Average"]  # gets 7 days gas average
-        fourteenDayGasAvg = row["Last 14 Day Gas Average"]  # gets 14 days gas average
-        splitDate = re.split("-", str(date))  # splits date correct
-        day = int(splitDate[2])  # gets the correct day
-        month = int(splitDate[1])  # gets the correct month
-        year = int(splitDate[0])  # gets the correct
-
-        # checks current date and if outside of 30 days, breaks and skips
-        if (
-            year == thirtyDayYear
-            and month == thirtyDayMonth
-            and (day + 1) == thirtyDayDay
-        ):
-            notDone = False
-            break
-
-        outputString = (
-            str(date)
-            + ","
-            + clientName
-            + ","
-            + str(batteryName)
-            + ","
-            + str(oilVolumeClean)
-            + ","
-            + str(gasVolumeClean)
-            + ","
-            + str(waterVolumeClean)
-            + ","
-            + str(sevenDayOilAvg)
-            + ","
-            + str(fourteenDayOilAvg)
-            + ","
-            + str(sevenDayGasAvg)
-            + ","
-            + str(fourteenDayGasAvg)
-            + "\n"
-        )
-
-        i = i + 1  # interates the counter
 
 listOfBatteryIds = masterBatteryList["Id"].tolist()
 goodBatteryNames = masterBatteryList["Pretty Battery Name"].tolist()
 
-for i in range(0, numEntries):
-    row = results[i]  # get row i in results
+j = 0
+
+initalSizeOfTotalAssetProduction = len(totalAssetProduction)
+
+for currentRow in range(numEntries - 1, 0, -1):
+    row = results[currentRow]  # get row i in results
     keys = list(row.items())  # pull out the headers
 
     ## set some intial variables for core logic
@@ -253,7 +225,7 @@ for i in range(0, numEntries):
     # spliting date correctly
     splitDate = re.split("T", date)
     splitDate2 = re.split("-", splitDate[0])
-    year = splitDate2[0]
+    year = int(splitDate2[0])
     month = int(splitDate2[1])
     day = int(splitDate2[2])
 
@@ -304,13 +276,13 @@ for i in range(0, numEntries):
         lastFourteenDayTotalGas = gasVolumeClean
 
     ## Summing today, yesterday and last week oil gas and water
-    if year == str(todayYear) and month == todayMonth and day == todayDay:
+    if year == todayYear and month == todayMonth and day == todayDay:
         totalOilVolume = totalOilVolume + oilVolumeClean
         totalGasVolume = totalGasVolume + gasVolumeClean
         totalWaterVolume = totalWaterVolume + waterVolumeClean
 
     ### Master IF statement
-    if year == str(yesYear) and month == yesMonth and day == yesDay:
+    if year == yesYear and month == yesMonth and day == yesDay:
         yesTotalOilVolume = yesTotalOilVolume + oilVolumeClean
         yesTotalGasVolume = yesTotalGasVolume + gasVolumeClean
 
@@ -326,11 +298,11 @@ for i in range(0, numEntries):
             else:
                 wellGasVolumeYes.insert(index, "No Data Reported")
 
-    if year == str(twoDayYear) and month == twoDayMonth and day == twoDayDay:
+    if year == twoDayYear and month == twoDayMonth and day == twoDayDay:
         twoDayOilVolume = twoDayOilVolume + oilVolumeClean
         twoDayGasVolume = twoDayGasVolume + gasVolumeClean
 
-    if year == str(lastWeekYear) and month == lastWeekMonth and day == lastWeekDay:
+    if year == lastWeekYear and month == lastWeekMonth and day == lastWeekDay:
         lastWeekTotalOilVolume = lastWeekTotalOilVolume + oilVolumeClean
         lastWeekTotalGasVolume = lastWeekTotalGasVolume + gasVolumeClean
 
@@ -353,39 +325,115 @@ for i in range(0, numEntries):
     clientName = clientName.replace(" ", "")
     dateString = str(month) + "/" + str(day) + "/" + str(year)
 
-    # create outstring for first row of total assets
-    outputString = (
-        dateString
-        + ","
-        + clientName
-        + ","
-        + goodBatteryNameWrite
-        + ","
-        + str(oilVolumeClean)
-        + ","
-        + str(gasVolumeClean)
-        + ","
-        + str(waterVolumeClean)
-        + ","
-        + str(lastSevenDayTotalOil)
-        + ","
-        + str(lastFourteenDayTotalOil)
-        + ","
-        + str(lastSevenDayTotalGas)
-        + ","
-        + str(lastFourteenDayTotalGas)
-        + "\n"
-    )
-    # replace with client offical names
-    outputString = outputString.replace("Peak", "KOEAS")
-    outputString = outputString.replace("CWS", "KOSOU")
-    outputString = outputString.replace("Otex", "KOGCT")
-    outputString = outputString.replace("Midcon", "KOAND")
-    outputString = outputString.replace("Wellman", "KOPRM")
-    outputString = outputString.replace("Wellington", "WELOP")
+    currentTime = dt.date(year, month, day)
 
-    totalAssetProductionFp.write(outputString)
+    if currentTime >= referenceTime:
+        if clientName == "CWS":
+            clientName = "KOSOU"
+        elif clientName == "Peak":
+            clientName = "KOEAS"
+        elif clientName == "Otex":
+            clientName = "KOGCT"
+        elif clientName == "Midcon":
+            clientName = "KOAND"
+        elif clientName == "Wellman":
+            clientName = "KOPRM"
+        elif clientName == "Wellington":
+            clientName = "WELOP"
 
-totalAssetProductionFp.close()
+        newRow = [
+            dateString,
+            clientName,
+            goodBatteryNameWrite,
+            str(oilVolumeClean),
+            str(gasVolumeClean),
+            str(waterVolumeClean),
+            str(lastSevenDayTotalOil),
+            str(lastFourteenDayTotalOil),
+            str(lastSevenDayTotalGas),
+            str(lastFourteenDayTotalGas),
+        ]
 
-print("yay")
+        ##newRowArr = np.array(newRow)
+        ##newRowArr = newRowArr.astype("O")
+
+        ### STARTING HERE WITH IF STATEMENT
+
+        if (startingIndex + j) > (initalSizeOfTotalAssetProduction - 1):
+            totalAssetProduction.loc[startingIndex + j] = newRow
+        else:
+            totalAssetProduction.iloc[startingIndex + j] = newRow
+
+        j = j + 1
+
+## Oil and gas daily change numbers
+oilChangeDaily = round((yesTotalOilVolume - twoDayOilVolume), 2)
+gasChangeDaily = round((yesTotalGasVolume - twoDayGasVolume), 2)
+oilSevenDayPercent = round(
+    (yesTotalOilVolume - lastWeekTotalOilVolume) / lastWeekTotalOilVolume, 1
+)
+gasSevenDayPercent = round(
+    (yesTotalGasVolume - lastWeekTotalGasVolume) / lastWeekTotalGasVolume, 1
+)
+
+if oilChangeDaily > 0:
+    increaseDecreaseOil = "Increase"
+else:
+    increaseDecreaseOil = "Decline"
+
+if gasChangeDaily > 0:
+    increaseDecreaseGas = "Increase"
+else:
+    increaseDecreaseGas = "Decline"
+
+totalAssetProduction.to_csv(
+    fileName,
+    index=False,
+)
+
+## Opens Oil Change File for daily specific percent change calculations
+oilGasCustomNumbersFp = open(
+    r"C:\Users\MichaelTanner\Documents\code_doc\king\data\oilgascustomnumbers.csv", "w"
+)
+
+headerString = "Daily Oil Change,Daily Gas Change, 7-day Oil Percent Change, 7-day Gas Percent Change, Two Day Ago Oil Volume, Two Day Ago Gas Volume, Increase/Decrease Oil, Increase/Decrease Gas\n"
+
+oilGasCustomNumbersFp.write(headerString)
+
+outputString = (
+    str(oilChangeDaily)
+    + ","
+    + str(gasChangeDaily)
+    + ","
+    + str(oilSevenDayPercent)
+    + ","
+    + str(gasSevenDayPercent)
+    + ","
+    + str(twoDayOilVolume)
+    + ","
+    + str(twoDayGasVolume)
+    + ","
+    + increaseDecreaseOil
+    + ","
+    + increaseDecreaseGas
+)
+
+oilGasCustomNumbersFp.write(outputString)
+oilGasCustomNumbersFp.close()
+
+# print out the volumes for data check while model is running
+print("Today Oil Volume: " + str(totalOilVolume))
+print("Today Gas Volume: " + str(totalGasVolume))
+print("Yesterday Oil Volume: " + str(yesTotalOilVolume))
+print("Yesterday Gas Volume: " + str(yesTotalGasVolume))
+print("Two Day Ago Oil Volume: " + str(twoDayOilVolume))
+print("Two Day Ago Gas Volume: " + str(twoDayGasVolume))
+print("Last Week Oil Volume: " + str(lastWeekTotalOilVolume))
+print("Last Week Gas Volume: " + str(lastWeekTotalGasVolume))
+print("Daily Change Oil Volume: " + str(oilChangeDaily))
+print("Daily Change Gas Volume: " + str(gasChangeDaily))
+print("Percent Oil Volume: " + str(oilSevenDayPercent))
+print("Percent Gas Volume: " + str(gasSevenDayPercent))
+
+
+print("Done Rolling Up Production")
