@@ -15,7 +15,7 @@ import pandas as pd
 import numpy as np
 
 ## 30 Day Or Full? If False - only looking at last 30 days and appending.
-fullProductionPull = False
+fullProductionPull = True
 numberOfDaysToPull = 30
 
 fileName = (
@@ -166,7 +166,7 @@ if fullProductionPull == False:
     day = int(splitDate[1])  # gets the correct day
     month = int(splitDate[0])  # gets the correct month
     year = int(splitDate[2])  # gets the correct
-    referenceTime = dt.date(year, month, day)
+    referenceTime = dt.date(year, month, day) - timedelta(days=15)
 else:
     startingIndex = 0
     referenceTime = dt.date(2021, 5, 1)
@@ -329,17 +329,17 @@ for currentRow in range(numEntries - 1, 0, -1):
 
     if currentTime >= referenceTime:
         if clientName == "CWS":
-            clientName = "KOSOU"
+            clientName = "South Texas"
         elif clientName == "Peak":
-            clientName = "KOEAS"
+            clientName = "East Texas"
         elif clientName == "Otex":
-            clientName = "KOGCT"
+            clientName = "Gulf Coast"
         elif clientName == "Midcon":
-            clientName = "KOAND"
+            clientName = "Midcon"
         elif clientName == "Wellman":
-            clientName = "KOPRM"
+            clientName = "Permian Basin"
         elif clientName == "Wellington":
-            clientName = "WELOP"
+            clientName = "Colorado"
 
         newRow = [
             dateString,
