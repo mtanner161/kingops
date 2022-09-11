@@ -15,11 +15,11 @@ import pandas as pd
 import numpy as np
 
 ## 30 Day Or Full? If False - only looking at last 30 days and appending.
-fullProductionPull = True
+fullProductionPull = False
 numberOfDaysToPull = 30
 
 fileName = (
-    r"C:\Users\MichaelTanner\Documents\code_doc\king\data\totalAssetsProduction.csv"
+    r"C:\Users\MichaelTanner\Documents\code_doc\king\data\totalAssetsProductionTemp.csv"
 )
 
 load_dotenv()  # load ENV
@@ -157,16 +157,16 @@ lastWeekDay = int(dateLastWeek.strftime("%d"))
 
 
 if fullProductionPull == False:
-
     listOfDates = totalAssetProduction["Date"].to_list()
     lastRow = totalAssetProduction.iloc[len(totalAssetProduction) - 1]
     dateOfLastRow = lastRow["Date"]
-    startingIndex = listOfDates.index(dateOfLastRow)
     splitDate = re.split("/", str(dateOfLastRow))  # splits date correct
     day = int(splitDate[1])  # gets the correct day
     month = int(splitDate[0])  # gets the correct month
     year = int(splitDate[2])  # gets the correct
     referenceTime = dt.date(year, month, day) - timedelta(days=15)
+    dateOfInterest = referenceTime.strftime("%#m/%#d/%Y")
+    startingIndex = listOfDates.index(dateOfInterest)
 else:
     startingIndex = 0
     referenceTime = dt.date(2021, 5, 1)
@@ -393,7 +393,8 @@ totalAssetProduction.to_csv(
 
 ## Opens Oil Change File for daily specific percent change calculations
 oilGasCustomNumbersFp = open(
-    r"C:\Users\MichaelTanner\Documents\code_doc\king\data\oilgascustomnumbers.csv", "w"
+    r"C:\Users\MichaelTanner\Documents\code_doc\king\data\oilgascustomnumberstest.csv",
+    "w",
 )
 
 headerString = "Daily Oil Change,Daily Gas Change, 7-day Oil Percent Change, 7-day Gas Percent Change, Two Day Ago Oil Volume, Two Day Ago Gas Volume, Increase/Decrease Oil, Increase/Decrease Gas\n"
