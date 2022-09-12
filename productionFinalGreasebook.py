@@ -1,4 +1,4 @@
-## Import packages needed
+# Import packages needed
 from ast import keyword
 from http import client
 from posixpath import split
@@ -14,7 +14,9 @@ from dotenv import load_dotenv
 import pandas as pd
 import numpy as np
 
-## 30 Day Or Full? If False - only looking at last 30 days and appending.
+# this is a test!!!!!!
+
+# 30 Day Or Full? If False - only looking at last 30 days and appending.
 fullProductionPull = False
 numberOfDaysToPull = 30
 
@@ -24,7 +26,7 @@ fileName = (
 
 load_dotenv()  # load ENV
 
-##adding the Master Battery List for Analysis
+# adding the Master Battery List for Analysis
 masterBatteryList = pd.read_csv(
     r"C:\Users\MichaelTanner\Documents\code_doc\king\data\masterBatteryList.csv"
 )
@@ -37,7 +39,7 @@ todayDay = dateToday.strftime("%d")
 dateYes = dateToday - timedelta(days=1)
 yesDayString = dateYes.strftime("%d")
 
-## Set production interval based on boolen
+# Set production interval based on boolen
 if fullProductionPull == True:
     productionInterval = "&start=2021-05-01&end="
 else:
@@ -55,7 +57,7 @@ else:
         + "&end="
     )
 
-## Master API call to Greasebooks
+# Master API call to Greasebooks
 url = (
     "https://integration.greasebook.com/api/v1/batteries/daily-production?apiKey="
     + str(os.getenv("GREASEBOOK_API_KEY"))
@@ -73,7 +75,7 @@ response = requests.request(
     url,
 )
 
-responseCode = response.status_code  ## sets response code to the current state
+responseCode = response.status_code  # sets response code to the current state
 
 # parse as json string
 results = response.json()
@@ -88,7 +90,7 @@ else:
 
 
 if fullProductionPull == False:
-    ## Opening Master CSV for total asset production
+    # Opening Master CSV for total asset production
     totalAssetProduction = pd.read_csv(fileName)
 else:
     headerList = [
@@ -134,7 +136,7 @@ twoDayGasVolume = 0
 lastWeekTotalOilVolume = 0
 lastWeekTotalGasVolume = 0
 
-## Convert all dates to str for comparison rollup
+# Convert all dates to str for comparison rollup
 todayYear = int(dateToday.strftime("%Y"))
 todayMonth = int(dateToday.strftime("%m"))
 todayDay = int(dateToday.strftime("%d"))
@@ -183,7 +185,7 @@ for currentRow in range(numEntries - 1, 0, -1):
     row = results[currentRow]  # get row i in results
     keys = list(row.items())  # pull out the headers
 
-    ## set some intial variables for core logic
+    # set some intial variables for core logic
     oilDataExist = False
     gasDataExist = False
     waterDataExist = False
@@ -229,9 +231,9 @@ for currentRow in range(numEntries - 1, 0, -1):
     month = int(splitDate2[1])
     day = int(splitDate2[2])
 
-    #### CORE LOGIC
+    # CORE LOGIC
 
-    ## Colorado set MCF to zero
+    # Colorado set MCF to zero
     if batteryId == 25381 or batteryId == 25382:
         gasVolumeClean = 0
 
@@ -243,8 +245,10 @@ for currentRow in range(numEntries - 1, 0, -1):
         numberOfDaysBattery[index] = numberOfDaysBattery[index] + 1
 
         # 14 day running average code
-        fourteenDayOilData[index][batteryIdCounterFourteen[index]] = oilVolumeClean
-        fourteenDayGasData[index][batteryIdCounterFourteen[index]] = gasVolumeClean
+        fourteenDayOilData[index][batteryIdCounterFourteen[index]
+                                  ] = oilVolumeClean
+        fourteenDayGasData[index][batteryIdCounterFourteen[index]
+                                  ] = gasVolumeClean
         lastFourteenDayTotalOil = sum(fourteenDayOilData[index]) / (14)
         lastFourteenDayTotalGas = sum(fourteenDayGasData[index]) / (14)
         if batteryIdCounterFourteen[index] < 13:
@@ -275,18 +279,18 @@ for currentRow in range(numEntries - 1, 0, -1):
         lastSevenDayTotalGas = gasVolumeClean
         lastFourteenDayTotalGas = gasVolumeClean
 
-    ## Summing today, yesterday and last week oil gas and water
+    # Summing today, yesterday and last week oil gas and water
     if year == todayYear and month == todayMonth and day == todayDay:
         totalOilVolume = totalOilVolume + oilVolumeClean
         totalGasVolume = totalGasVolume + gasVolumeClean
         totalWaterVolume = totalWaterVolume + waterVolumeClean
 
-    ### Master IF statement
+    # Master IF statement
     if year == yesYear and month == yesMonth and day == yesDay:
         yesTotalOilVolume = yesTotalOilVolume + oilVolumeClean
         yesTotalGasVolume = yesTotalGasVolume + gasVolumeClean
 
-        ## for yesterday - checks if batteryId is in wellIdList
+        # for yesterday - checks if batteryId is in wellIdList
         if batteryId in wellIdList:  # if yes, does data exisit and logs correct boolean
             index = wellIdList.index(batteryId)
             if oilDataExist == True:
@@ -306,9 +310,10 @@ for currentRow in range(numEntries - 1, 0, -1):
         lastWeekTotalOilVolume = lastWeekTotalOilVolume + oilVolumeClean
         lastWeekTotalGasVolume = lastWeekTotalGasVolume + gasVolumeClean
 
-    ## Splits battery name up
+    # Splits battery name up
     splitString = re.split("-|–", batteryName)
-    clientName = splitString[0]  # sets client name to client name from ETX/STX and GCT
+    # sets client name to client name from ETX/STX and GCT
+    clientName = splitString[0]
     # if field name exisits - add the batteryName
     if len(splitString) >= 3:
         batteryNameBetter = splitString[1]
@@ -357,7 +362,7 @@ for currentRow in range(numEntries - 1, 0, -1):
         ##newRowArr = np.array(newRow)
         ##newRowArr = newRowArr.astype("O")
 
-        ### STARTING HERE WITH IF STATEMENT
+        # STARTING HERE WITH IF STATEMENT
 
         if (startingIndex + j) > (initalSizeOfTotalAssetProduction - 1):
             totalAssetProduction.loc[startingIndex + j] = newRow
@@ -366,7 +371,7 @@ for currentRow in range(numEntries - 1, 0, -1):
 
         j = j + 1
 
-## Oil and gas daily change numbers
+# Oil and gas daily change numbers
 oilChangeDaily = round((yesTotalOilVolume - twoDayOilVolume), 2)
 gasChangeDaily = round((yesTotalGasVolume - twoDayGasVolume), 2)
 oilSevenDayPercent = round(
@@ -391,7 +396,7 @@ totalAssetProduction.to_csv(
     index=False,
 )
 
-## Opens Oil Change File for daily specific percent change calculations
+# Opens Oil Change File for daily specific percent change calculations
 oilGasCustomNumbersFp = open(
     r"C:\Users\MichaelTanner\Documents\code_doc\king\data\oilgascustomnumberstest.csv",
     "w",
