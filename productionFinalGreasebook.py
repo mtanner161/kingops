@@ -14,21 +14,20 @@ from dotenv import load_dotenv
 import pandas as pd
 import numpy as np
 
-# this is a test!!!!!!
 
 # 30 Day Or Full? If False - only looking at last 30 days and appending.
 fullProductionPull = False
 numberOfDaysToPull = 30
 
 fileName = (
-    r"C:\Users\MichaelTanner\Documents\code_doc\king\data\totalAssetsProductionTemp.csv"
+    r"C:\Users\mtanner\OneDrive - King Operating\Documents 1\code\kingops\data\totalAssetsProduction.csv"
 )
 
 load_dotenv()  # load ENV
 
 # adding the Master Battery List for Analysis
 masterBatteryList = pd.read_csv(
-    r"C:\Users\MichaelTanner\Documents\code_doc\king\data\masterBatteryList.csv"
+    r"C:\Users\mtanner\OneDrive - King Operating\Documents 1\code\kingops\data\masterBatteryList.csv"
 )
 
 # set some date variables we will need later
@@ -88,7 +87,7 @@ if responseCode == 200:
 else:
     print("The Status Code: " + str(response.status_code))
 
-
+# checks if we need to pull all the data or just last specificed
 if fullProductionPull == False:
     # Opening Master CSV for total asset production
     totalAssetProduction = pd.read_csv(fileName)
@@ -159,16 +158,19 @@ lastWeekDay = int(dateLastWeek.strftime("%d"))
 
 
 if fullProductionPull == False:
-    listOfDates = totalAssetProduction["Date"].to_list()
+    listOfDates = totalAssetProduction["Date"].to_list()  # gets list of dates
+    # finds out what date is last
     lastRow = totalAssetProduction.iloc[len(totalAssetProduction) - 1]
     dateOfLastRow = lastRow["Date"]
     splitDate = re.split("/", str(dateOfLastRow))  # splits date correct
     day = int(splitDate[1])  # gets the correct day
     month = int(splitDate[0])  # gets the correct month
     year = int(splitDate[2])  # gets the correct
-    referenceTime = dt.date(year, month, day) - timedelta(days=15)
-    dateOfInterest = referenceTime.strftime("%#m/%#d/%Y")
-    startingIndex = listOfDates.index(dateOfInterest)
+    referenceTime = dt.date(year, month, day) - \
+        timedelta(days=15)  # creates a reference time
+    dateOfInterest = referenceTime.strftime("%#m/%#d/%Y")  # converts to string
+    startingIndex = listOfDates.index(
+        dateOfInterest)  # create index surrounding
 else:
     startingIndex = 0
     referenceTime = dt.date(2021, 5, 1)
@@ -398,7 +400,7 @@ totalAssetProduction.to_csv(
 
 # Opens Oil Change File for daily specific percent change calculations
 oilGasCustomNumbersFp = open(
-    r"C:\Users\MichaelTanner\Documents\code_doc\king\data\oilgascustomnumberstest.csv",
+    r"C:\Users\mtanner\OneDrive - King Operating\Documents 1\code\kingops\data\oilgascustomnumbers.csv",
     "w",
 )
 
