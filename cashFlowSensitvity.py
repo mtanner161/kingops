@@ -29,7 +29,7 @@ combocurve_auth = ComboCurveAuth(service_account, api_key)
 print("Authentication Worked")
 
 projectId = "612fc3d36880c20013a885df"
-scenarioId = "632e70eefcea66001337cd43"
+scenarioId = "6308f43a6cdf0b00140f8507"
 
 # This code chunk gets the Monthly Cash Flow for given Scenerio
 # Call Stack - Get Econ Id
@@ -197,9 +197,9 @@ fp = open(
 # writes the header
 headerString = (
     "Date,"
-    + "Total Net Oil Volume (bbl),"
+    + "Total Gross Oil Volume (bbl),"
     + "Total Net Reveune ($),"
-    + "Total Net Gas Volume (MCF),"
+    + "Total Gross Gas Volume (MCF),"
     + "Net Oil Revenue ($),"
     + "Net Gas Revenue ($),"
     + "Total Expenses ($),"
@@ -237,7 +237,7 @@ for i in range(0, len(dateTable)):
         + ","
         + str(netIncomeTable[i] * 0.8)
         + ","
-        + str(netIncomeTable[i] * 0.8 / 250)
+        + str(netIncomeTable[i] * 0.8 / 1000)
         + ","
         + "$"
         + oilPrice
