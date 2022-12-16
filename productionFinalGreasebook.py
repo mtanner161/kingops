@@ -145,7 +145,7 @@ todayDay = int(dateToday.strftime("%d"))
 
 dateYesterday = dateToday - timedelta(days=1)
 dateTwoDaysAgo = dateToday - timedelta(days=2)
-dateThreeDaysAgo = dateToday - timedelta(days=2)
+dateThreeDaysAgo = dateToday - timedelta(days=3)
 dateLastWeek = dateToday - timedelta(days=8)
 
 yesYear = int(dateYesterday.strftime("%Y"))
@@ -319,9 +319,9 @@ for currentRow in range(numEntries - 1, 0, -1):
             else:
                 wellGasVolumeTwoDayAgo.insert(index, "No Data Reported")
 
-    if year == twoDayYear and month == twoDayMonth and day == twoDayDay:
-        twoDayOilVolume = twoDayOilVolume + oilVolumeClean
-        twoDayGasVolume = twoDayGasVolume + gasVolumeClean
+    if year == yesYear and month == yesMonth and day == yesDay:
+        yesTotalOilVolume = yesTotalOilVolume + oilVolumeClean
+        yesTotalGasVolume = yesTotalGasVolume + gasVolumeClean
 
     if year == threeDayYear and month == threeDayMonth and day == threeDayDay:
         threeDayOilVolume = threeDayOilVolume + oilVolumeClean
