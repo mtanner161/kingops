@@ -76,6 +76,7 @@ response = requests.request(
 
 responseCode = response.status_code  # sets response code to the current state
 
+
 # parse as json string
 results = response.json()
 # setting to length of results
@@ -114,8 +115,8 @@ wellNameList = []
 runningTotalOil = []
 runningTotalGas = []
 numberOfDaysBattery = []
-wellOilVolumeYes = []
-wellGasVolumeYes = []
+wellOilVolumeTwoDayAgo = []
+wellGasVolumeTwoDayAgo = []
 avgOilList = []
 avgGasList = []
 fourteenDayOilData = np.zeros([200, 14], dtype=float)
@@ -132,6 +133,8 @@ yesTotalGasVolume = 0
 yesTotalWaterVolume = 0
 twoDayOilVolume = 0
 twoDayGasVolume = 0
+threeDayOilVolume = 0
+threeDayGasVolume = 0
 lastWeekTotalOilVolume = 0
 lastWeekTotalGasVolume = 0
 
@@ -142,7 +145,8 @@ todayDay = int(dateToday.strftime("%d"))
 
 dateYesterday = dateToday - timedelta(days=1)
 dateTwoDaysAgo = dateToday - timedelta(days=2)
-dateLastWeek = dateToday - timedelta(days=7)
+dateThreeDaysAgo = dateToday - timedelta(days=2)
+dateLastWeek = dateToday - timedelta(days=8)
 
 yesYear = int(dateYesterday.strftime("%Y"))
 yesMonth = int(dateYesterday.strftime("%m"))
@@ -151,6 +155,10 @@ yesDay = int(dateYesterday.strftime("%d"))
 twoDayYear = int(dateTwoDaysAgo.strftime("%Y"))
 twoDayMonth = int(dateTwoDaysAgo.strftime("%m"))
 twoDayDay = int(dateTwoDaysAgo.strftime("%d"))
+
+threeDayYear = int(dateThreeDaysAgo.strftime("%Y"))
+threeDayMonth = int(dateThreeDaysAgo.strftime("%m"))
+threeDayDay = int(dateThreeDaysAgo.strftime("%d"))
 
 lastWeekYear = int(dateLastWeek.strftime("%Y"))
 lastWeekMonth = int(dateLastWeek.strftime("%m"))
@@ -166,14 +174,15 @@ if fullProductionPull == False:
     day = int(splitDate[1])  # gets the correct day
     month = int(splitDate[0])  # gets the correct month
     year = int(splitDate[2])  # gets the correct
-    referenceTime = dt.date(year, month, day) - \
+    referenceTime15Day = dt.date(year, month, day) - \
         timedelta(days=15)  # creates a reference time
-    dateOfInterest = referenceTime.strftime("%#m/%#d/%Y")  # converts to string
+    dateOfInterest = referenceTime15Day.strftime(
+        "%#m/%#d/%Y")  # converts to string
     startingIndex = listOfDates.index(
         dateOfInterest)  # create index surrounding
 else:
     startingIndex = 0
-    referenceTime = dt.date(2021, 5, 1)
+    referenceTime15Day = dt.date(2021, 5, 1)
 
 
 listOfBatteryIds = masterBatteryList["Id"].tolist()
@@ -288,25 +297,35 @@ for currentRow in range(numEntries - 1, 0, -1):
         totalWaterVolume = totalWaterVolume + waterVolumeClean
 
     # Master IF statement
-    if year == yesYear and month == yesMonth and day == yesDay:
-        yesTotalOilVolume = yesTotalOilVolume + oilVolumeClean
-        yesTotalGasVolume = yesTotalGasVolume + gasVolumeClean
+    if year == twoDayYear and month == twoDayMonth and day == twoDayDay:
+        twoDayOilVolume = twoDayOilVolume + oilVolumeClean
+        twoDayGasVolume = twoDayGasVolume + gasVolumeClean
 
         # for yesterday - checks if batteryId is in wellIdList
         if batteryId in wellIdList:  # if yes, does data exisit and logs correct boolean
             index = wellIdList.index(batteryId)
+            if index > len(wellOilVolumeTwoDayAgo):
+                for m in range(len(wellOilVolumeTwoDayAgo), index):
+                    wellOilVolumeTwoDayAgo.append("No Data Reported")
+            if index > len(wellGasVolumeTwoDayAgo):
+                for m in range(len(wellGasVolumeTwoDayAgo), index):
+                    wellGasVolumeTwoDayAgo.append("No Data Reported")
             if oilDataExist == True:
-                wellOilVolumeYes.insert(index, oilVolumeRaw)
+                wellOilVolumeTwoDayAgo.insert(index, oilVolumeRaw)
             else:
-                wellOilVolumeYes.insert(index, "No Data Reported")
+                wellOilVolumeTwoDayAgo.insert(index, "No Data Reported")
             if gasDataExist == True:
-                wellGasVolumeYes.insert(index, gasVolumeRaw)
+                wellGasVolumeTwoDayAgo.insert(index, gasVolumeRaw)
             else:
-                wellGasVolumeYes.insert(index, "No Data Reported")
+                wellGasVolumeTwoDayAgo.insert(index, "No Data Reported")
 
     if year == twoDayYear and month == twoDayMonth and day == twoDayDay:
         twoDayOilVolume = twoDayOilVolume + oilVolumeClean
         twoDayGasVolume = twoDayGasVolume + gasVolumeClean
+
+    if year == threeDayYear and month == threeDayMonth and day == threeDayDay:
+        threeDayOilVolume = threeDayOilVolume + oilVolumeClean
+        threeDayGasVolume = threeDayGasVolume + gasVolumeClean
 
     if year == lastWeekYear and month == lastWeekMonth and day == lastWeekDay:
         lastWeekTotalOilVolume = lastWeekTotalOilVolume + oilVolumeClean
@@ -334,7 +353,7 @@ for currentRow in range(numEntries - 1, 0, -1):
 
     currentTime = dt.date(year, month, day)
 
-    if currentTime >= referenceTime:
+    if currentTime >= referenceTime15Day:
         if clientName == "CWS":
             clientName = "South Texas"
         elif clientName == "Peak":
@@ -373,14 +392,73 @@ for currentRow in range(numEntries - 1, 0, -1):
 
         j = j + 1
 
+for i in range(0, len(wellIdList)):
+    avgOilList.insert(i, runningTotalOil[i] / numberOfDaysBattery[i])
+    avgGasList.insert(i, runningTotalGas[i] / numberOfDaysBattery[i])
+
+fpReported = open(
+    r"C:\Users\mtanner\OneDrive - King Operating\Documents 1\code\kingops\data\yesterdayWellReport.csv", "w"
+)
+headerString = "Battery ID, Battery Name, Oil Production, Oil Average, Gas Production, Gas Average\n"
+fpReported.write(headerString)
+
+for i in range(0, len(wellIdList)):
+    if i < len(wellOilVolumeTwoDayAgo) and i < len(wellGasVolumeTwoDayAgo):
+        outputString = (
+            str(wellIdList[i])
+            + ","
+            + wellNameList[i]
+            + ","
+            + str(wellOilVolumeTwoDayAgo[i])
+            + ","
+            + str(avgOilList[i])
+            + ","
+            + str(wellGasVolumeTwoDayAgo[i])
+            + ","
+            + str(avgGasList[i])
+            + "\n"
+        )
+    else:
+        outputString = (
+            str(wellIdList[i])
+            + ","
+            + wellNameList[i]
+            + ","
+            + "-"
+            + ","
+            + str(avgOilList[i])
+            + ","
+            + "-"
+            + ","
+            + str(avgGasList[i])
+            + "\n"
+        )
+
+    fpReported.write(outputString)
+
+fpReported.close()
+
+notReportedListOil = []
+notReportedListGas = []
+
+for i in range(0, len(wellIdList)):
+    if wellOilVolumeTwoDayAgo[i] == "No Data Reported" and abs(avgOilList[i]) > 0:
+        index = listOfBatteryIds.index(wellIdList[i])
+        goodBatteryNameWrite = goodBatteryNames[index]
+        notReportedListOil.append(goodBatteryNameWrite)
+    if wellGasVolumeTwoDayAgo[i] == "No Data Reported" and abs(avgGasList[i]) > 0:
+        index = listOfBatteryIds.index(wellIdList[i])
+        goodBatteryNameWrite = goodBatteryNames[index]
+        notReportedListGas.append(goodBatteryNameWrite)
+
 # Oil and gas daily change numbers
-oilChangeDaily = round((yesTotalOilVolume - twoDayOilVolume), 2)
-gasChangeDaily = round((yesTotalGasVolume - twoDayGasVolume), 2)
+oilChangeDaily = round((twoDayOilVolume - threeDayOilVolume), 2)
+gasChangeDaily = round((twoDayGasVolume - threeDayGasVolume), 2)
 oilSevenDayPercent = round(
-    (yesTotalOilVolume - lastWeekTotalOilVolume) / lastWeekTotalOilVolume, 1
+    (twoDayOilVolume - lastWeekTotalOilVolume) / lastWeekTotalOilVolume, 1
 )
 gasSevenDayPercent = round(
-    (yesTotalGasVolume - lastWeekTotalGasVolume) / lastWeekTotalGasVolume, 1
+    (twoDayGasVolume - lastWeekTotalGasVolume) / lastWeekTotalGasVolume, 1
 )
 
 if oilChangeDaily > 0:
@@ -436,6 +514,8 @@ print("Yesterday Oil Volume: " + str(yesTotalOilVolume))
 print("Yesterday Gas Volume: " + str(yesTotalGasVolume))
 print("Two Day Ago Oil Volume: " + str(twoDayOilVolume))
 print("Two Day Ago Gas Volume: " + str(twoDayGasVolume))
+print("Three Day Ago Oil Volume: " + str(threeDayOilVolume))
+print("Three Day Ago Gas Volume: " + str(threeDayGasVolume))
 print("Last Week Oil Volume: " + str(lastWeekTotalOilVolume))
 print("Last Week Gas Volume: " + str(lastWeekTotalGasVolume))
 print("Daily Change Oil Volume: " + str(oilChangeDaily))

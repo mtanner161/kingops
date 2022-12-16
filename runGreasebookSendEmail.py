@@ -1,18 +1,19 @@
-## Import greasebook variables
-from greasebookApi import (
-    totalOilVolume,
-    totalGasVolume,
+# Import greasebook variables
+
+from productionFinalGreasebook import (
+    dateToday,
     yesTotalOilVolume,
     yesTotalGasVolume,
-    lastWeekTotalOilVolume,
-    lastWeekTotalGasVolume,
     oilChangeDaily,
     gasChangeDaily,
-    dateToday,
-    yesDateString,
+    twoDayGasVolume,
+    twoDayOilVolume,
+    notReportedListOil,
+    notReportedListGas,
+    dateTwoDaysAgo
 )
 
-## Important packages needed
+# Important packages needed
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -28,8 +29,11 @@ import pandas as pd
 load_dotenv()
 # create today's string
 todayDateString = dateToday.strftime("%m/%d/%Y")
+twoDayAgoDateString = dateTwoDaysAgo.strftime("%m/%d/%Y")
 
-## create function to send email
+# create function to send email
+
+
 def send_email(email_recipient, email_subject, email_message):
     email_sender = os.getenv("USERNAME_KING")
     msg = MIMEMultipart()
@@ -38,23 +42,17 @@ def send_email(email_recipient, email_subject, email_message):
     msg["Subject"] = email_subject
     msg.attach(MIMEText(email_message, "plain"))
 
-    totalProdFile = (
-        r"C:\Users\MichaelTanner\Documents\code_doc\king\data\totalAssetsProduction.csv"
-    )
+    productionFileGood = (r".\kingops\data\totalAssetsProduction.csv")
+    oilGasReportedFile = (r".\kingops\data\yesterdayWellReport.csv")
 
-    wellReportFile = (
-        r"C:\Users\MichaelTanner\Documents\code_doc\king\data\yesterdayWellReport.csv"
-    )
+    # OPENS EACH ATTACHMENTS
 
-    ### OPENS EACH ATTACHMENTS
-
-    with open(totalProdFile, "rb") as attachment:
+    with open(productionFileGood, "rb") as attachment:
         # Add file as application/octet-stream
         # Email client can usually download this automatically as attachment
         part = MIMEBase("application", "octet-stream")
         part.set_payload(attachment.read())
-
-    with open(wellReportFile, "rb") as attachment:
+    with open(oilGasReportedFile, "rb") as attachment:
         # Add file as application/octet-stream
         # Email client can usually download this automatically as attachment
         partTwo = MIMEBase("application", "octet-stream")
@@ -69,13 +67,12 @@ def send_email(email_recipient, email_subject, email_message):
         "Content-Disposition",
         f"attachment; filename= totalAssetProduction.csv",
     )
-
     partTwo.add_header(
         "Content-Disposition",
-        f"attachment; filename= wellAssetOverview.csv",
+        f"attachment; filename= twoDayAgoWellReport.csv",
     )
 
-    ## ATTACHES EACH FILE TO EMAIL
+    # ATTACHES EACH FILE TO EMAIL
     msg.attach(part)
     msg.attach(partTwo)
 
@@ -101,11 +98,11 @@ wellList = os.getenv("MASTER_BATTERY_LIST")
 
 # Body of the email mesasge
 message = (
-    "Oil production: "
-    + str(round(yesTotalOilVolume, 1))
+    "2-day Ago Oil production: "
+    + str(round(twoDayOilVolume, 1))
     + " bbl \n\n"
-    + "Gas production: "
-    + str(round(yesTotalGasVolume, 1))
+    + "2-day Ago Gas production: "
+    + str(round(twoDayGasVolume, 1))
     + " mcf \n\n"
     + "Change in oil production (previous day): "
     + str(oilChangeDaily)
@@ -113,65 +110,53 @@ message = (
     + "Change in gas production (previous day): "
     + str(gasChangeDaily)
     + " mcf"
-    + "\n\n Brown Central Battery logging 450 MCF - great news"
-    + "\n\n Working on v2.0 which includes a estimated daily oil production based on wells report vs. not report.  The other attachment is the first step to build out the core logic behind whether we want to flag a well as 0, not reported or reported."
     + "\n\nView the Dashboard in Teams (KOC Field Operations) PowerBi Mobile Application or here (if numbers are not updated, try again in 30 min or reply to this email): "
     + dashboardLink
 )
 
-## email subject
-subject = "Daily Production Report KOP Assets - " + yesDateString
+message = message + "\n\n" + "List of Not Reported Oil" + \
+    "\n" + "------------------------------------" + "\n"
+
+for i in range(0, len(notReportedListOil)):
+    message = message + notReportedListOil[i] + "\n"
+
+message = message + "\n\n" + "List of Not Reported Gas" + \
+    "\n" + "------------------------------------" + "\n"
+
+for i in range(0, len(notReportedListGas)):
+    message = message + notReportedListGas[i] + "\n"
+
+
+# email subject
+subject = "Daily Production Report KOP Assets - " + twoDayAgoDateString
 print(subject)
 
-## Potenital users to send to
+# Potenital users to send to
 michaelTanner = os.getenv("MICHAEL_TANNER")
 jayYoung = os.getenv("JAY_YOUNG")
 rexGifford = os.getenv("REX_GIFFORD")
-kellyDuncan = os.getenv("KELLY_DUNCAN")
 chandlerKnox = os.getenv("CHANDLER_KNOX")
 paulGerome = os.getenv("PAUL_GEROME")
-jayEvans = os.getenv("JAY_EVANS")
-stuTurley = os.getenv("STU_TURLEY")
-allenSantos = os.getenv("ALLEN_SANTOS")
 craigHaesly = os.getenv("CRAIG_HAESLY")
 peterSnell = os.getenv("PETER_SNELL")
-paulGraham = os.getenv("PAUL_GRAHAM")
+garretStacey = os.getenv("GARRET_STACEY")
 
-### LIST TO SEND TO
+# LIST TO SEND TO
 send_email(
     michaelTanner,
     subject,
     message,
 )
 
-
 send_email(
-    stuTurley,
+    garretStacey,
     subject,
     message,
 )
+
 
 send_email(
     chandlerKnox,
-    subject,
-    message,
-)
-
-
-send_email(
-    rexGifford,
-    subject,
-    message,
-)
-
-send_email(
-    paulGerome,
-    subject,
-    message,
-)
-
-send_email(
-    kellyDuncan,
     subject,
     message,
 )
