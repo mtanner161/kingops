@@ -119,6 +119,8 @@ wellOilVolumeTwoDayAgo = []
 wellGasVolumeTwoDayAgo = []
 avgOilList = []
 avgGasList = []
+last14DayListOil = []
+last14DayListGas = []
 fourteenDayOilData = np.zeros([200, 14], dtype=float)
 sevenDayOilData = np.zeros([200, 7], dtype=float)
 fourteenDayGasData = np.zeros([200, 14], dtype=float)
@@ -301,6 +303,9 @@ for currentRow in range(numEntries - 1, 0, -1):
         twoDayOilVolume = twoDayOilVolume + oilVolumeClean
         twoDayGasVolume = twoDayGasVolume + gasVolumeClean
 
+        last14DayListOil.append(lastFourteenDayTotalOil)
+        last14DayListGas.append(lastFourteenDayTotalGas)
+
         # for yesterday - checks if batteryId is in wellIdList
         if batteryId in wellIdList:  # if yes, does data exisit and logs correct boolean
             index = wellIdList.index(batteryId)
@@ -411,11 +416,11 @@ for i in range(0, len(wellIdList)):
             + ","
             + str(wellOilVolumeTwoDayAgo[i])
             + ","
-            + str(avgOilList[i])
+            + str(last14DayListOil[i])
             + ","
             + str(wellGasVolumeTwoDayAgo[i])
             + ","
-            + str(avgGasList[i])
+            + str(last14DayListGas[i])
             + "\n"
         )
     else:
@@ -442,11 +447,11 @@ notReportedListOil = []
 notReportedListGas = []
 
 for i in range(0, len(wellIdList)):
-    if wellOilVolumeTwoDayAgo[i] == "No Data Reported" and abs(avgOilList[i]) > 0:
+    if wellOilVolumeTwoDayAgo[i] == "No Data Reported" and abs(last14DayListOil[i]) > 0:
         index = listOfBatteryIds.index(wellIdList[i])
         goodBatteryNameWrite = goodBatteryNames[index]
         notReportedListOil.append(goodBatteryNameWrite)
-    if wellGasVolumeTwoDayAgo[i] == "No Data Reported" and abs(avgGasList[i]) > 0:
+    if wellGasVolumeTwoDayAgo[i] == "No Data Reported" and abs(last14DayListGas[i]) > 0:
         index = listOfBatteryIds.index(wellIdList[i])
         goodBatteryNameWrite = goodBatteryNames[index]
         notReportedListGas.append(goodBatteryNameWrite)
