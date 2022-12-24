@@ -10,7 +10,11 @@ from productionFinalGreasebook import (
     twoDayOilVolume,
     notReportedListOil,
     notReportedListGas,
-    dateTwoDaysAgo
+    dateTwoDaysAgo,
+    pumperNotReportedList,
+    listOfBatteryIds,
+    goodBatteryNames,
+    pumperNames
 )
 
 # Important packages needed
@@ -114,18 +118,24 @@ message = (
     + dashboardLink
 )
 
-message = message + "\n\n" + "List of Not Reported Oil" + \
-    "\n" + "------------------------------------" + "\n"
+message = message + "\n\n" + "Not Reported List by Pumper Route" + \
+    "\n" + "----------------------------------------------------" + "\n"
 
-for i in range(0, len(notReportedListOil)):
-    message = message + notReportedListOil[i] + "\n"
-
-message = message + "\n\n" + "List of Not Reported Gas" + \
-    "\n" + "------------------------------------" + "\n"
-
-for i in range(0, len(notReportedListGas)):
-    message = message + notReportedListGas[i] + "\n"
-
+for i in range(0, len(pumperNotReportedList)):
+    pumper = pumperNotReportedList[i]
+    message = message + "Pumper Name: " + pumperNotReportedList[i]
+    for j in range(0, len(notReportedListOil)):
+        name = notReportedListOil[j]
+        index = goodBatteryNames.index(name)
+        if pumperNames[index] == pumper:
+            message = message + "\n    " + name
+    for m in range(0, len(notReportedListGas)):
+        name = notReportedListGas[m]
+        index = goodBatteryNames.index(name)
+        if pumperNames[index] == pumper:
+            if name not in notReportedListOil:
+                message = message + "\n    " + name
+    message = message + "\n"
 
 # email subject
 subject = "Daily Production Report KOP Assets - " + twoDayAgoDateString

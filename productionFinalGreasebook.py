@@ -191,6 +191,7 @@ else:
 # Gets list of Battery id's that are clean for printing
 listOfBatteryIds = masterBatteryList["Id"].tolist()
 goodBatteryNames = masterBatteryList["Pretty Battery Name"].tolist()
+pumperNames = masterBatteryList["Pumper"].tolist()
 
 j = 0
 
@@ -353,24 +354,13 @@ for currentRow in range(numEntries - 1, 0, -1):
 
         # for two day ago - checks if batteryId is in wellIdList
         if batteryId in wellIdList:  # if yes, does data exisit and logs correct boolean
-            # index = wellIdList.index(batteryId)
-            # if index > len(wellOilVolumeTwoDayAgo):
-            #     for m in range(len(wellOilVolumeTwoDayAgo), index):
-            #         wellOilVolumeTwoDayAgo.append("No Data Reported")
-            # if index > len(wellGasVolumeTwoDayAgo):
-            #     for m in range(len(wellGasVolumeTwoDayAgo), index):
-            #         wellGasVolumeTwoDayAgo.append("No Data Reported")
             if oilDataExist == True:
-                # wellOilVolumeTwoDayAgo.insert(index, oilVolumeRaw)
                 wellOilVolumeTwoDayAgo[index] = oilVolumeClean
             else:
-                # wellOilVolumeTwoDayAgo.insert(index, "No Data Reported")
                 wellOilVolumeTwoDayAgo[index] = "No Data Reported"
             if gasDataExist == True:
-                # wellGasVolumeTwoDayAgo.insert(index, gasVolumeRaw)
                 wellGasVolumeTwoDayAgo[index] = gasVolumeClean
             else:
-                # wellGasVolumeTwoDayAgo.insert(index, "No Data Reported")
                 wellGasVolumeTwoDayAgo[index] = "No Data Reported"
 
     # Checks to see if the parsed day is equal to yesterday days ago - adds oil/gas volume to counter
@@ -498,16 +488,23 @@ fpReported.close()
 
 notReportedListOil = []
 notReportedListGas = []
+pumperNotReportedList = []
 
 for i in range(0, len(wellIdList)):
     if wellOilVolumeTwoDayAgo[i] == "No Data Reported" and rollingFourteenDayPerWellOil[i] > 0:
         index = listOfBatteryIds.index(wellIdList[i])
         goodBatteryNameWrite = goodBatteryNames[index]
         notReportedListOil.append(goodBatteryNameWrite)
+        pumperName = pumperNames[index]
+        if pumperName not in pumperNotReportedList:
+            pumperNotReportedList.append(pumperName)
     if wellGasVolumeTwoDayAgo[i] == "No Data Reported" and rollingFourteenDayPerWellGas[i] > 0:
         index = listOfBatteryIds.index(wellIdList[i])
         goodBatteryNameWrite = goodBatteryNames[index]
         notReportedListGas.append(goodBatteryNameWrite)
+        pumperName = pumperNames[index]
+        if pumperName not in pumperNotReportedList:
+            pumperNotReportedList.append(pumperName)
 
 # Oil and gas daily change numbers
 oilChangeDaily = round((twoDayOilVolume - threeDayOilVolume), 2)
