@@ -76,7 +76,6 @@ response = requests.request(
 
 responseCode = response.status_code  # sets response code to the current state
 
-
 # parse as json string
 results = response.json()
 # setting to length of results
@@ -115,8 +114,8 @@ wellNameList = []
 runningTotalOil = []
 runningTotalGas = []
 numberOfDaysBattery = []
-wellOilVolumeTwoDayAgo = []
-wellGasVolumeTwoDayAgo = []
+wellOilVolumeTwoDayAgo = np.zeros([200], dtype=object)
+wellGasVolumeTwoDayAgo = np.zeros([200], dtype=object)
 avgOilList = []
 avgGasList = []
 last14DayListOil = []
@@ -125,8 +124,11 @@ fourteenDayOilData = np.zeros([200, 14], dtype=float)
 sevenDayOilData = np.zeros([200, 7], dtype=float)
 fourteenDayGasData = np.zeros([200, 14], dtype=float)
 sevenDayGasData = np.zeros([200, 7], dtype=float)
-batteryIdCounterFourteen = np.zeros([200, 1], dtype=int)
-batteryIdCounterSeven = np.zeros([200, 1], dtype=int)
+batteryIdCounterFourteen = np.zeros([200], dtype=int)
+batteryIdCounterSeven = np.zeros([200], dtype=int)
+rollingFourteenDayPerWellOil = np.zeros([200], dtype=float)
+rollingFourteenDayPerWellGas = np.zeros([200], dtype=float)
+gotDayData = np.full([200], False)
 totalOilVolume = 0
 totalGasVolume = 0
 totalWaterVolume = 0
@@ -166,7 +168,7 @@ lastWeekYear = int(dateLastWeek.strftime("%Y"))
 lastWeekMonth = int(dateLastWeek.strftime("%m"))
 lastWeekDay = int(dateLastWeek.strftime("%d"))
 
-
+# if not pulling all of production - then just get the list of dates to parse
 if fullProductionPull == False:
     listOfDates = totalAssetProduction["Date"].to_list()  # gets list of dates
     # finds out what date is last
@@ -186,14 +188,17 @@ else:
     startingIndex = 0
     referenceTime15Day = dt.date(2021, 5, 1)
 
-
+# Gets list of Battery id's that are clean for printing
 listOfBatteryIds = masterBatteryList["Id"].tolist()
 goodBatteryNames = masterBatteryList["Pretty Battery Name"].tolist()
 
 j = 0
 
+priorDay = -999
+
 initalSizeOfTotalAssetProduction = len(totalAssetProduction)
 
+# MASTER loop that goes through each of the items in the response
 for currentRow in range(numEntries - 1, 0, -1):
     row = results[currentRow]  # get row i in results
     keys = list(row.items())  # pull out the headers
@@ -244,7 +249,43 @@ for currentRow in range(numEntries - 1, 0, -1):
     month = int(splitDate2[1])
     day = int(splitDate2[2])
 
-    # CORE LOGIC
+    if priorDay == day or priorDay == -999:
+        newDay = False
+    else:
+        newDay = True
+
+    # CORE LOGIC BEGINS FOR MASTER LOOP
+
+    # checks to see if last day had an entry for every well - if not fixes it to include
+    if newDay == True:
+        for counter in range(0, len(wellIdList)):
+            if gotDayData[counter] != True:
+                fourteenDayOilData[counter][batteryIdCounterFourteen[counter]] = 0
+                fourteenDayGasData[counter][batteryIdCounterFourteen[counter]] = 0
+                sevenDayOilData[counter][batteryIdCounterSeven[counter]] = 0
+                sevenDayGasData[counter][batteryIdCounterSeven[counter]] = 0
+                lastFourteenDayTotalOil = sum(
+                    fourteenDayOilData[counter]) / (14)
+                lastFourteenDayTotalGas = sum(
+                    fourteenDayGasData[counter]) / (14)
+                rollingFourteenDayPerWellOil[counter] = lastFourteenDayTotalOil
+                rollingFourteenDayPerWellGas[counter] = lastFourteenDayTotalGas
+                if year == twoDayYear and month == twoDayMonth and day == twoDayDay:
+                    wellOilVolumeTwoDayAgo[counter] = "No Data Reported"
+                    wellGasVolumeTwoDayAgo[counter] = "No Data Reported"
+                if batteryIdCounterFourteen[counter] < 13:
+                    batteryIdCounterFourteen[counter] = batteryIdCounterFourteen[counter] + 1
+                else:
+                    batteryIdCounterFourteen[counter] = 0
+                if batteryIdCounterSeven[counter] < 6:
+                    batteryIdCounterSeven[counter] = batteryIdCounterSeven[counter] + 1
+                else:
+                    batteryIdCounterSeven[counter] = 0
+
+    # resets gotDayData to False as we loop the current day
+    if newDay == True:
+        gotDayData = np.full((200), False)
+        newDay = False
 
     # Colorado set MCF to zero
     if batteryId == 25381 or batteryId == 25382:
@@ -256,6 +297,9 @@ for currentRow in range(numEntries - 1, 0, -1):
         runningTotalOil[index] = runningTotalOil[index] + oilVolumeClean
         runningTotalGas[index] = runningTotalGas[index] + gasVolumeClean
         numberOfDaysBattery[index] = numberOfDaysBattery[index] + 1
+
+        if newDay == False:
+            gotDayData[index] = True
 
         # 14 day running average code
         fourteenDayOilData[index][batteryIdCounterFourteen[index]
@@ -279,8 +323,7 @@ for currentRow in range(numEntries - 1, 0, -1):
             batteryIdCounterSeven[index] = batteryIdCounterSeven[index] + 1
         else:
             batteryIdCounterSeven[index] = 0
-
-    else:
+    else:  # if batteryId is not in list, then add to list and roll up
         wellIdList.append(batteryId)
         index = wellIdList.index(batteryId)
         runningTotalOil.insert(index, oilVolumeClean)
@@ -291,6 +334,8 @@ for currentRow in range(numEntries - 1, 0, -1):
         lastFourteenDayTotalOil = oilVolumeClean
         lastSevenDayTotalGas = gasVolumeClean
         lastFourteenDayTotalGas = gasVolumeClean
+        if newDay == False or currentRow == (numEntries - 1):
+            gotDayData[index] = True
 
     # Summing today, yesterday and last week oil gas and water
     if year == todayYear and month == todayMonth and day == todayDay:
@@ -298,40 +343,47 @@ for currentRow in range(numEntries - 1, 0, -1):
         totalGasVolume = totalGasVolume + gasVolumeClean
         totalWaterVolume = totalWaterVolume + waterVolumeClean
 
-    # Master IF statement
+    rollingFourteenDayPerWellOil[index] = lastFourteenDayTotalOil
+    rollingFourteenDayPerWellGas[index] = lastFourteenDayTotalGas
+
+    # Checks to see if the parsed day is equal to two days ago - adds oil/gas volume to counter
     if year == twoDayYear and month == twoDayMonth and day == twoDayDay:
         twoDayOilVolume = twoDayOilVolume + oilVolumeClean
         twoDayGasVolume = twoDayGasVolume + gasVolumeClean
 
-        last14DayListOil.append(lastFourteenDayTotalOil)
-        last14DayListGas.append(lastFourteenDayTotalGas)
-
-        # for yesterday - checks if batteryId is in wellIdList
+        # for two day ago - checks if batteryId is in wellIdList
         if batteryId in wellIdList:  # if yes, does data exisit and logs correct boolean
-            index = wellIdList.index(batteryId)
-            if index > len(wellOilVolumeTwoDayAgo):
-                for m in range(len(wellOilVolumeTwoDayAgo), index):
-                    wellOilVolumeTwoDayAgo.append("No Data Reported")
-            if index > len(wellGasVolumeTwoDayAgo):
-                for m in range(len(wellGasVolumeTwoDayAgo), index):
-                    wellGasVolumeTwoDayAgo.append("No Data Reported")
+            # index = wellIdList.index(batteryId)
+            # if index > len(wellOilVolumeTwoDayAgo):
+            #     for m in range(len(wellOilVolumeTwoDayAgo), index):
+            #         wellOilVolumeTwoDayAgo.append("No Data Reported")
+            # if index > len(wellGasVolumeTwoDayAgo):
+            #     for m in range(len(wellGasVolumeTwoDayAgo), index):
+            #         wellGasVolumeTwoDayAgo.append("No Data Reported")
             if oilDataExist == True:
-                wellOilVolumeTwoDayAgo.insert(index, oilVolumeRaw)
+                # wellOilVolumeTwoDayAgo.insert(index, oilVolumeRaw)
+                wellOilVolumeTwoDayAgo[index] = oilVolumeClean
             else:
-                wellOilVolumeTwoDayAgo.insert(index, "No Data Reported")
+                # wellOilVolumeTwoDayAgo.insert(index, "No Data Reported")
+                wellOilVolumeTwoDayAgo[index] = "No Data Reported"
             if gasDataExist == True:
-                wellGasVolumeTwoDayAgo.insert(index, gasVolumeRaw)
+                # wellGasVolumeTwoDayAgo.insert(index, gasVolumeRaw)
+                wellGasVolumeTwoDayAgo[index] = gasVolumeClean
             else:
-                wellGasVolumeTwoDayAgo.insert(index, "No Data Reported")
+                # wellGasVolumeTwoDayAgo.insert(index, "No Data Reported")
+                wellGasVolumeTwoDayAgo[index] = "No Data Reported"
 
+    # Checks to see if the parsed day is equal to yesterday days ago - adds oil/gas volume to counter
     if year == yesYear and month == yesMonth and day == yesDay:
         yesTotalOilVolume = yesTotalOilVolume + oilVolumeClean
         yesTotalGasVolume = yesTotalGasVolume + gasVolumeClean
 
+    # Checks to see if the parsed day is equal to three days ago - adds oil/gas volume to counter
     if year == threeDayYear and month == threeDayMonth and day == threeDayDay:
         threeDayOilVolume = threeDayOilVolume + oilVolumeClean
         threeDayGasVolume = threeDayGasVolume + gasVolumeClean
 
+    # Checks to see if the parsed day is equal to last week - adds oil/gas volume to counter
     if year == lastWeekYear and month == lastWeekMonth and day == lastWeekDay:
         lastWeekTotalOilVolume = lastWeekTotalOilVolume + oilVolumeClean
         lastWeekTotalGasVolume = lastWeekTotalGasVolume + gasVolumeClean
@@ -356,8 +408,10 @@ for currentRow in range(numEntries - 1, 0, -1):
     clientName = clientName.replace(" ", "")
     dateString = str(month) + "/" + str(day) + "/" + str(year)
 
+    # grabs current time
     currentTime = dt.date(year, month, day)
 
+    # switches clinet names to more easily viewable items
     if currentTime >= referenceTime15Day:
         if clientName == "CWS":
             clientName = "South Texas"
@@ -372,6 +426,7 @@ for currentRow in range(numEntries - 1, 0, -1):
         elif clientName == "Wellington":
             clientName = "Colorado"
 
+        # creates a newRow
         newRow = [
             dateString,
             clientName,
@@ -384,12 +439,7 @@ for currentRow in range(numEntries - 1, 0, -1):
             str(lastSevenDayTotalGas),
             str(lastFourteenDayTotalGas),
         ]
-
-        ##newRowArr = np.array(newRow)
-        ##newRowArr = newRowArr.astype("O")
-
         # STARTING HERE WITH IF STATEMENT
-
         if (startingIndex + j) > (initalSizeOfTotalAssetProduction - 1):
             totalAssetProduction.loc[startingIndex + j] = newRow
         else:
@@ -397,6 +447,9 @@ for currentRow in range(numEntries - 1, 0, -1):
 
         j = j + 1
 
+    priorDay = day
+
+# creates an running average
 for i in range(0, len(wellIdList)):
     avgOilList.insert(i, runningTotalOil[i] / numberOfDaysBattery[i])
     avgGasList.insert(i, runningTotalGas[i] / numberOfDaysBattery[i])
@@ -404,11 +457,11 @@ for i in range(0, len(wellIdList)):
 fpReported = open(
     r"C:\Users\mtanner\OneDrive - King Operating\Documents 1\code\kingops\data\yesterdayWellReport.csv", "w"
 )
-headerString = "Battery ID, Battery Name, Oil Production, Oil Average, Gas Production, Gas Average\n"
+headerString = "Battery ID,Battery Name,Oil Production,14-day Oil Average,Gas Production,14-day Gas Average\n"
 fpReported.write(headerString)
 
 for i in range(0, len(wellIdList)):
-    if i < len(wellOilVolumeTwoDayAgo) and i < len(wellGasVolumeTwoDayAgo):
+    if i < len(rollingFourteenDayPerWellOil) and i < len(rollingFourteenDayPerWellGas):
         outputString = (
             str(wellIdList[i])
             + ","
@@ -416,11 +469,11 @@ for i in range(0, len(wellIdList)):
             + ","
             + str(wellOilVolumeTwoDayAgo[i])
             + ","
-            + str(last14DayListOil[i])
+            + str(rollingFourteenDayPerWellOil[i])
             + ","
             + str(wellGasVolumeTwoDayAgo[i])
             + ","
-            + str(last14DayListGas[i])
+            + str(rollingFourteenDayPerWellGas[i])
             + "\n"
         )
     else:
@@ -447,11 +500,11 @@ notReportedListOil = []
 notReportedListGas = []
 
 for i in range(0, len(wellIdList)):
-    if wellOilVolumeTwoDayAgo[i] == "No Data Reported" and abs(last14DayListOil[i]) > 0:
+    if wellOilVolumeTwoDayAgo[i] == "No Data Reported" and rollingFourteenDayPerWellOil[i] > 0:
         index = listOfBatteryIds.index(wellIdList[i])
         goodBatteryNameWrite = goodBatteryNames[index]
         notReportedListOil.append(goodBatteryNameWrite)
-    if wellGasVolumeTwoDayAgo[i] == "No Data Reported" and abs(last14DayListGas[i]) > 0:
+    if wellGasVolumeTwoDayAgo[i] == "No Data Reported" and rollingFourteenDayPerWellGas[i] > 0:
         index = listOfBatteryIds.index(wellIdList[i])
         goodBatteryNameWrite = goodBatteryNames[index]
         notReportedListGas.append(goodBatteryNameWrite)

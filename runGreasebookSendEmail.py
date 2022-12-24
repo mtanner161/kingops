@@ -140,6 +140,7 @@ paulGerome = os.getenv("PAUL_GEROME")
 craigHaesly = os.getenv("CRAIG_HAESLY")
 peterSnell = os.getenv("PETER_SNELL")
 garretStacey = os.getenv("GARRET_STACEY")
+grahamPatterson = os.getenv("GRAHAM_PATTERSON")
 
 # LIST TO SEND TO
 send_email(
@@ -161,5 +162,16 @@ send_email(
     message,
 )
 
+send_email(
+    peterSnell,
+    subject,
+    message,
+)
+
+send_email(
+    grahamPatterson,
+    subject,
+    message,
+)
 
 print("All Email's Sent")
