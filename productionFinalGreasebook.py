@@ -486,6 +486,7 @@ for i in range(0, len(wellIdList)):
 
 fpReported.close()
 
+# Determines whether or not a well is not reported
 notReportedListOil = []
 notReportedListGas = []
 pumperNotReportedList = []

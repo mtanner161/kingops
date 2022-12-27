@@ -121,6 +121,8 @@ message = (
 message = message + "\n\n" + "Not Reported List by Pumper Route" + \
     "\n" + "----------------------------------------------------" + "\n"
 
+
+# loops over notReportedList and orgainzes by pumper for easy viewing
 for i in range(0, len(pumperNotReportedList)):
     pumper = pumperNotReportedList[i]
     message = message + "Pumper Name: " + pumperNotReportedList[i]
