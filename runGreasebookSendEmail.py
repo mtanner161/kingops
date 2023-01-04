@@ -14,7 +14,9 @@ from productionFinalGreasebook import (
     pumperNotReportedList,
     listOfBatteryIds,
     goodBatteryNames,
-    pumperNames
+    pumperNames,
+    read342OilProd,
+    read342GasProd
 )
 
 # Important packages needed
@@ -113,7 +115,10 @@ message = (
     + " bbl\n\n"
     + "Change in gas production (previous day): "
     + str(gasChangeDaily)
-    + " mcf"
+    + " mcf\n\n"
+    + "Read 34-2H Oil Production: "
+    + str(read342OilProd)
+    + " bbl"
     + "\n\nView the Dashboard in Teams (KOC Field Operations) PowerBi Mobile Application or here (if numbers are not updated, try again in 30 min or reply to this email): "
     + dashboardLink
 )

@@ -352,6 +352,11 @@ for currentRow in range(numEntries - 1, 0, -1):
         twoDayOilVolume = twoDayOilVolume + oilVolumeClean
         twoDayGasVolume = twoDayGasVolume + gasVolumeClean
 
+        # adds Read 34-2H production as a variable
+        if batteryId == 24944:
+            read342OilProd = oilVolumeClean
+            read342GasProd = gasVolumeClean
+
         # for two day ago - checks if batteryId is in wellIdList
         if batteryId in wellIdList:  # if yes, does data exisit and logs correct boolean
             if oilDataExist == True:
