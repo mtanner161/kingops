@@ -16,7 +16,13 @@ from productionFinalGreasebook import (
     goodBatteryNames,
     pumperNames,
     read342OilProd,
-    read342GasProd
+    read342GasProd,
+    thurman23VOilProd,
+    thurman23VGasProd,
+    irs531OilProd,
+    irs531GasProd,
+    pshigoda752GasProd,
+    pshigoda752OilProd
 )
 
 # Important packages needed
@@ -37,9 +43,28 @@ load_dotenv()
 todayDateString = dateToday.strftime("%m/%d/%Y")
 twoDayAgoDateString = dateTwoDaysAgo.strftime("%m/%d/%Y")
 
+if "Pshigoda 752-1H" in notReportedListOil:
+    pshigoda752OilProd = "Not Reported"
+if "Pshigoda 752-1H" in notReportedListGas:
+    pshigoda752GasProd = "Not Reported"
+
+if "Irvin Sisters 53 1H" in notReportedListOil:
+    irs531OilProd = "Not Reported"
+if "Irvin Sisters 53 1H" in notReportedListGas:
+    irs531GasProd = "Not Reported"
+
+if "Thurman #23V-2" in notReportedListOil:
+    thurman23VOilProd = "Not Reported"
+if "Thurman #23V-2" in notReportedListGas:
+    thurman23VGasProd = "Not Reported"
+
+if "Read 34-2H" in notReportedListOil:
+    read342OilProd = "Not Reported"
+if "Read 34-2H" in notReportedListGas:
+    read342GasProd = "Not Reported"
+
+
 # create function to send email
-
-
 def send_email(email_recipient, email_subject, email_message):
     email_sender = os.getenv("USERNAME_KING")
     msg = MIMEMultipart()
@@ -116,12 +141,36 @@ message = (
     + "Change in gas production (previous day): "
     + str(gasChangeDaily)
     + " mcf\n\n"
-    + "Read 34-2H Oil Production: "
+    + "Read 34-2H Oil Production\n"
+    + "   "
     + str(read342OilProd)
-    + " bbl"
-    + "\n\nView the Dashboard in Teams (KOC Field Operations) PowerBi Mobile Application or here (if numbers are not updated, try again in 30 min or reply to this email): "
-    + dashboardLink
+    + " bbl \n"
+    + "Thurman 23V #2 Production\n"
+    + "   "
+    + str(thurman23VOilProd)
+    + " bbl\n"
+    + "   "
+    + str(thurman23VGasProd)
+    + " mcf"
+    + "\nIrvin Sisters 53M-#1H\n"
+    + "   "
+    + str(irs531OilProd)
+    + " bbl\n"
+    + "   "
+    + str(irs531GasProd)
+    + " mcf"
+    + str("\n")
+    + "Pshigoda 752-#1H\n"
+      + "   "
+    + str(pshigoda752OilProd)
+    + " bbl\n"
+    + "   "
+    + str(pshigoda752GasProd)
+    + " mcf"
 )
+
+message = message + \
+    "\n\nView the Dashboard in Teams (KOC Field Operations) PowerBi Mobile Application or here (if numbers are not updated, try again in 30 min or reply to this email): " + dashboardLink
 
 message = message + "\n\n" + "Not Reported List by Pumper Route" + \
     "\n" + "----------------------------------------------------" + "\n"

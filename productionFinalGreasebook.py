@@ -357,6 +357,18 @@ for currentRow in range(numEntries - 1, 0, -1):
             read342OilProd = oilVolumeClean
             read342GasProd = gasVolumeClean
 
+        if batteryId == 27179:
+            thurman23VOilProd = oilVolumeClean
+            thurman23VGasProd = gasVolumeClean
+
+        if batteryId == 23054:
+            irs531OilProd = oilVolumeClean
+            irs531GasProd = gasVolumeClean
+
+        if batteryId == 23498:
+            pshigoda752OilProd = oilVolumeClean
+            pshigoda752GasProd = gasVolumeClean
+
         # for two day ago - checks if batteryId is in wellIdList
         if batteryId in wellIdList:  # if yes, does data exisit and logs correct boolean
             if oilDataExist == True:
