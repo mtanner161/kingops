@@ -41,7 +41,7 @@ import pandas as pd
 load_dotenv()
 # create today's string
 todayDateString = dateToday.strftime("%m/%d/%Y")
-twoDayAgoDateString = dateTwoDaysAgo.strftime("%m/%d/%Y")
+twoDayAgoDateString = dateTwoDaysAgo.strftime("%B %d, %Y")
 
 if "Pshigoda 752-1H" in notReportedListOil:
     pshigoda752OilProd = "Not Reported"
@@ -129,19 +129,13 @@ wellList = os.getenv("MASTER_BATTERY_LIST")
 
 # Body of the email mesasge
 message = (
-    "2-day Ago Oil production: "
+    "Oil production: "
     + str(round(twoDayOilVolume, 1))
     + " bbl \n\n"
-    + "2-day Ago Gas production: "
+    + "Gas production: "
     + str(round(twoDayGasVolume, 1))
     + " mcf \n\n"
-    + "Change in oil production (previous day): "
-    + str(oilChangeDaily)
-    + " bbl\n\n"
-    + "Change in gas production (previous day): "
-    + str(gasChangeDaily)
-    + " mcf\n\n"
-    + "Read 34-2H Oil Production\n"
+    + "Read 34-2H Production\n"
     + "   "
     + str(read342OilProd)
     + " bbl \n"
