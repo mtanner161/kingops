@@ -128,6 +128,8 @@ batteryIdCounterFourteen = np.zeros([200], dtype=int)
 batteryIdCounterSeven = np.zeros([200], dtype=int)
 rollingFourteenDayPerWellOil = np.zeros([200], dtype=float)
 rollingFourteenDayPerWellGas = np.zeros([200], dtype=float)
+wellIdOilSoldList = []
+wellVolumeOilSoldList = []
 gotDayData = np.full([200], False)
 totalOilVolume = 0
 totalGasVolume = 0
@@ -139,8 +141,10 @@ twoDayOilVolume = 0
 twoDayGasVolume = 0
 threeDayOilVolume = 0
 threeDayGasVolume = 0
+thrityDayOilSalesVolume = 0
 lastWeekTotalOilVolume = 0
 lastWeekTotalGasVolume = 0
+monthlyOilSales = 0
 
 # Convert all dates to str for comparison rollup
 todayYear = int(dateToday.strftime("%Y"))
@@ -208,11 +212,13 @@ for currentRow in range(numEntries - 1, 0, -1):
     oilDataExist = False
     gasDataExist = False
     waterDataExist = False
+    oilSalesDataExist = False
     oilVolumeClean = 0
     gasVolumeClean = 0
     waterVolumeClean = 0
+    oilSalesDataClean = 0
 
-    # Loops through each exposed API variable. 5If it exisits - get to correct variable
+    # Loops through each exposed API variable. If it exisits - get to correct variable
     for idx, key in enumerate(keys):
         if key[0] == "batteryId":
             batteryId = row["batteryId"]
@@ -242,6 +248,13 @@ for currentRow in range(numEntries - 1, 0, -1):
                 waterVolumeClean = 0
             else:
                 waterVolumeClean = waterVolumeRaw
+        elif key[0] == "oilSales":
+            oilSalesDataExist = True
+            oilSalesDataRaw = row["oilSales"]
+            if oilSalesDataRaw == "":
+                oilSalesDataClean = 0
+            else:
+                oilSalesDataClean = oilSalesDataRaw
 
     # spliting date correctly
     splitDate = re.split("T", date)
@@ -291,6 +304,21 @@ for currentRow in range(numEntries - 1, 0, -1):
     # Colorado set MCF to zero
     if batteryId == 25381 or batteryId == 25382:
         gasVolumeClean = 0
+
+    if oilSalesDataClean != 0:
+        thrityDayOilSalesVolume = thrityDayOilSalesVolume + oilSalesDataClean
+
+        if year == todayYear and month == todayMonth:
+            monthlyOilSales = monthlyOilSales + oilSalesDataClean
+
+            if batteryId in wellIdOilSoldList:
+                index = wellIdOilSoldList.index(batteryId)
+                wellVolumeOilSoldList[index] = float(
+                    wellVolumeOilSoldList[index]) + oilSalesDataClean
+            else:
+                wellIdOilSoldList.append(batteryId)
+                index = wellIdOilSoldList.index(batteryId)
+                wellVolumeOilSoldList.append(oilSalesDataClean)
 
     if batteryId in wellIdList:  # builds a list of all battery ID's with data
         index = wellIdList.index(batteryId)
@@ -456,6 +484,13 @@ for currentRow in range(numEntries - 1, 0, -1):
 
     priorDay = day
 
+prettyNameWellOilSoldList = []
+
+for i in range(0, len(wellIdOilSoldList)):
+    index = listOfBatteryIds.index(wellIdOilSoldList[i])
+    goodBatteryNameWrite = goodBatteryNames[index]
+    prettyNameWellOilSoldList.insert(i, goodBatteryNameWrite)
+
 # creates an running average
 for i in range(0, len(wellIdList)):
     avgOilList.insert(i, runningTotalOil[i] / numberOfDaysBattery[i])
@@ -595,6 +630,8 @@ print("Daily Change Oil Volume: " + str(oilChangeDaily))
 print("Daily Change Gas Volume: " + str(gasChangeDaily))
 print("Percent Oil Volume: " + str(oilSevenDayPercent))
 print("Percent Gas Volume: " + str(gasSevenDayPercent))
+print("Oil Sales Volume Last 30 days: " + str(thrityDayOilSalesVolume))
+print("Oil Sales Volume This Month: " + str(monthlyOilSales))
 
 
 print("Done Rolling Up Production")

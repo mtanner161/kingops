@@ -22,7 +22,10 @@ from productionFinalGreasebook import (
     irs531OilProd,
     irs531GasProd,
     pshigoda752GasProd,
-    pshigoda752OilProd
+    pshigoda752OilProd,
+    wellVolumeOilSoldList,
+    prettyNameWellOilSoldList,
+    monthlyOilSales
 )
 
 # Important packages needed
@@ -128,7 +131,10 @@ dashboardLink = os.getenv("DASHBOARD_URL")
 wellList = os.getenv("MASTER_BATTERY_LIST")
 
 # Body of the email mesasge
-message = (
+
+message = "NOTE: ADAMS RANCH 2-15 sold a load of oil, but was using the wrong gauge and todays -49 will be rebalanced in tomorrow's report.  Happy Friday\n\n"
+
+message = message + (
     "Oil production: "
     + str(round(twoDayOilVolume, 1))
     + " bbl \n\n"
@@ -162,6 +168,17 @@ message = (
     + str(pshigoda752GasProd)
     + " mcf"
 )
+
+message = message + "\n\n" + "Monthly Oil Sales Highlights" + \
+    "\n" + "-------------------------------------" + "\n"
+
+message = message + "Monthly Total: " + str(monthlyOilSales) + " bbl"
+
+message = message + "\nWell Oil Sold List:"
+
+for i in range(0, len(wellVolumeOilSoldList)):
+    message = message + "\n  " + prettyNameWellOilSoldList[i]
+    message = message + " -- " + str(wellVolumeOilSoldList[i]) + " bbl"
 
 message = message + \
     "\n\nView the Dashboard in Teams (KOC Field Operations) PowerBi Mobile Application or here (if numbers are not updated, try again in 30 min or reply to this email): " + dashboardLink
