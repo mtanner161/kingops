@@ -132,7 +132,7 @@ wellList = os.getenv("MASTER_BATTERY_LIST")
 
 # Body of the email mesasge
 
-message = "NOTE: ADAMS RANCH 2-15 sold a load of oil, but was using the wrong gauge and todays -49 will be rebalanced in tomorrow's report.  Happy Friday\n\n"
+message = "NOTE: ADAMS RANCH 2-15 was rebalanced due to moving oil around after selling a load early this week\n\n"
 
 message = message + (
     "Oil production: "
@@ -218,10 +218,18 @@ craigHaesly = os.getenv("CRAIG_HAESLY")
 peterSnell = os.getenv("PETER_SNELL")
 garretStacey = os.getenv("GARRET_STACEY")
 grahamPatterson = os.getenv("GRAHAM_PATTERSON")
+michaelHaspel = os.getenv("MICHAEL_HASPEL")
 
 # LIST TO SEND TO
 send_email(
     michaelTanner,
+    subject,
+    message,
+)
+
+# LIST TO SEND TO
+send_email(
+    michaelHaspel,
     subject,
     message,
 )
