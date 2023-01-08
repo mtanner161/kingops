@@ -132,7 +132,7 @@ wellList = os.getenv("MASTER_BATTERY_LIST")
 
 # Body of the email mesasge
 
-message = "NOTE: ADAMS RANCH 2-15 was rebalanced due to moving oil around after selling a load early this week\n\n"
+message = ""
 
 message = message + (
     "Oil production: "
@@ -141,7 +141,7 @@ message = message + (
     + "Gas production: "
     + str(round(twoDayGasVolume, 1))
     + " mcf \n\n"
-    + "Read 34-2H Production\n"
+    + "Read 34-2H Production - 37.5% Netted\n"
     + "   "
     + str(read342OilProd)
     + " bbl \n"
