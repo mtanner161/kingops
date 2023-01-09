@@ -126,7 +126,7 @@ def send_email(email_recipient, email_subject, email_message):
     return True
 
 
-## import links
+# import links
 dashboardLink = os.getenv("DASHBOARD_URL")
 wellList = os.getenv("MASTER_BATTERY_LIST")
 
@@ -172,7 +172,7 @@ message = message + (
 message = message + "\n\n" + "Monthly Oil Sales Highlights" + \
     "\n" + "-------------------------------------" + "\n"
 
-message = message + "Monthly Total: " + str(monthlyOilSales) + " bbl"
+message = message + "Monthly Total: " + str(round(monthlyOilSales, 2)) + " bbl"
 
 message = message + "\nWell Oil Sold List:"
 
