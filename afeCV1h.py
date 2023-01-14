@@ -64,9 +64,6 @@ for name in folderList:
         else:
             totalDailyCost = totalDailyCost + item
 
-    columns = data.columns
-    print(columns)
-    print(type(costItemList[3]))
     #totalDailyCost = sum(float(costListClean))
     dateOfAfe = dateList[0]
 
