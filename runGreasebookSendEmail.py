@@ -145,6 +145,9 @@ message = message + (
     + "   "
     + str(read342OilProd)
     + " bbl \n"
+    + "   "
+    + str(read342GasProd)
+    + " mcf \n"
     + "Thurman 23V #2 Production\n"
     + "   "
     + str(thurman23VOilProd)
