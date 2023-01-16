@@ -615,6 +615,9 @@ outputString = (
 oilGasCustomNumbersFp.write(outputString)
 oilGasCustomNumbersFp.close()
 
+# Rounds the volumne oil sold list to two decimal places
+wellVolumeOilSoldListRound = [round(num, 2) for num in wellVolumeOilSoldList]
+
 # print out the volumes for data check while model is running
 print("Today Oil Volume: " + str(totalOilVolume))
 print("Today Gas Volume: " + str(totalGasVolume))

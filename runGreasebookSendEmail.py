@@ -24,6 +24,7 @@ from productionFinalGreasebook import (
     pshigoda752GasProd,
     pshigoda752OilProd,
     wellVolumeOilSoldList,
+    wellVolumeOilSoldListRound,
     prettyNameWellOilSoldList,
     monthlyOilSales
 )
@@ -132,7 +133,7 @@ wellList = os.getenv("MASTER_BATTERY_LIST")
 
 # Body of the email mesasge
 
-message = ""
+message = "Amended Daily Report to match Ops Meeting\n\n"
 
 message = message + (
     "Oil production: "
@@ -181,7 +182,8 @@ message = message + "\nWell Oil Sold List:"
 
 for i in range(0, len(wellVolumeOilSoldList)):
     message = message + "\n  " + prettyNameWellOilSoldList[i]
-    message = message + " -- " + str(wellVolumeOilSoldList[i]) + " bbl"
+    message = message + " -- " + \
+        str(wellVolumeOilSoldListRound[i]) + " bbl"
 
 message = message + \
     "\n\nView the Dashboard in Teams (KOC Field Operations) PowerBi Mobile Application or here (if numbers are not updated, try again in 30 min or reply to this email): " + dashboardLink
@@ -233,6 +235,12 @@ send_email(
 # LIST TO SEND TO
 send_email(
     michaelHaspel,
+    subject,
+    message,
+)
+
+send_email(
+    paulGerome,
     subject,
     message,
 )
