@@ -15,24 +15,20 @@ import pandas as pd
 import numpy as np
 from openpyxl import Workbook
 
-# fileName = pd.read_csv(r".\kingops\data\afe\kinga199cv1h\1.9.2023.csv")
 
-
-pathCv1hAfe = r".\kingops\data\afe\kinga199cv1h"
-folderList = os.listdir(pathCv1hAfe)
-plannedCostDepthkinga199cv1h = pd.read_excel(
-    r".\kingops\data\afe\kinga199cv1hplanned.xlsx")
-
+pathOfDailyReport = r".\kingops\data\afe\kinga199cv2h"
+folderList = os.listdir(pathOfDailyReport)
+plannedCostDepth = pd.read_excel(
+    r".\kingops\data\afe\kinga199cv2hplanned.xlsx")
 
 costItemListClean = []
-
 
 totalCostAllFile = []
 totalDateAllFile = []
 totalDepthAllFile = []
 
 for name in folderList:
-    fullPathFileName = pathCv1hAfe + "\\" + name
+    fullPathFileName = pathOfDailyReport + "\\" + name
     data = pd.read_csv(fullPathFileName)
     data = data.fillna(0)
     dateList = data["textbox58"].tolist()
@@ -73,6 +69,7 @@ for name in folderList:
     totalDateAllFile.append(dateOfAfe)
     totalDepthAllFile.append(totalMeasuredDepthClean)
 
+# sort the data by date earliest to latest
 sortedData = []
 
 for i in range(0, len(totalDateAllFile)):
@@ -83,17 +80,19 @@ for i in range(0, len(totalDateAllFile)):
 
 sortedData.sort(key=lambda michael: datetime.strptime(michael[0], '%m/%d/%Y'))
 
-fp = open(r".\kingops\data\afe\kinga199cv1hActual.csv", "w")
+# begins writing to csv master file
+fp = open(r".\kingops\data\afe\final\kinga199cv2hActual.csv", "w")
 
+# write and print header
 header = "Date, Days, Hours, Planned Depth, Planned Cost, Daily, Actual Cost, Actual Depth\n"
 fp.write(header)
 
-for i in range(0, len(plannedCostDepthkinga199cv1h)):
-    plannedDays = plannedCostDepthkinga199cv1h["DAYS"][i]
-    plannedCost = plannedCostDepthkinga199cv1h["PLAN COST"][i]
-    plannedDepth = plannedCostDepthkinga199cv1h["PLAN DEPTH"][i]
-    hours = plannedCostDepthkinga199cv1h["HOURS"][i]
-    dailyCost = plannedCostDepthkinga199cv1h["DAILY"][i]
+for i in range(0, len(plannedCostDepth)):
+    plannedDays = plannedCostDepth["DAYS"][i]
+    plannedCost = plannedCostDepth["PLAN COST"][i]
+    plannedDepth = plannedCostDepth["PLAN DEPTH"][i]
+    hours = plannedCostDepth["HOURS"][i]
+    dailyCost = plannedCostDepth["DAILY"][i]
 
     if i < len(sortedData):
         actualDate = sortedData[i][0]
