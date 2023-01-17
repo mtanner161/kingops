@@ -15,11 +15,13 @@ import pandas as pd
 import numpy as np
 from openpyxl import Workbook
 
-#fileName = pd.read_csv(r".\kingops\data\afe\kinga199cv1h\1.9.2023.csv")
+# fileName = pd.read_csv(r".\kingops\data\afe\kinga199cv1h\1.9.2023.csv")
 
 
 pathCv1hAfe = r".\kingops\data\afe\kinga199cv1h"
 folderList = os.listdir(pathCv1hAfe)
+plannedCostDepthkinga199cv1h = pd.read_excel(
+    r".\kingops\data\afe\kinga199cv1hplanned.xlsx")
 
 
 costItemListClean = []
@@ -64,12 +66,65 @@ for name in folderList:
         else:
             totalDailyCost = totalDailyCost + item
 
-    #totalDailyCost = sum(float(costListClean))
+    # totalDailyCost = sum(float(costListClean))
     dateOfAfe = dateList[0]
 
     totalCostAllFile.append(totalDailyCost)
     totalDateAllFile.append(dateOfAfe)
     totalDepthAllFile.append(totalMeasuredDepthClean)
 
+sortedData = []
+
+for i in range(0, len(totalDateAllFile)):
+    date = totalDateAllFile[i]
+    cost = totalCostAllFile[i]
+    depth = totalDepthAllFile[i]
+    sortedData.append([date, cost, depth])
+
+sortedData.sort(key=lambda michael: datetime.strptime(michael[0], '%m/%d/%Y'))
+
+fp = open(r".\kingops\data\afe\kinga199cv1hActual.csv", "w")
+
+header = "Date, Days, Hours, Planned Depth, Planned Cost, Daily, Actual Cost, Actual Depth\n"
+fp.write(header)
+
+for i in range(0, len(plannedCostDepthkinga199cv1h)):
+    plannedDays = plannedCostDepthkinga199cv1h["DAYS"][i]
+    plannedCost = plannedCostDepthkinga199cv1h["PLAN COST"][i]
+    plannedDepth = plannedCostDepthkinga199cv1h["PLAN DEPTH"][i]
+    hours = plannedCostDepthkinga199cv1h["HOURS"][i]
+    dailyCost = plannedCostDepthkinga199cv1h["DAILY"][i]
+
+    if i < len(sortedData):
+        actualDate = sortedData[i][0]
+        actualCost = sortedData[i][1]
+        actualDepth = sortedData[i][2]
+    else:
+        actualDate = ""
+        actualCost = ""
+        actualDepth = ""
+
+    outputString = (
+        str(actualDate)
+        + ","
+        + str(plannedDays)
+        + ","
+        + str(hours)
+        + ","
+        + str(plannedDepth)
+        + ","
+        + str(plannedCost)
+        + ","
+        + str(dailyCost)
+        + ","
+        + str(actualCost)
+        + ","
+        + str(actualDepth)
+        + "\n"
+    )
+
+    fp.write(outputString)
+
+fp.close()
 
 print("yay")

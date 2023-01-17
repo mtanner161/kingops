@@ -133,7 +133,7 @@ wellList = os.getenv("MASTER_BATTERY_LIST")
 
 # Body of the email mesasge
 
-message = "Amended Daily Report to match Ops Meeting\n\n"
+message = ""
 
 message = message + (
     "Oil production: "
