@@ -16,16 +16,17 @@ import numpy as np
 from openpyxl import Workbook
 
 
-pathOfDailyReport = r".\kingops\data\afe\kinga199cv2h"
+pathOfDailyReport = r".\kingops\data\afe\wu108"
 folderList = os.listdir(pathOfDailyReport)
 plannedCostDepth = pd.read_excel(
-    r".\kingops\data\afe\kinga199cv2hplanned.xlsx")
+    r".\kingops\data\afe\wu108planned.xlsx")
 
 costItemListClean = []
 
 totalCostAllFile = []
 totalDateAllFile = []
 totalDepthAllFile = []
+totalCumulativeCost = []
 
 for name in folderList:
     fullPathFileName = pathOfDailyReport + "\\" + name
@@ -58,6 +59,8 @@ for name in folderList:
         if type(item) == str:
             item = item.replace(",", "")
             item = item.replace("$", "")
+            item = item.replace("(", "")
+            item = item.replace(")", "")
             totalDailyCost = totalDailyCost + float(item)
         else:
             totalDailyCost = totalDailyCost + item
@@ -78,30 +81,40 @@ for i in range(0, len(totalDateAllFile)):
     depth = totalDepthAllFile[i]
     sortedData.append([date, cost, depth])
 
+runningCostList = []
+runningTotalCost = 0
+
+for i in totalCostAllFile:
+    runningTotalCost += i
+    runningCostList.append(runningTotalCost)
+
+
 sortedData.sort(key=lambda michael: datetime.strptime(michael[0], '%m/%d/%Y'))
 
 # begins writing to csv master file
-fp = open(r".\kingops\data\afe\final\kinga199cv2hActual.csv", "w")
+fp = open(r".\kingops\data\afe\final\wu108Actual.csv", "w")
 
 # write and print header
-header = "Date, Days, Hours, Planned Depth, Planned Cost, Daily, Actual Cost, Actual Depth\n"
+header = "Date, Days, Hours, Planned Depth, Planned Cost, Daily, Actual Cost, Actual Depth, Cumulative Cost\n"
 fp.write(header)
 
 for i in range(0, len(plannedCostDepth)):
     plannedDays = plannedCostDepth["DAYS"][i]
-    plannedCost = plannedCostDepth["PLAN COST"][i]
+    plannedCost = plannedCostDepth["PLAN COST"][i] * -1
     plannedDepth = plannedCostDepth["PLAN DEPTH"][i]
     hours = plannedCostDepth["HOURS"][i]
-    dailyCost = plannedCostDepth["DAILY"][i]
+    dailyCost = plannedCostDepth["DAILY"][i] * -1
 
     if i < len(sortedData):
         actualDate = sortedData[i][0]
         actualCost = sortedData[i][1]
         actualDepth = sortedData[i][2]
+        cumulativeCost = runningCostList[i] * -1
     else:
         actualDate = ""
         actualCost = ""
         actualDepth = ""
+        cumulativeCost = ""
 
     outputString = (
         str(actualDate)
@@ -119,6 +132,8 @@ for i in range(0, len(plannedCostDepth)):
         + str(actualCost)
         + ","
         + str(actualDepth)
+        + ","
+        + str(cumulativeCost)
         + "\n"
     )
 
