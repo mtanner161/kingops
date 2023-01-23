@@ -16,10 +16,10 @@ import numpy as np
 from openpyxl import Workbook
 
 
-pathOfDailyReport = r".\kingops\data\afe\kinga199cv2h"
+pathOfDailyReport = r".\kingops\data\afe\kinga199cv1h"
 folderList = os.listdir(pathOfDailyReport)
 plannedCostDepth = pd.read_excel(
-    r".\kingops\data\afe\kinga199cv2hplanned.xlsx")
+    r".\kingops\data\afe\kinga199cv1hplanned.xlsx")
 
 costItemListClean = []
 
@@ -91,8 +91,10 @@ for i in totalCostAllFile:
 
 sortedData.sort(key=lambda michael: datetime.strptime(michael[0], '%m/%d/%Y'))
 
+runningCostList.reverse()
+
 # begins writing to csv master file
-fp = open(r".\kingops\data\afe\final\kinga199cv2hActual.csv", "w")
+fp = open(r".\kingops\data\afe\final\kinga199cv1hActual.csv", "w")
 
 # write and print header
 header = "Date, Days, Hours, Planned Depth, Planned Cost, Daily, Actual Cost, Actual Depth, Cumulative Cost\n"
