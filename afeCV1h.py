@@ -15,11 +15,13 @@ import pandas as pd
 import numpy as np
 from openpyxl import Workbook
 
+nameOfWell = "kinga199cv1h"
 
-pathOfDailyReport = r".\kingops\data\afe\kinga199cv1h"
+pathOfDailyReport = r".\kingops\data\afe" + "\\" + nameOfWell + "\\daily"
+pathOfAfe = r".\kingops\data\afe" + "\\" + nameOfWell
 folderList = os.listdir(pathOfDailyReport)
-plannedCostDepth = pd.read_excel(
-    r".\kingops\data\afe\kinga199cv1hplanned.xlsx")
+plannedCostFile = pathOfAfe + "planned.xlsx"
+plannedCostDepth = pd.read_excel(plannedCostFile)
 
 costItemListClean = []
 
@@ -93,8 +95,10 @@ sortedData.sort(key=lambda michael: datetime.strptime(michael[0], '%m/%d/%Y'))
 
 runningCostList.reverse()
 
+pathOfMasterFile = pathOfAfe + "\\" + nameOfWell + "Actual.csv"
+
 # begins writing to csv master file
-fp = open(r".\kingops\data\afe\final\kinga199cv1hActual.csv", "w")
+fp = open(pathOfMasterFile, "w")
 
 # write and print header
 header = "Date, Days, Hours, Planned Depth, Planned Cost, Daily, Actual Cost, Actual Depth, Cumulative Cost\n"
