@@ -142,7 +142,7 @@ message = message + (
     + "Gas production: "
     + str(round(twoDayGasVolume, 1))
     + " mcf \n\n"
-    + "Read 34-2H Production - 37.5% Netted\n"
+    + "Read 34-2H Production - 50% Netted\n"
     + "   "
     + str(read342OilProd)
     + " bbl \n"
@@ -224,6 +224,7 @@ peterSnell = os.getenv("PETER_SNELL")
 garretStacey = os.getenv("GARRET_STACEY")
 grahamPatterson = os.getenv("GRAHAM_PATTERSON")
 michaelHaspel = os.getenv("MICHAEL_HASPEL")
+
 
 # LIST TO SEND TO
 send_email(

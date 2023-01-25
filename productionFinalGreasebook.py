@@ -499,7 +499,7 @@ for i in range(0, len(wellIdList)):
 fpReported = open(
     r"C:\Users\mtanner\OneDrive - King Operating\Documents 1\code\kingops\data\yesterdayWellReport.csv", "w"
 )
-headerString = "Battery ID,Battery Name,Oil Production,14-day Oil Average,Gas Production,14-day Gas Average\n"
+headerString = "Battery ID,Battery Name,Oil Production,14-day Oil Average,Gas Production,14-day Gas Average, Oil Sold\n"
 fpReported.write(headerString)
 
 for i in range(0, len(wellIdList)):
