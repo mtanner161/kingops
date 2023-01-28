@@ -16,11 +16,11 @@ import numpy as np
 
 # import files needed
 budgetRawFile = pd.read_excel(
-    r"C:\Users\mtanner\OneDrive - King Operating\Documents 1\code\kingops\data\afe\thurman23v\thurman23vAfeOg.xlsx")
+    r"C:\Users\mtanner\OneDrive - King Operating\Documents 1\code\kingops\data\afe\ayres79v\ayres79vAfeOg.xlsx")
 masterMatchFile = pd.read_excel(
     r".\kingops\data\afe\welldriveWolfepakMatch.xlsx")
 actualWellCostWolfepak = pd.read_excel(
-    r"C:\Users\mtanner\OneDrive - King Operating\Documents 1\code\kingops\data\afe\thurman23v\thurman23vActualSpend.xlsx")
+    r"C:\Users\mtanner\OneDrive - King Operating\Documents 1\code\kingops\data\afe\ayres79v\ayres79vActualSpend.xlsx")
 
 # create lists from files
 welldriveBudgetAccounts = masterMatchFile["Code WellDrive"].tolist()
@@ -35,7 +35,7 @@ actualCostList = actualWellCostWolfepak["Amount"].tolist()
 outputData = []
 accountCodeInBudgetList = []
 
-fp = open(r"C:\Users\mtanner\OneDrive - King Operating\Documents 1\code\kingops\data\afe\thurman23v\thurman23vAfeActualVarience.csv", "w")
+fp = open(r"C:\Users\mtanner\OneDrive - King Operating\Documents 1\code\kingops\data\afe\ayres79v\ayres79vAfeActualVarience.csv", "w")
 
 headerString = "Account,Account Description,AFE Budget,Actual Spend,Varience\n"
 fp.write(headerString)

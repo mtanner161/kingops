@@ -15,12 +15,12 @@ import pandas as pd
 import numpy as np
 from openpyxl import Workbook
 
-nameOfWell = "kinga199cv1h"
+nameOfWell = "kinga199cv2h"
 
-pathOfDailyReport = r".\kingops\data\afe" + "\\" + nameOfWell + "\\daily"
+pathOfDailyReport = '.\\kingops\\data\\afe' + '\\' + nameOfWell + "\\" + "daily"
 pathOfAfe = r".\kingops\data\afe" + "\\" + nameOfWell
 folderList = os.listdir(pathOfDailyReport)
-plannedCostFile = pathOfAfe + "planned.xlsx"
+plannedCostFile = pathOfAfe + "\\" + nameOfWell + "planned.xlsx"
 plannedCostDepth = pd.read_excel(plannedCostFile)
 
 costItemListClean = []
@@ -86,19 +86,22 @@ for i in range(0, len(totalDateAllFile)):
 runningCostList = []
 runningTotalCost = 0
 
-for i in totalCostAllFile:
+sortedData.sort(key=lambda michael: datetime.strptime(michael[0], '%m/%d/%Y'))
+
+sortedRunningCostList = []
+
+# sorts of the the running cost list
+for i in range(0, len(sortedData)):
+    sortedRunningCostList.append(sortedData[i][1])
+
+for i in sortedRunningCostList:
     runningTotalCost += i
     runningCostList.append(runningTotalCost)
 
-
-sortedData.sort(key=lambda michael: datetime.strptime(michael[0], '%m/%d/%Y'))
-
-runningCostList.reverse()
-
-pathOfMasterFile = pathOfAfe + "\\" + nameOfWell + "Actual.csv"
+pathOfActual = pathOfAfe + "\\" + nameOfWell + "Actual.csv"
 
 # begins writing to csv master file
-fp = open(pathOfMasterFile, "w")
+fp = open(pathOfActual, "w")
 
 # write and print header
 header = "Date, Days, Hours, Planned Depth, Planned Cost, Daily, Actual Cost, Actual Depth, Cumulative Cost\n"
@@ -122,6 +125,9 @@ for i in range(0, len(plannedCostDepth)):
         actualDepth = ""
         cumulativeCost = ""
 
+    if actualDepth == 0 and i != 0:
+        actualDepth = lastActualDepth
+
     outputString = (
         str(actualDate)
         + ","
@@ -144,6 +150,9 @@ for i in range(0, len(plannedCostDepth)):
     )
 
     fp.write(outputString)
+
+    lastActualDepth = actualDepth
+
 
 fp.close()
 
