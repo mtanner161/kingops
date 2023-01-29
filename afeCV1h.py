@@ -22,6 +22,12 @@ pathOfAfe = r".\kingops\data\afe" + "\\" + nameOfWell
 folderList = os.listdir(pathOfDailyReport)
 plannedCostFile = pathOfAfe + "\\" + nameOfWell + "planned.xlsx"
 plannedCostDepth = pd.read_excel(plannedCostFile)
+masterMatchFile = pd.read_excel(
+    r".\kingops\data\afe\welldriveWolfepakMatch.xlsx")
+
+welldriveBudgetAccounts = masterMatchFile["Code WellDrive"].tolist()
+wolfepakActualAccounts = masterMatchFile["Code WolfePak"].tolist()
+wellEzAccounts = masterMatchFile["Code Wellez"].tolist()
 
 costItemListClean = []
 
@@ -30,15 +36,54 @@ totalDateAllFile = []
 totalDepthAllFile = []
 totalCumulativeCost = []
 
+dailyItemCostFileName = pathOfAfe + "\\" + nameOfWell + "dailyItemCost.csv"
+dailyItemCostFp = open(dailyItemCostFileName, "w")
+
+headerString = "Date, Account Number, Daily Cost Estimate, Description\n"
+dailyItemCostFp.write(headerString)
+
 for name in folderList:
     fullPathFileName = pathOfDailyReport + "\\" + name
     data = pd.read_csv(fullPathFileName)
     data = data.fillna(0)
     dateList = data["textbox58"].tolist()
-    costList = data["textbox13.1"].tolist()
-    costItemList = data["textbox34"].tolist()
+    dateOfEstimatedCost = dateList[0]
+    costEstimatedList = data["textbox13.1"].tolist()
+    accountEstimatedList = data["textbox37"].tolist()
+    costEstimatedCostList = data["textbox38"].tolist()
+    descriptionEstimatedList = data["textbox34"].tolist()
+
     totalMeasuredDepthList = data["Textbox8.1"].tolist()
     trueVerticalDepthList = data["Textbox10.1"].tolist()
+
+    for j in range(0, len(costEstimatedCostList)):
+        itemCost = costEstimatedCostList[j]
+        if itemCost != 0:
+            itemCostCleanStepOne = itemCost.replace(",", "")
+            itemCostCleanStepTwo = itemCostCleanStepOne.replace("$", "")
+            itemCostClean = float(itemCostCleanStepTwo)
+        else:
+            itemCostClean = ""
+        wellEzAccount = accountEstimatedList[j]
+        wellEzAccountClean = int(abs(wellEzAccount))
+        wellEzDescription = descriptionEstimatedList[j]
+
+        if wellEzAccountClean > 0:
+            accountIndex = wellEzAccounts.index(wellEzAccountClean)
+            wolfepakAccount = wolfepakActualAccounts[accountIndex]
+            string = (
+                str(dateOfEstimatedCost)
+                + ","
+                + str(wolfepakAccount)
+                + ","
+                + str(itemCostClean)
+                + ","
+                + str(wellEzDescription)
+                + "\n"
+            )
+
+            dailyItemCostFp.write(string)
+
 # getting total / measured depth
     totalMeasuredDepth = totalMeasuredDepthList[0]
     if type(totalMeasuredDepth) == float or type(totalMeasuredDepth) == int:
@@ -46,14 +91,14 @@ for name in folderList:
     else:
         totalMeasuredDepthClean = float(totalMeasuredDepth.replace(",", ""))
 
-    for i in range(0, len(costItemList)):
-        itemString = costItemList[i]
+    for i in range(0, len(descriptionEstimatedList)):
+        itemString = descriptionEstimatedList[i]
         if itemString == 0:
             itemString = ""
         cleanString = itemString[5:]
         costItemListClean.append(cleanString)
 
-    costListClean = list(dict.fromkeys(costList))
+    costListClean = list(dict.fromkeys(costEstimatedList))
     totalDailyCost = 0
 
     for j in range(0, len(costListClean)):
@@ -153,7 +198,7 @@ for i in range(0, len(plannedCostDepth)):
 
     lastActualDepth = actualDepth
 
-
+dailyItemCostFp.close()
 fp.close()
 
 print("yay")
