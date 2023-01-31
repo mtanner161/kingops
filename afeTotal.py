@@ -15,7 +15,7 @@ import pandas as pd
 import numpy as np
 from openpyxl import Workbook
 
-nameOfWell = "kinga199cv2h"
+nameOfWell = "millerrancha501mh"
 
 pathOfDailyReport = '.\\kingops\\data\\afe' + '\\' + nameOfWell + "\\" + "daily"
 pathOfAfe = r".\kingops\data\afe" + "\\" + nameOfWell
@@ -44,14 +44,49 @@ totalCumulativeCost = []
 dailyItemCostFileName = pathOfAfe + "\\" + nameOfWell + "dailyItemCost.csv"
 dailyItemCostFp = open(dailyItemCostFileName, "w")
 
+daysVsDepthFileName = pathOfAfe + "\\" + nameOfWell + "daysvsdepth.csv"
+daysVsDepthFp = open(daysVsDepthFileName, "w")
+
 headerString = "Date, Account Number, Depth, Daily Cost Estimate, Description\n"
 dailyItemCostFp.write(headerString)
 
+headerString = "Date, Days, Hours, Planned Depth, Planned Cost, Daily, Daily Cost Estimated, Actual Depth, Cumulative Cost\n"
+daysVsDepthFp.write(headerString)
+
 masterAfe = masterAfe.fillna(0)
+
+timeStampList = masterAfe["textbox51"].tolist()
+timeStampCleanList = list(set(timeStampList))
+
+timeStampCleanList = [str(i) for i in timeStampCleanList]
+
+timeStampCleanList.sort(key=lambda date: datetime.strptime(
+    date, '%Y-%m-%d %H:%M:%S'))
+
+dateCleanList = []
+daysList = []
+days = 0
+totalDailyCost = 0
+cumulativeCost = 0
+foundStartDate = 0
+
+for i in range(0, len(timeStampCleanList)):
+    dt = datetime.strptime(timeStampCleanList[i], '%Y-%m-%d %H:%M:%S')
+    dateCleanList.append(dt.strftime("%m/%d/%Y"))
+    daysList.append(days)
+    days = days + 1
+
+measuredDepthList = masterAfe["Textbox8.1"].tolist()
+measuredDepthListClean = list(set(measuredDepthList))
+
+mergedDaysDateList = list(zip(daysList, dateCleanList))
+
 
 for i in range(0, len(masterAfe)):
     row = masterAfe.iloc[i]
     date = row[0]
+    if i == 0:
+        lastDate = date
     dateClean = date.strftime("%m/%d/%Y")
     cost = row[115]
     description = row[113]
@@ -84,8 +119,44 @@ for i in range(0, len(masterAfe)):
 
         dailyItemCostFp.write(string)
 
-    junk = 1
+    if foundStartDate == 0 and measuredDepth > 0:
+        foundStartDate = 1
+        day = 0
+
+    if date == lastDate:
+        totalDailyCost = totalDailyCost + cost
+    else:
+        cumulativeCost = cumulativeCost + totalDailyCost
+        if foundStartDate == 1:
+            row = plannedCostDepth.iloc[day]
+            outputString = (
+                dateClean
+                + ","
+                + str(day)
+                + ","
+                + str(row["HOURS"])
+                + ","
+                + str(row["PLAN DEPTH"])
+                + ","
+                + str(row["PLAN COST"] * -1)
+                + ","
+                + str(row["DAILY"] * -1)
+                + ","
+                + str(totalDailyCost * -1)
+                + ","
+                + str(measuredDepth)
+                + ","
+                + str(cumulativeCost * -1)
+                + "\n"
+            )
+            daysVsDepthFp.write(outputString)
+            day = day + 1
+            totalDailyCost = cost
+
+    lastDate = date
 
 dailyItemCostFp.close()
+daysVsDepthFp.close()
+
 
 print("yay")
