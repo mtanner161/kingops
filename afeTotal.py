@@ -15,7 +15,7 @@ import pandas as pd
 import numpy as np
 from openpyxl import Workbook
 
-nameOfWell = "millerrancha501mh"
+nameOfWell = "wu105"
 
 pathOfDailyReport = '.\\kingops\\data\\afe' + '\\' + nameOfWell + "\\" + "daily"
 pathOfAfe = r".\kingops\data\afe" + "\\" + nameOfWell
@@ -98,12 +98,9 @@ for i in range(0, len(masterAfe)):
 
     account = row[114]
     accountClean = int(abs(account))
-    if accountClean == 9217:
-        junk = 1
     if accountClean > 0 and cost != 0:
         accountIndex = wellEzAccounts.index(accountClean)
         wolfepakAccount = wolfepakActualAccounts[accountIndex]
-
         string = (
             dateClean
             + ","
@@ -129,8 +126,9 @@ for i in range(0, len(masterAfe)):
         cumulativeCost = cumulativeCost + totalDailyCost
         if foundStartDate == 1:
             row = plannedCostDepth.iloc[day]
+            lastDateClean = lastDate.strftime("%m/%d/%Y")
             outputString = (
-                dateClean
+                lastDateClean
                 + ","
                 + str(day)
                 + ","
@@ -144,16 +142,69 @@ for i in range(0, len(masterAfe)):
                 + ","
                 + str(totalDailyCost * -1)
                 + ","
-                + str(measuredDepth)
+                + str(lastMeasuredDepth)
                 + ","
                 + str(cumulativeCost * -1)
                 + "\n"
             )
             daysVsDepthFp.write(outputString)
             day = day + 1
-            totalDailyCost = cost
+
+        totalDailyCost = cost
 
     lastDate = date
+    lastMeasuredDepth = measuredDepth
+
+cumulativeCost = cumulativeCost + totalDailyCost
+row = plannedCostDepth.iloc[day]
+lastDateClean = lastDate.strftime("%m/%d/%Y")
+outputString = (
+    lastDateClean
+    + ","
+    + str(day)
+    + ","
+    + str(row["HOURS"])
+    + ","
+    + str(row["PLAN DEPTH"])
+    + ","
+    + str(row["PLAN COST"] * -1)
+    + ","
+    + str(row["DAILY"] * -1)
+    + ","
+    + str(totalDailyCost * -1)
+    + ","
+    + str(lastMeasuredDepth)
+    + ","
+    + str(cumulativeCost * -1)
+    + "\n"
+)
+
+daysVsDepthFp.write(outputString)
+
+for i in range(day + 1, len(plannedCostDepth)):
+    row = plannedCostDepth.iloc[i]
+    outputString = (
+        ""
+        + ","
+        + str(i)
+        + ","
+        + str(row["HOURS"])
+        + ","
+        + str(row["PLAN DEPTH"])
+        + ","
+        + str(row["PLAN COST"] * -1)
+        + ","
+        + str(row["DAILY"] * -1)
+        + ","
+        + ""
+        + ","
+        + ""
+        + ","
+        + ""
+        + "\n"
+    )
+
+    daysVsDepthFp.write(outputString)
 
 dailyItemCostFp.close()
 daysVsDepthFp.close()
