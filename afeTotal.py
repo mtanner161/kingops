@@ -15,11 +15,11 @@ import pandas as pd
 import numpy as np
 from openpyxl import Workbook
 
-nameOfWell = "wu105"
+nameOfWell = "porter33v"
 
 pathOfDailyReport = '.\\kingops\\data\\afe' + '\\' + nameOfWell + "\\" + "daily"
 pathOfAfe = r".\kingops\data\afe" + "\\" + nameOfWell
-folderList = os.listdir(pathOfDailyReport)
+
 plannedCostFile = pathOfAfe + "\\" + nameOfWell + "planned.xlsx"
 plannedCostDepth = pd.read_excel(plannedCostFile)
 
@@ -108,7 +108,7 @@ for i in range(0, len(masterAfe)):
             + ","
             + str(measuredDepth)
             + ","
-            + str(cost * -1)
+            + str(cost)
             + ","
             + str(cleanDescription)
             + "\n"

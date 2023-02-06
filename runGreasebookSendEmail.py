@@ -142,7 +142,7 @@ message = message + (
     + "Gas production: "
     + str(round(twoDayGasVolume, 1))
     + " mcf \n\n"
-    + "Read 34-2H Production - 50% Netted\n"
+    + "Read 34-2H Production - 50% WI\n"
     + "   "
     + str(read342OilProd)
     + " bbl \n"
