@@ -15,8 +15,10 @@ import pandas as pd
 import numpy as np
 from openpyxl import Workbook
 
+# Set Well Name:
 nameOfWell = "chunn972v"
 
+# Load in all files needed
 pathOfDailyReport = '.\\kingops\\data\\afe' + '\\' + nameOfWell + "\\" + "daily"
 pathOfAfe = r".\kingops\data\afe" + "\\" + nameOfWell
 plannedCostFile = pathOfAfe + "\\" + nameOfWell + "planned.xlsx"
@@ -30,18 +32,7 @@ masterAfe = pd.read_excel(pathOfMasterFile)
 actualWellCostWolfepak = pd.read_excel(actualSpendString)
 budgetRawFile = pd.read_excel(budgetRawString)
 
-wolfepakActualDesc = masterMatchFile["Description WolfePak"].tolist()
-welldriveBudgetAccounts = masterMatchFile["Code WellDrive"].tolist()
-wolfepakActualAccounts = masterMatchFile["Code WolfePak"].tolist()
-wellEzAccounts = masterMatchFile["Code Wellez"].tolist()
-
-costItemListClean = []
-
-totalCostAllFile = []
-totalDateAllFile = []
-totalDepthAllFile = []
-totalCumulativeCost = []
-
+# Create all clean export files needed and write the header strings
 dailyItemCostFileName = pathOfAfe + "\\" + nameOfWell + "dailyItemCost.csv"
 dailyItemCostFp = open(dailyItemCostFileName, "w")
 
@@ -54,7 +45,18 @@ dailyItemCostFp.write(headerString)
 headerString = "Date, Days, Hours, Planned Depth, Planned Cost, Daily, Daily Cost Estimated, Actual Depth, Cumulative Cost\n"
 daysVsDepthFp.write(headerString)
 
-masterAfe = masterAfe.fillna(0)
+masterAfe = masterAfe.fillna(0)  # fill all emptys with 0
+
+wolfepakActualDesc = masterMatchFile["Description WolfePak"].tolist()
+welldriveBudgetAccounts = masterMatchFile["Code WellDrive"].tolist()
+wolfepakActualAccounts = masterMatchFile["Code WolfePak"].tolist()
+wellEzAccounts = masterMatchFile["Code Wellez"].tolist()
+
+costItemListClean = []
+totalCostAllFile = []
+totalDateAllFile = []
+totalDepthAllFile = []
+totalCumulativeCost = []
 
 timeStampList = masterAfe["textbox51"].tolist()
 timeStampCleanList = list(set(timeStampList))
